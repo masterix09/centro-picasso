@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    height: 100%;
+
+    .sidebar{
+        width: 20%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 1rem;
+        border-right: 1px solid #b8b8b8;
+        gap: 0.6rem;
+
+        .sectionTitle{
+            color: #b8b8b8;
+        }
+    }
+
+    .body {
+        width: 80%;
+        display: flex;
+        border-bottom: 1px solid #dbdbdb;
+
+        .bodySx, .bodyDx {
+            padding: 1rem;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+    }
+}
+
+.buttonArea {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}

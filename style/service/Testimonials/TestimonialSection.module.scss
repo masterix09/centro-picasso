@@ -1,0 +1,84 @@
+@import "../../breakpoints.scss";
+@import "../../typography";
+
+.container {
+  width: 100%;
+  // margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  margin-top: 150px !important;
+  color: #2a4b9a;
+  @include respond-to($upToSM) {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 150px;
+    color: #2a4b9a;
+  }
+
+  .textArea {
+    width: 50%;
+    height: 100%;
+    padding: 0 5%;
+    @include respond-to($upToSM) {
+      width: 100%;
+      height: 100%;
+    }
+    @include respond-to($fromXL) {
+      width: 55%;
+      height: 100%;
+    }
+
+    .titleContainer {
+      margin-bottom: 50px;
+      .title {
+        font-size: $font-sizes-48;
+        line-height: 55pt;
+
+        @include respond-to($upToSM) {
+          line-height: 40pt;
+        }
+      }
+    }
+
+    .paragraph {
+      font-size: $font-sizes-32;
+      line-height: 28pt;
+      text-align: start;
+      @include respond-to($upToSM) {
+        text-align: start;
+        line-height: 24pt;
+      }
+    }
+    
+    .elenco_numerato {
+      font-size: $font-sizes-24;
+      line-height: 28pt;
+      text-align: start;
+      @include respond-to($upToSM) {
+        text-align: start;
+        line-height: 24pt;
+      }
+    }
+  }
+
+  .testimonialArea {
+    width: 50%;
+    background-image: url("/images/services/Centro_Picasso_The_smile_you_deserve.png");
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 0;
+
+    @include respond-to($upToSM) {
+      width: 80%;
+      margin-top: 100px !important;
+      margin: 0 auto;
+      background-image: none;
+    }
+    @include respond-to($fromXL) {
+      width: 45%;
+    }
+  }
+}

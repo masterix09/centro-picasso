@@ -1,0 +1,105 @@
+@import "../breakpoints.scss";
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: #0f88f2;
+  padding-bottom: 0;
+  @include respond-to($upToSM) {
+    width: 100%;
+    height: 100%;
+    background-color: #0f88f2;
+    padding-bottom: 60px;
+  }
+
+  .logoArea {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+  }
+
+  .textArea {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    margin-top: 60px;
+    @include respond-to($upToSM) {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 80px;
+    }
+
+    .textAreaInnerContainer {
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      @include respond-to($upToSM) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .columnPlace1 {
+      @include respond-to($upToSM) {
+        order: 1;
+      }
+    }
+    .columnPlace2 {
+      @include respond-to($upToSM) {
+        order: 3;
+      }
+    }
+
+    .columnPlace1,
+    .columnPlace2 {
+      width: 50%;
+      padding-left: 0;
+      padding-right: 0;
+      @include respond-to($upToSM) {
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .line {
+        margin-top: 15px;
+
+        p {
+          font-size: 20pt;
+          line-height: 30pt;
+          color: #f2f2f2 !important;
+          @include respond-to($upToSM) {
+            font-size: 16pt;
+            line-height: 24pt;
+            color: #f2f2f2 !important;
+          }
+        }
+      }
+    }
+
+  }
+
+  .button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    @include respond-to($upToSM) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 60px;
+    }
+  }
+}

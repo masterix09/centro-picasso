@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="UTILITY" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f2f2f2;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="m14.22,30.7h4.77v-11.01h3.53l.71-4.45h-4.23v-3.36c0-1.25,1.19-1.95,2.33-1.95h2.06v-3.69l-3.69-.16c-3.53-.22-5.48,2.55-5.48,5.86v3.31h-4.01v4.45h4.01v11.01Z"/>
+</svg>

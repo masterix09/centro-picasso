@@ -1,0 +1,125 @@
+@import "../breakpoints.scss";
+@import "../typography.scss";
+
+.container {
+  width: 100%;
+  height: 90vh;
+  background-color: #f2f2f2;
+  position: relative;
+  margin-top: 150px;
+  @include respond-to($upToSM) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 200px;
+    background-color: #f2f2f2;
+    position: relative;
+    margin-top: 150px;
+  }
+
+  .appointmentContainer {
+    background-color: #0f88f2;
+    width: 45%;
+    position: absolute;
+    top: 10% !important;
+    left: 8%;
+    z-index: 3;
+    padding: 25px 0;
+    @include respond-to($fromXL) {
+      background-color: #0f88f2;
+      width: 35%;
+      position: absolute;
+      top: 15%;
+      left: 8%;
+      z-index: 3;
+      padding: 25px 0;
+    }
+    @include respond-to($upToSM) {
+      background-color: #0f88f2;
+      width: 100%;
+      position: relative;
+      padding: 25px 0;
+      top: 0;
+      left: 0 !important;
+      z-index: 0;
+
+    }
+
+    .title {
+      font-size: $font-sizes-48;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 20px;
+      @include respond-to($upToSM) {
+        font-size: 35pt;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+
+    .formContainer {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+
+      .description {
+        font-size: $font-sizes-24;
+        line-height: 22pt;
+        color: #fff;
+        margin-bottom: 20px;
+        @include respond-to($fromXL) {
+          font-size: $font-sizes-24;
+          line-height: 24pt;
+          color: #fff;
+          margin-bottom: 25px;
+        }
+      }
+
+      .inputCustom {
+        height: 48px;
+        padding: 2px 15px;
+        margin-bottom: 15px;
+        width: 100%;
+      }
+    }
+
+    .containerButton {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      .buttonForm {
+        color: #fff;
+        background-color: #2dade4;
+        border: 0 solid transparent;
+        font-size: 20pt;
+        padding: 10px 50px;
+      }
+    }
+  }
+
+  .imageContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 75%;
+    height: 100%;
+    background-image: url("../../public/images/Centro_Picasso_prenota_visita.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @include respond-to($upToSM) {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-image: url("../../public/images/Centro_Picasso_prenota_visita.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: none;
+    }
+  }
+}

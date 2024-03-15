@@ -1,0 +1,41 @@
+@import "../breakpoints";
+
+
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/images/services/Centro_Picasso__servizi_gnatologia.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 2%;
+
+  .containerInner{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+
+    .containerInnerImage{
+      width: 100%;
+    }
+
+    .containerInnerText{
+      font-size: 35px;
+      color: white;
+      width: 50%;
+      margin: 0 auto;
+      @include respond-to($upToSM) {
+        font-size: 24px;
+        color: white;
+        width: 90%;
+        margin: 0 auto;
+      }
+    }
+  }
+}

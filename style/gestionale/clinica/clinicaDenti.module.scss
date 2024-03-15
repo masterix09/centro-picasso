@@ -1,0 +1,1406 @@
+/* GENGIVE CSS */
+
+
+.dentiGengiveTop{
+    background: url("/gestionale/clinica/mouth_up.opt.png") 0 88% no-repeat;
+}
+.dentiGengiveBottom{
+    background: url("/gestionale/clinica/mouth_low.opt.png") 0 88% no-repeat;
+}
+
+/* ARCATE CSS */
+
+
+.arcata_superiore, .arcata_inferiore {
+    min-width: 160px!important;
+    max-width: 160px!important;
+    width: 160px!important;
+    background-size: contain!important;
+}
+
+.arcata_superiore {
+    margin-top: 5px;
+    width: 179px;
+    height: 147px;
+    background: url("/gestionale/clinica/arcata-superiore.svg") 0 0 no-repeat;
+    float: left;
+}
+
+.arcata_superiore:hover {
+    background: url("/gestionale/clinica/arcata-superiore-hover.svg") 0 0 no-repeat;
+    float: left;
+}
+
+
+.arcata_inferiore {
+    margin-top: 1px;
+    width: 180px;
+    height: 151px;
+    background: url("/gestionale/clinica/arcata-inferiore.svg") 0 0 no-repeat;
+    float: left;
+    margin-bottom: 0;
+}
+
+.arcata_inferiore:hover {
+    background: url("/gestionale/clinica/arcata-inferiore-hover.svg") 0 0 no-repeat;
+    float: left;
+}
+
+/* DENTI CSS */
+
+.schemaDentiSprite {
+    position: relative;
+    background: url("/gestionale/clinica/denti-schema.svg") no-repeat top left;
+    background-size: 1148px 2170px;
+}
+
+
+.ghostDent {
+    visibility: hidden;
+    display: block;
+    border: 0
+}
+
+.dente11 {
+    background-position: 0 0;
+    width: 32px;
+    height: 46px
+}
+
+.dente11:hover,.dente11_hover {
+    background-position: 0 -96px;
+    width: 32px;
+    height: 46px
+}
+
+.dente11_selected {
+    background-position: 0 -192px;
+    width: 32px;
+    height: 46px
+}
+
+.dente11_sup {
+    background-position: 0 -288px;
+    width: 32px;
+    height: 94px
+}
+
+.dente11_sup:hover,.dente11_sup_hover {
+    background-position: 0 -432px;
+    width: 32px;
+    height: 94px
+}
+
+.dente11_sup_selected {
+    background-position: 0 -576px;
+    width: 32px;
+    height: 94px
+}
+
+.dente11_yellow {
+    background-position: 0 -720px;
+    width: 32px;
+    height: 46px
+}
+
+.dente12 {
+    background-position: 0 -816px;
+    width: 26px;
+    height: 46px
+}
+
+.dente12:hover,.dente12_hover {
+    background-position: 0 -912px;
+    width: 26px;
+    height: 46px
+}
+
+.dente12_selected {
+    background-position: 0 -1008px;
+    width: 26px;
+    height: 46px
+}
+
+.dente12_sup {
+    background-position: 0 -1104px;
+    width: 26px;
+    height: 94px
+}
+
+.dente12_sup:hover,.dente12_sup_hover {
+    background-position: 0 -1248px;
+    width: 26px;
+    height: 94px
+}
+
+.dente12_sup_selected {
+    background-position: 0 -1392px;
+    width: 26px;
+    height: 94px
+}
+
+.dente12_yellow {
+    background-position: 0 -1536px;
+    width: 26px;
+    height: 46px
+}
+
+.dente13 {
+    background-position: 0 -1632px;
+    width: 31px;
+    height: 46px
+}
+
+.dente13:hover,.dente13_hover {
+    background-position: 0 -1728px;
+    width: 31px;
+    height: 46px
+}
+
+.dente13_selected {
+    background-position: 0 -1824px;
+    width: 31px;
+    height: 46px
+}
+
+.dente13_sup {
+    background-position: 0 -1920px;
+    width: 31px;
+    height: 94px
+}
+
+.dente13_sup:hover,.dente13_sup_hover {
+    background-position: -82px -1px;
+    width: 31px;
+    height: 94px
+}
+
+.dente13_sup_selected {
+    background-position: -82px -144px;
+    width: 31px;
+    height: 94px
+}
+
+.dente13_yellow {
+    background-position: -82px -288px;
+    width: 31px;
+    height: 46px
+}
+
+.dente14 {
+    background-position: -82px -384px;
+    width: 24px;
+    height: 46px
+}
+
+.dente14:hover,.dente14_hover {
+    background-position: -82px -480px;
+    width: 24px;
+    height: 46px
+}
+
+.dente14_selected {
+    background-position: -82px -576px;
+    width: 24px;
+    height: 46px
+}
+
+.dente14_sup {
+    background-position: -82px -672px;
+    width: 24px;
+    height: 94px
+}
+
+.dente14_sup:hover,.dente14_sup_hover {
+    background-position: -82px -816px;
+    width: 24px;
+    height: 94px
+}
+
+.dente14_sup_selected {
+    background-position: -82px -960px;
+    width: 24px;
+    height: 94px
+}
+
+.dente14_yellow {
+    background-position: -82px -1104px;
+    width: 24px;
+    height: 46px
+}
+
+.dente15 {
+    background-position: -82px -1200px;
+    width: 27px;
+    height: 46px
+}
+
+.dente15:hover,.dente15_hover {
+    background-position: -82px -1296px;
+    width: 27px;
+    height: 46px
+}
+
+.dente15_selected {
+    background-position: -82px -1392px;
+    width: 27px;
+    height: 46px
+}
+
+.dente15_sup {
+    background-position: -82px -1488px;
+    width: 27px;
+    height: 94px
+}
+
+.dente15_sup:hover,.dente15_sup_hover {
+    background-position: -82px -1632px;
+    width: 27px;
+    height: 94px
+}
+
+.dente15_sup_selected {
+    background-position: -82px -1776px;
+    width: 27px;
+    height: 94px
+}
+
+.dente15_yellow {
+    background-position: -82px -1920px;
+    width: 27px;
+    height: 46px
+}
+
+.dente16 {
+    background-position: -164px 0;
+    width: 44px;
+    height: 46px
+}
+
+.dente16:hover,.dente16_hover {
+    background-position: -164px -96px;
+    width: 44px;
+    height: 46px
+}
+
+.dente16_selected {
+    background-position: -164px -192px;
+    width: 44px;
+    height: 46px
+}
+
+.dente16_sup {
+    background-position: -164px -288px;
+    width: 44px;
+    height: 94px
+}
+
+.dente16_sup:hover,.dente16_sup_hover {
+    background-position: -164px -432px;
+    width: 44px;
+    height: 94px
+}
+
+.dente16_sup_selected {
+    background-position: -164px -576px;
+    width: 44px;
+    height: 94px
+}
+
+.dente16_yellow {
+    background-position: -164px -720px;
+    width: 44px;
+    height: 46px
+}
+
+.dente17 {
+    background-position: -164px -816px;
+    width: 43px;
+    height: 46px
+}
+
+.dente17:hover,.dente17_hover {
+    background-position: -164px -912px;
+    width: 43px;
+    height: 46px
+}
+
+.dente17_selected {
+    background-position: -164px -1008px;
+    width: 43px;
+    height: 46px
+}
+
+.dente17_sup {
+    background-position: -164px -1104px;
+    width: 43px;
+    height: 94px
+}
+
+.dente17_sup:hover,.dente17_sup_hover {
+    background-position: -164px -1248px;
+    width: 43px;
+    height: 94px
+}
+
+.dente17_sup_selected {
+    background-position: -164px -1392px;
+    width: 43px;
+    height: 94px
+}
+
+.dente17_yellow {
+    background-position: -164px -1536px;
+    width: 43px;
+    height: 46px
+}
+
+.dente18 {
+    background-position: -164px -1632px;
+    width: 40px;
+    height: 46px;
+}
+
+.dente18:hover,.dente18_hover {
+    background-position: -164px -1728px;
+    width: 40px;
+    height: 46px
+}
+
+.dente18_selected {
+    background-position: -164px -1824px;
+    width: 40px;
+    height: 46px
+}
+
+.dente18_sup {
+    background-position: -164px -1920px;
+    width: 40px;
+    height: 94px
+}
+
+.dente18_sup:hover,.dente18_sup_hover {
+    background-position: -258px -1px;
+    width: 40px;
+    height: 94px
+}
+
+.dente18_sup_selected {
+    background-position: -258px -144px;
+    width: 40px;
+    height: 94px
+}
+
+.dente18_yellow {
+    background-position: -258px -288px;
+    width: 40px;
+    height: 46px
+}
+
+.dente21 {
+    background-position: -258px -384px;
+    width: 32px;
+    height: 46px
+}
+
+.dente21:hover,.dente21_hover {
+    background-position: -258px -480px;
+    width: 32px;
+    height: 46px
+}
+
+.dente21_selected {
+    background-position: -258px -576px;
+    width: 32px;
+    height: 46px
+}
+
+.dente21_sup {
+    background-position: -258px -672px;
+    width: 32px;
+    height: 94px
+}
+
+.dente21_sup:hover,.dente21_sup_hover {
+    background-position: -258px -816px;
+    width: 32px;
+    height: 94px
+}
+
+.dente21_sup_selected {
+    background-position: -258px -960px;
+    width: 32px;
+    height: 94px
+}
+
+.dente21_yellow {
+    background-position: -258px -1104px;
+    width: 32px;
+    height: 46px
+}
+
+.dente22 {
+    background-position: -258px -1200px;
+    width: 26px;
+    height: 46px
+}
+
+.dente22:hover,.dente22_hover {
+    background-position: -258px -1296px;
+    width: 26px;
+    height: 46px
+}
+
+.dente22_selected {
+    background-position: -258px -1392px;
+    width: 26px;
+    height: 46px
+}
+
+.dente22_sup {
+    background-position: -258px -1488px;
+    width: 26px;
+    height: 94px
+}
+
+.dente22_sup:hover,.dente22_sup_hover {
+    background-position: -258px -1632px;
+    width: 26px;
+    height: 94px
+}
+
+.dente22_sup_selected {
+    background-position: -258px -1776px;
+    width: 26px;
+    height: 94px
+}
+
+.dente22_yellow {
+    background-position: -258px -1920px;
+    width: 26px;
+    height: 46px
+}
+
+.dente23 {
+    background-position: -352px 0;
+    width: 31px;
+    height: 46px
+}
+
+.dente23:hover,.dente23_hover {
+    background-position: -352px -96px;
+    width: 31px;
+    height: 46px
+}
+
+.dente23_selected {
+    background-position: -352px -192px;
+    width: 31px;
+    height: 46px
+}
+
+.dente23_sup {
+    background-position: -352px -288px;
+    width: 31px;
+    height: 94px
+}
+
+.dente23_sup:hover,.dente23_sup_hover {
+    background-position: -352px -432px;
+    width: 31px;
+    height: 94px
+}
+
+.dente23_sup_selected {
+    background-position: -352px -576px;
+    width: 31px;
+    height: 94px
+}
+
+.dente23_yellow {
+    background-position: -352px -720px;
+    width: 31px;
+    height: 46px
+}
+
+.dente24 {
+    background-position: -352px -816px;
+    width: 24px;
+    height: 46px
+}
+
+.dente24:hover,.dente24_hover {
+    background-position: -352px -912px;
+    width: 24px;
+    height: 46px
+}
+
+.dente24_selected {
+    background-position: -352px -1008px;
+    width: 24px;
+    height: 46px
+}
+
+.dente24_sup {
+    background-position: -352px -1104px;
+    width: 24px;
+    height: 94px
+}
+
+.dente24_sup:hover,.dente24_sup_hover {
+    background-position: -352px -1248px;
+    width: 24px;
+    height: 94px
+}
+
+.dente24_sup_selected {
+    background-position: -352px -1392px;
+    width: 24px;
+    height: 94px
+}
+
+.dente24_yellow {
+    background-position: -352px -1536px;
+    width: 24px;
+    height: 46px
+}
+
+.dente25 {
+    background-position: -352px -1632px;
+    width: 27px;
+    height: 46px
+}
+
+.dente25:hover,.dente25_hover {
+    background-position: -352px -1728px;
+    width: 27px;
+    height: 46px
+}
+
+.dente25_selected {
+    background-position: -352px -1824px;
+    width: 27px;
+    height: 46px
+}
+
+.dente25_sup {
+    background-position: -352px -1920px;
+    width: 27px;
+    height: 94px
+}
+
+.dente25_sup:hover,.dente25_sup_hover {
+    background-position: -446px 0;
+    width: 27px;
+    height: 94px
+}
+
+.dente25_sup_selected {
+    background-position: -446px -144px;
+    width: 27px;
+    height: 94px
+}
+
+.dente25_yellow {
+    background-position: -446px -288px;
+    width: 27px;
+    height: 46px
+}
+
+.dente26 {
+    background-position: -446px -384px;
+    width: 44px;
+    height: 46px
+}
+
+.dente26:hover,.dente26_hover {
+    background-position: -446px -480px;
+    width: 44px;
+    height: 46px
+}
+
+.dente26_selected {
+    background-position: -446px -576px;
+    width: 44px;
+    height: 46px
+}
+
+.dente26_sup {
+    background-position: -446px -672px;
+    width: 44px;
+    height: 94px
+}
+
+.dente26_sup:hover,.dente26_sup_hover {
+    background-position: -446px -816px;
+    width: 44px;
+    height: 94px
+}
+
+.dente26_sup_selected {
+    background-position: -446px -960px;
+    width: 44px;
+    height: 94px
+}
+
+.dente26_yellow {
+    background-position: -446px -1104px;
+    width: 44px;
+    height: 46px
+}
+
+.dente27 {
+    background-position: -446px -1200px;
+    width: 43px;
+    height: 46px
+}
+
+.dente27:hover,.dente27_hover {
+    background-position: -446px -1296px;
+    width: 43px;
+    height: 46px
+}
+
+.dente27_selected {
+    background-position: -446px -1392px;
+    width: 43px;
+    height: 46px
+}
+
+.dente27_sup {
+    background-position: -446px -1488px;
+    width: 43px;
+    height: 94px
+}
+
+.dente27_sup:hover,.dente27_sup_hover {
+    background-position: -446px -1632px;
+    width: 43px;
+    height: 94px
+}
+
+.dente27_sup_selected {
+    background-position: -446px -1776px;
+    width: 43px;
+    height: 94px
+}
+
+.dente27_yellow {
+    background-position: -446px -1920px;
+    width: 43px;
+    height: 46px
+}
+
+.dente28 {
+    background-position: -540px 0;
+    width: 40px;
+    height: 46px
+}
+
+.dente28:hover,.dente28_hover {
+    background-position: -540px -96px;
+    width: 40px;
+    height: 46px
+}
+
+.dente28_selected {
+    background-position: -540px -192px;
+    width: 40px;
+    height: 46px
+}
+
+.dente28_sup {
+    background-position: -540px -288px;
+    width: 40px;
+    height: 94px
+}
+
+.dente28_sup:hover,.dente28_sup_hover {
+    background-position: -540px -432px;
+    width: 40px;
+    height: 94px
+}
+
+.dente28_sup_selected {
+    background-position: -540px -576px;
+    width: 40px;
+    height: 94px
+}
+
+.dente28_yellow {
+    background-position: -540px -720px;
+    width: 40px;
+    height: 46px
+}
+
+.dente31 {
+    background-position: -540px -816px;
+    width: 24px;
+    height: 41px
+}
+
+.dente31:hover,.dente31_hover {
+    background-position: -540px -907px;
+    width: 24px;
+    height: 41px
+}
+
+.dente31_inf {
+    background-position: -540px -998px;
+    width: 24px;
+    height: 91px
+}
+
+.dente31_inf:hover,.dente31_inf_hover {
+    background-position: -540px -1139px;
+    width: 24px;
+    height: 91px
+}
+
+.dente31_inf_selected {
+    background-position: -540px -1280px;
+    width: 24px;
+    height: 91px
+}
+
+.dente31_selected {
+    background-position: -540px -1421px;
+    width: 24px;
+    height: 41px
+}
+
+.dente31_yellow {
+    background-position: -540px -1512px;
+    width: 24px;
+    height: 41px
+}
+
+.dente32 {
+    background-position: -540px -1603px;
+    width: 24px;
+    height: 41px
+}
+
+.dente32:hover,.dente32_hover {
+    background-position: -540px -1694px;
+    width: 24px;
+    height: 41px
+}
+
+.dente32_inf {
+    background-position: -540px -1785px;
+    width: 24px;
+    height: 91px
+}
+
+.dente32_inf:hover,.dente32_inf_hover {
+    background-position: -540px -1926px;
+    width: 24px;
+    height: 91px
+}
+
+.dente32_inf_selected {
+    background-position: -634px 0;
+    width: 24px;
+    height: 91px
+}
+
+.dente32_selected {
+    background-position: -634px -141px;
+    width: 24px;
+    height: 41px
+}
+
+.dente32_yellow {
+    background-position: -634px -232px;
+    width: 24px;
+    height: 41px
+}
+
+.dente33 {
+    background-position: -634px -323px;
+    width: 26px;
+    height: 41px
+}
+
+.dente33:hover,.dente33_hover {
+    background-position: -634px -414px;
+    width: 26px;
+    height: 41px
+}
+
+.dente33_inf {
+    background-position: -634px -505px;
+    width: 26px;
+    height: 91px
+}
+
+.dente33_inf:hover,.dente33_inf_hover {
+    background-position: -634px -646px;
+    width: 26px;
+    height: 91px
+}
+
+.dente33_inf_selected {
+    background-position: -634px -787px;
+    width: 26px;
+    height: 91px
+}
+
+.dente33_selected {
+    background-position: -634px -928px;
+    width: 26px;
+    height: 41px
+}
+
+.dente33_yellow {
+    background-position: -634px -1019px;
+    width: 26px;
+    height: 41px
+}
+
+.dente34 {
+    background-position: -634px -1110px;
+    width: 29px;
+    height: 41px
+}
+
+.dente34:hover,.dente34_hover {
+    background-position: -634px -1201px;
+    width: 29px;
+    height: 41px
+}
+
+.dente34_inf {
+    background-position: -634px -1292px;
+    width: 29px;
+    height: 91px
+}
+
+.dente34_inf:hover,.dente34_inf_hover {
+    background-position: -634px -1433px;
+    width: 29px;
+    height: 91px
+}
+
+.dente34_inf_selected {
+    background-position: -634px -1574px;
+    width: 29px;
+    height: 91px
+}
+
+.dente34_selected {
+    background-position: -634px -1715px;
+    width: 29px;
+    height: 41px
+}
+
+.dente34_yellow {
+    background-position: -634px -1806px;
+    width: 29px;
+    height: 41px
+}
+
+.dente35 {
+    background-position: -634px -1897px;
+    width: 28px;
+    height: 41px
+}
+
+.dente35:hover,.dente35_hover {
+    background-position: -728px 0;
+    width: 28px;
+    height: 41px
+}
+
+.dente35_inf {
+    background-position: -728px -91px;
+    width: 28px;
+    height: 91px
+}
+
+.dente35_inf:hover,.dente35_inf_hover {
+    background-position: -728px -232px;
+    width: 28px;
+    height: 91px
+}
+
+.dente35_inf_selected {
+    background-position: -728px -373px;
+    width: 28px;
+    height: 91px
+}
+
+.dente35_selected {
+    background-position: -728px -514px;
+    width: 28px;
+    height: 41px
+}
+
+.dente35_yellow {
+    background-position: -728px -605px;
+    width: 28px;
+    height: 41px
+}
+
+.dente36 {
+    background-position: -728px -696px;
+    width: 44px;
+    height: 41px
+}
+
+.dente36:hover,.dente36_hover {
+    background-position: -728px -787px;
+    width: 44px;
+    height: 41px
+}
+
+.dente36_inf {
+    background-position: -728px -878px;
+    width: 44px;
+    height: 91px
+}
+
+.dente36_inf:hover,.dente36_inf_hover {
+    background-position: -728px -1019px;
+    width: 44px;
+    height: 91px
+}
+
+.dente36_inf_selected {
+    background-position: -728px -1160px;
+    width: 44px;
+    height: 91px
+}
+
+.dente36_selected {
+    background-position: -728px -1301px;
+    width: 44px;
+    height: 41px
+}
+
+.dente36_yellow {
+    background-position: -728px -1392px;
+    width: 44px;
+    height: 41px
+}
+
+.dente37 {
+    background-position: -728px -1483px;
+    width: 43px;
+    height: 41px
+}
+
+.dente37:hover,.dente37_hover {
+    background-position: -728px -1574px;
+    width: 43px;
+    height: 41px
+}
+
+.dente37_inf {
+    background-position: -728px -1665px;
+    width: 43px;
+    height: 91px
+}
+
+.dente37_inf:hover,.dente37_inf_hover {
+    background-position: -728px -1806px;
+    width: 43px;
+    height: 91px
+}
+
+.dente37_inf_selected {
+    background-position: -728px -1947px;
+    width: 43px;
+    height: 91px
+}
+
+.dente37_selected {
+    background-position: -822px 0;
+    width: 43px;
+    height: 41px
+}
+
+.dente37_yellow {
+    background-position: -822px -91px;
+    width: 43px;
+    height: 41px
+}
+
+.dente38 {
+    background-position: -822px -182px;
+    width: 41px;
+    height: 41px
+}
+
+.dente38:hover,.dente38_hover {
+    background-position: -822px -273px;
+    width: 41px;
+    height: 41px
+}
+
+.dente38_inf {
+    background-position: -822px -364px;
+    width: 41px;
+    height: 91px
+}
+
+.dente38_inf:hover,.dente38_inf_hover {
+    background-position: -822px -505px;
+    width: 41px;
+    height: 91px
+}
+
+.dente38_inf_selected {
+    background-position: -822px -646px;
+    width: 41px;
+    height: 91px
+}
+
+.dente38_selected {
+    background-position: -822px -787px;
+    width: 41px;
+    height: 41px
+}
+
+.dente38_yellow {
+    background-position: -822px -878px;
+    width: 41px;
+    height: 41px
+}
+
+.dente41 {
+    background-position: -822px -969px;
+    width: 24px;
+    height: 41px
+}
+
+.dente41:hover,.dente41_hover {
+    background-position: -822px -1060px;
+    width: 24px;
+    height: 41px
+}
+
+.dente41_inf {
+    background-position: -822px -1151px;
+    width: 24px;
+    height: 91px
+}
+
+.dente41_inf:hover,.dente41_inf_hover {
+    background-position: -822px -1292px;
+    width: 24px;
+    height: 91px
+}
+
+.dente41_inf_selected {
+    background-position: -822px -1433px;
+    width: 24px;
+    height: 91px
+}
+
+.dente41_selected {
+    background-position: -822px -1574px;
+    width: 24px;
+    height: 41px
+}
+
+.dente41_yellow {
+    background-position: -822px -1665px;
+    width: 24px;
+    height: 41px
+}
+
+.dente42 {
+    background-position: -822px -1756px;
+    width: 24px;
+    height: 41px
+}
+
+.dente42:hover,.dente42_hover {
+    background-position: -822px -1847px;
+    width: 24px;
+    height: 41px
+}
+
+.dente42_inf {
+    background-position: -822px -1938px;
+    width: 24px;
+    height: 91px
+}
+
+.dente42_inf:hover,.dente42_inf_hover {
+    background-position: -916px 0;
+    width: 24px;
+    height: 91px
+}
+
+.dente42_inf_selected {
+    background-position: -916px -141px;
+    width: 24px;
+    height: 91px
+}
+
+.dente42_selected {
+    background-position: -916px -282px;
+    width: 24px;
+    height: 41px
+}
+
+.dente42_yellow {
+    background-position: -916px -373px;
+    width: 24px;
+    height: 41px
+}
+
+.dente43 {
+    background-position: -916px -464px;
+    width: 26px;
+    height: 41px
+}
+
+.dente43:hover,.dente43_hover {
+    background-position: -916px -555px;
+    width: 26px;
+    height: 41px
+}
+
+.dente43_inf {
+    background-position: -916px -646px;
+    width: 26px;
+    height: 91px
+}
+
+.dente43_inf:hover,.dente43_inf_hover {
+    background-position: -916px -787px;
+    width: 26px;
+    height: 91px
+}
+
+.dente43_inf_selected {
+    background-position: -916px -928px;
+    width: 26px;
+    height: 91px
+}
+
+.dente43_selected {
+    background-position: -916px -1069px;
+    width: 26px;
+    height: 41px
+}
+
+.dente43_yellow {
+    background-position: -916px -1160px;
+    width: 26px;
+    height: 41px
+}
+
+.dente44 {
+    background-position: -916px -1251px;
+    width: 29px;
+    height: 41px
+}
+
+.dente44:hover,.dente44_hover {
+    background-position: -916px -1342px;
+    width: 29px;
+    height: 41px
+}
+
+.dente44_inf {
+    background-position: -916px -1433px;
+    width: 29px;
+    height: 91px
+}
+
+.dente44_inf:hover,.dente44_inf_hover {
+    background-position: -916px -1574px;
+    width: 29px;
+    height: 91px
+}
+
+.dente44_inf_selected {
+    background-position: -916px -1715px;
+    width: 29px;
+    height: 91px
+}
+
+.dente44_selected {
+    background-position: -916px -1856px;
+    width: 29px;
+    height: 41px
+}
+
+.dente44_yellow {
+    background-position: -916px -1947px;
+    width: 29px;
+    height: 41px
+}
+
+.dente45 {
+    background-position: -1010px 0;
+    width: 28px;
+    height: 41px
+}
+
+.dente45:hover,.dente45_hover {
+    background-position: -1010px -91px;
+    width: 28px;
+    height: 41px
+}
+
+.dente45_inf {
+    background-position: -1010px -182px;
+    width: 28px;
+    height: 91px
+}
+
+.dente45_inf:hover,.dente45_inf_hover {
+    background-position: -1010px -323px;
+    width: 28px;
+    height: 91px
+}
+
+.dente45_inf_selected {
+    background-position: -1010px -464px;
+    width: 28px;
+    height: 91px
+}
+
+.dente45_selected {
+    background-position: -1010px -605px;
+    width: 28px;
+    height: 41px
+}
+
+.dente45_yellow {
+    background-position: -1010px -696px;
+    width: 28px;
+    height: 41px
+}
+
+.dente46 {
+    background-position: -1010px -787px;
+    width: 44px;
+    height: 41px
+}
+
+.dente46:hover,.dente46_hover {
+    background-position: -1010px -878px;
+    width: 44px;
+    height: 41px
+}
+
+.dente46_inf {
+    background-position: -1010px -969px;
+    width: 44px;
+    height: 91px
+}
+
+.dente46_inf:hover,.dente46_inf_hover {
+    background-position: -1010px -1110px;
+    width: 44px;
+    height: 91px
+}
+
+.dente46_inf_selected {
+    background-position: -1010px -1251px;
+    width: 44px;
+    height: 91px
+}
+
+.dente46_selected {
+    background-position: -1010px -1392px;
+    width: 44px;
+    height: 41px
+}
+
+.dente46_yellow {
+    background-position: -1010px -1483px;
+    width: 44px;
+    height: 41px
+}
+
+.dente47 {
+    background-position: -1010px -1574px;
+    width: 43px;
+    height: 41px
+}
+
+.dente47:hover,.dente47_hover {
+    background-position: -1010px -1665px;
+    width: 43px;
+    height: 41px
+}
+
+.dente47_inf {
+    background-position: -1010px -1756px;
+    width: 43px;
+    height: 91px
+}
+
+.dente47_inf:hover,.dente47_inf_hover {
+    background-position: -1010px -1897px;
+    width: 43px;
+    height: 91px
+}
+
+.dente47_inf_selected {
+    background-position: -1104px 0;
+    width: 43px;
+    height: 91px
+}
+
+.dente47_selected {
+    background-position: -1104px -141px;
+    width: 43px;
+    height: 41px
+}
+
+.dente47_yellow {
+    background-position: -1104px -232px;
+    width: 43px;
+    height: 41px
+}
+
+.dente48 {
+    background-position: -1104px -323px;
+    width: 41px;
+    height: 41px
+}
+
+.dente48:hover,.dente48_hover {
+    background-position: -1104px -414px;
+    width: 41px;
+    height: 41px
+}
+
+.dente48_inf {
+    background-position: -1104px -505px;
+    width: 41px;
+    height: 91px
+}
+
+.dente48_inf:hover,.dente48_inf_hover {
+    background-position: -1104px -646px;
+    width: 41px;
+    height: 91px
+}
+
+.dente48_inf_selected {
+    background-position: -1104px -787px;
+    width: 41px;
+    height: 91px
+}
+
+.dente48_selected {
+    background-position: -1104px -928px;
+    width: 41px;
+    height: 41px
+}
+
+.dente48_yellow {
+    background-position: -1104px -1019px;
+    width: 41px;
+    height: 41px
+}

@@ -1,0 +1,106 @@
+@import "../breakpoints.scss";
+
+.container {
+  background-color: #0F88F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  flex-direction: row;
+  @include respond-to($upToSM) {
+    background-color: #0F88F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex-direction: column;
+  }
+
+  .innerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+
+    .logo {
+      width: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .containerMobile {
+      display: none;
+
+      @include respond-to($upToSM) {
+        display: block;
+      }
+
+      span {
+        height: 2px;
+        width: 20px;
+        background-color: #fff;
+        display: block;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .menuDesktop {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .menuVoiceDesktop {
+      text-decoration: none !important;
+      color: white;
+      font-size: 20px;
+      @include respond-to($upToSM) {
+        display: none;
+      }
+    }
+  }
+
+  .payoff {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 15px;
+    @include respond-to($upToSM) {
+      display: none;
+    }
+  }
+}
+
+.menuMobile {
+  width: 100vw;
+  padding: 20px 0;
+  background-color: #0F88F2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-name: showMenuMobile;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+
+  .menuVoice {
+    text-decoration: none !important;
+    color: white;
+    font-size: 20px;
+  }
+
+  @keyframes showMenuMobile {
+    from {
+      height: 0;
+    }
+    to {
+      height: 200px;
+    }
+  }
+}

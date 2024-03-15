@@ -1,0 +1,102 @@
+$breakpoints: (
+  "fromSM": (
+    min-width: 576px,
+  ),
+  "fromMD": (
+    min-width: 768px,
+  ),
+  "fromLG": (
+    min-width: 992px,
+  ),
+  "fromXL": (
+    min-width: 1200px,
+  ),
+  "fromXXL": (
+    min-width: 1400px,
+  ),
+  "upToXSS": (
+    max-width: 370px,
+  ),
+  "upToXS": (
+    max-width: 575px,
+  ),
+  "upToSM": (
+    max-width: 767px,
+  ),
+  "upToMD": (
+    max-width: 991px,
+  ),
+  "upToLG": (
+    max-width: 1199px,
+  ),
+  "upToXL": (
+    max-width: 1399px,
+  ),
+  "XS": (
+    max-width: 575px,
+  ),
+  "SM": (
+    (
+        min-width: 576px,
+      )
+      and
+      (
+        max-width: 767px,
+      ),
+  ),
+  "MD": (
+    (
+        min-width: 768px,
+      )
+      and
+      (
+        max-width: 991px,
+      ),
+  ),
+  "LG": (
+    (
+        min-width: 992px,
+      )
+      and
+      (
+        max-width: 1199px,
+      ),
+  ),
+  "XL": (
+    (
+        min-width: 1200px,
+      )
+      and
+      (
+        max-width: 1399px,
+      ),
+  ),
+);
+
+$fromSM: "fromSM";
+$fromMD: "fromMD";
+$fromLG: "fromLG";
+$fromXL: "fromXL";
+$fromXXL: "fromXXL";
+$upToXSS: "upToXSS";
+$upToXS: "upToXS";
+$upToSM: "upToSM";
+$upToMD: "upToMD";
+$upToLG: "upToLG";
+$upToXL: "upToXL";
+$XS: "XS";
+$SM: "SM";
+$MD: "MD";
+$LG: "LG";
+$XL: "XL";
+
+@mixin respond-to($name) {
+  @if map-has-key($breakpoints, $name) {
+    @media #{inspect(map-get($breakpoints, $name))}, screen and #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoints}`. "
+        + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}

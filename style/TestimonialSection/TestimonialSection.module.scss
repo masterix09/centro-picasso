@@ -1,0 +1,89 @@
+@import "../breakpoints.scss";
+@import "../typography";
+
+.container {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 100px;
+  @include respond-to($upToSM) {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+  }
+
+  .innerContainer {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    @include respond-to($upToSM) {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .textArea {
+      width: 60%;
+      color: #2a4b9a;
+
+      @include respond-to($upToSM) {
+        width: 100%;
+        color: #2a4b9a;
+      }
+
+      .title {
+        font-size: $font-sizes-48;
+        line-height: 50pt;
+        @include respond-to($upToSM) {
+          line-height: 42pt;
+        }
+      }
+
+      .description {
+        font-size: $font-sizes-32;
+        line-height: 28pt;
+        margin-top: 25px;
+        @include respond-to($upToSM) {
+          line-height: 22pt;
+          margin-top: 25px;
+        }
+      }
+
+      .ctaSection {
+        margin-top: 40px;
+        width: 60%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        @include respond-to($upToSM) {
+          margin-top: 40px;
+          width: 100%;
+          display: flex;
+          justify-content: start;
+          align-items: center;
+        }
+      }
+    }
+
+    .SwiperArea {
+      width: 40%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0;
+
+      @include respond-to($upToSM) {
+        width: 85%;
+        height: 100%;
+        margin-top: 100px !important;
+        margin: 0 auto;
+      }
+    }
+  }
+}

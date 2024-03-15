@@ -1,0 +1,23 @@
+@import "../breakpoints.scss";
+
+.containerFull {
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  @include respond-to($upToSM) {
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+  }
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  @include respond-to($upToSM) {
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+  }
+}
