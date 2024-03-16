@@ -27,6 +27,8 @@ interface StateSchema {
   setIdDente: (id: string) => void,
   setDefaultValues: (values: object) => void,
   setListino :  (values: EListino) => void,
+  successPrenotazione: boolean
+  setSuccessPrenotazione: (value: boolean) => void
 }
 
 export const useStore = create<StateSchema>()((set) => ({
@@ -54,5 +56,7 @@ export const useStore = create<StateSchema>()((set) => ({
   setIdDente: (id) => set((state) => ({idDente: id})),
   setDefaultValues: (value) => set((state) => ({defaultValues: value})),
   setListino: (value) => set((state) => ({listino: value})),
+  successPrenotazione: false,
+  setSuccessPrenotazione: (value) => set((state) => ({successPrenotazione: value}))
 }))
 

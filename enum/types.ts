@@ -61,6 +61,7 @@ export enum EBreakpoints {
     ELIMINA_SEDE = "ELIMINA_SEDE",
     MODIFICA_SEDE = "MODIFICA_SEDE",
     ELIMINA_DOCUMENTO = "ELIMINA_DOCUMENTO",
+    PRENOTAZIONE_SITO = "PRENOTAZIONE_SITO"
   }
 
 
@@ -144,4 +145,9 @@ export type SmartTAGPropsDocument = {
 export enum EListino {
   GENTILE = "GENTILE",
   DEFAULT = "DEFAULT"
+}
+
+export enum EBookAppointmentDirection {
+  NORMAL,
+  INVERSE,
 }

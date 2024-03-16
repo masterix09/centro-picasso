@@ -34,17 +34,9 @@ import { useStore } from "@/store/store";
 import ModalModificaSede from "../ModalDashboard/sede/ModalModificaSede";
 import ModalModificaOperatore from "../ModalDashboard/operatore/ModalModificaOperatore";
 import ModalModificaPrestazione from "../ModalDashboard/prestazioni/ModalModificaPrestazione";
+import ModalePrenotazione from "@/components/webapp/ModalePrenotazione";
 
 const Modal = () => {
-  // const searchParams = useSearchParams();
-  // const open = searchParams.get("modalOpen");
-  // const type = searchParams.get("modalType");
-  // const idCliente = searchParams.get("idCliente");
-  // const idPiano = searchParams.get("idPiano");
-
-  // const pathname = usePathname();
-  // const { replace } = useRouter();
-
   const {
     modalOpen,
     modalType,
@@ -52,13 +44,10 @@ const Modal = () => {
     setModalType,
     idCliente,
     idPiano,
+    successPrenotazione,
   } = useStore((state) => state);
 
   const handleCloseModal = () => {
-    // const params = new URLSearchParams(searchParams);
-    // params.delete("modalOpen");
-    // params.delete("modalType");
-    // replace(`${pathname}?${params.toString()}`);
     setModalOpen(false);
   };
 
@@ -132,6 +121,12 @@ const Modal = () => {
       )}
       {modalType === EModalType.MODIFICA_PRESTAZIONE && (
         <ModalModificaPrestazione handleCloseModal={handleCloseModal} />
+      )}
+      {modalType === null && (
+        <ModalePrenotazione
+          success={successPrenotazione}
+          handleCloseModal={handleCloseModal}
+        />
       )}
     </AlertDialog>
   );

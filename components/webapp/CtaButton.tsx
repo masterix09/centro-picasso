@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import styles from "../../../style/common/CtaButton.module.scss";
+import styles from "@/style/common/CtaButton.module.scss";
 
 type CtaProps = {
   title: string;

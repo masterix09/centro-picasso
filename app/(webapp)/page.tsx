@@ -1,8 +1,16 @@
 "use client";
+import BookAppointment from "@/components/webapp/BookAppointment";
+import DoctorSection from "@/components/webapp/DoctorSection";
 import HeroSection from "@/components/webapp/HeroSection";
 import ServiceSection from "@/components/webapp/ServiceSection";
-import { ESliderSection } from "@/enum/types";
-import { useRef } from "react";
+import TestimonialSection from "@/components/webapp/TestimonialSection";
+import {
+  EBookAppointmentDirection,
+  EModalType,
+  ESliderSection,
+} from "@/enum/types";
+import { useStore } from "@/store/store";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const refBook = useRef<HTMLDivElement>(null);
@@ -17,8 +25,25 @@ export default function Home() {
       behavior: "smooth",
     });
   };
+
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
+    useStore((state) => state);
+
+  useEffect(() => {
+    setSuccessPrenotazione(success);
+    setModalOpen(isOpen);
+    setModalType(EModalType.PRENOTAZIONE_SITO);
+  }, [isOpen, setModalOpen, setModalType, setSuccessPrenotazione, success]);
+
+  // setModalOpen(true);
+  // setModalType(EModalType.PRENOTAZIONE_SITO);
+  // setSuccessPrenotazione(success);
+
   return (
     <main>
+      {/* {isOpen && <Modale isOpen={isOpen} success={success} />} */}
       <HeroSection
         titleStrong="Siamo alleati"
         titleLight="del tuo sorriso"
@@ -26,6 +51,13 @@ export default function Home() {
         section={ESliderSection.HOME}
       />
       <ServiceSection handleNavigation={handleNavigation} />
+      <BookAppointment
+        direction={EBookAppointmentDirection.NORMAL}
+        setSuccess={setSuccess}
+        setIsOpen={setIsOpen}
+      />
+      <DoctorSection />
+      <TestimonialSection ref={refBook} />
     </main>
   );
 }
