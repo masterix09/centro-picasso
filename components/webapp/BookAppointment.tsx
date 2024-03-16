@@ -9,9 +9,9 @@ import React, {
 } from "react";
 import styles from "@/style/BookAppointment/BookAppointment.module.scss";
 import { EBookAppointmentDirection } from "@/enum/types";
-import DatePicker, { registerLocale } from "react-datepicker";
-import el from "date-fns/locale/it";
-registerLocale("it", el);
+import DatePicker from "react-datepicker";
+// import it from "date-fns/locale/it";
+// registerLocale("it", it);
 import "react-datepicker/dist/react-datepicker.css";
 
 type SelectOptionProps = {
@@ -143,7 +143,7 @@ const BookAppointment = forwardRef<
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date!)}
-            locale="it"
+            locale="it-IT"
             dateFormat="dd/MM/yyyy"
             className={styles.inputCustom}
           />
