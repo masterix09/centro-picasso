@@ -84,8 +84,14 @@ const BookAppointment = forwardRef<
 
       if (res.ok) {
         sendEmailToMe();
+      } else {
+        setIsOpen(true);
+        setSuccess(false);
       }
-    } catch (e: any) {}
+    } catch (e: any) {
+      setIsOpen(true);
+      setSuccess(false);
+    }
   };
 
   return (

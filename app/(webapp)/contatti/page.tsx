@@ -1,13 +1,14 @@
 "use client";
 
 import styles from "@/style/ContactSection/ContactPage.module.scss";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import stylesTwo from "@/style/ContactSection/Contact.module.scss";
 // import Modale from "@/app/components/common/Modale";
 import ContactSection from "@/components/webapp/ContactSection";
 import DoctorSection from "@/components/webapp/DoctorSection";
 import BookAppointment from "@/components/webapp/BookAppointment";
-import { EBookAppointmentDirection } from "@/enum/types";
+import { EBookAppointmentDirection, EModalType } from "@/enum/types";
+import { useStore } from "@/store/store";
 
 export default function Contatti() {
   const refBook = useRef<HTMLDivElement>(null);
@@ -25,6 +26,16 @@ export default function Contatti() {
 
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
+    useStore((state) => state);
+
+  useEffect(() => {
+    console.log("success => ", success);
+    console.log("isOpen => ", isOpen);
+    setSuccessPrenotazione(success);
+    setModalOpen(isOpen);
+    setModalType(EModalType.PRENOTAZIONE_SITO);
+  }, [isOpen, setModalOpen, setModalType, setSuccessPrenotazione, success]);
 
   return (
     <main>

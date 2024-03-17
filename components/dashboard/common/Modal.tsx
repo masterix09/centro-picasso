@@ -122,7 +122,7 @@ const Modal = () => {
       {modalType === EModalType.MODIFICA_PRESTAZIONE && (
         <ModalModificaPrestazione handleCloseModal={handleCloseModal} />
       )}
-      {modalType === null && (
+      {modalType === EModalType.PRENOTAZIONE_SITO && (
         <ModalePrenotazione
           success={successPrenotazione}
           handleCloseModal={handleCloseModal}

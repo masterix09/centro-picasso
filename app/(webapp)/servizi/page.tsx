@@ -1,13 +1,18 @@
 "use client";
 
 import styles from "@/style/service/Hero/Hero.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import Modale from "@/app/components/common/Modale";
 import Slider from "@/components/webapp/Slider";
 import Paragraph from "@/components/webapp/Paragraph";
 import BookAppointment from "@/components/webapp/BookAppointment";
 import { ServiziProps } from "@/models/common/common";
-import { EBookAppointmentDirection, ESliderSection } from "@/enum/types";
+import {
+  EBookAppointmentDirection,
+  EModalType,
+  ESliderSection,
+} from "@/enum/types";
+import { useStore } from "@/store/store";
 
 export default function Servizi() {
   const heroContent: ServiziProps[] = [
@@ -51,6 +56,16 @@ export default function Servizi() {
 
   const [success, setSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
+    useStore((state) => state);
+
+  useEffect(() => {
+    console.log("success => ", success);
+    console.log("isOpen => ", isOpen);
+    setSuccessPrenotazione(success);
+    setModalOpen(isOpen);
+    setModalType(EModalType.PRENOTAZIONE_SITO);
+  }, [isOpen, setModalOpen, setModalType, setSuccessPrenotazione, success]);
 
   return (
     <main>

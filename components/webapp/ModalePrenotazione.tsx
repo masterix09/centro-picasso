@@ -42,8 +42,10 @@ const ModalePrenotazione = ({
         </p>
       )}
       <AlertDialogFooter>
-        <AlertDialogCancel>Annulla</AlertDialogCancel>
-        <AlertDialogAction>OK</AlertDialogAction>
+        <AlertDialogCancel onClick={handleCloseModal}>
+          Annulla
+        </AlertDialogCancel>
+        <AlertDialogAction onClick={handleCloseModal}>OK</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

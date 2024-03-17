@@ -32,6 +32,8 @@ export default function Home() {
     useStore((state) => state);
 
   useEffect(() => {
+    console.log("success => ", success);
+    console.log("isOpen => ", isOpen);
     setSuccessPrenotazione(success);
     setModalOpen(isOpen);
     setModalType(EModalType.PRENOTAZIONE_SITO);
