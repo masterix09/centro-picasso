@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { differenceInDays, differenceInYears, format } from "date-fns";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
