@@ -49,7 +49,7 @@ const BookAppointment = forwardRef<
       startDate.getMonth() + 1
     }/${startDate.getFullYear()}`;
     try {
-      const res = await fetch("/api/sendEmailToMe", {
+      const res = await fetch("/api/sendToMe", {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -74,7 +74,7 @@ const BookAppointment = forwardRef<
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("/api/sendEmail", {
+      const res = await fetch("/api/send", {
         method: "POST",
         body: JSON.stringify({
           email,

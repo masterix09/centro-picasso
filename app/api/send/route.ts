@@ -1,20 +1,18 @@
-import sgMail from "@sendgrid/mail";
+import { Resend } from 'resend';
 
-type PropsType = {
-  email: string;
-  nome: string;
-};
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID!);
+export async function POST( request: Request) {
+  const res = await request.json()
 
-export async function POST(req: Request) {
-  const { email, nome }: PropsType = await req.json();
-
-  const msg = {
-    to: `${email}`, // Change to your recipient
-    from: "amministrazione@centropicasso.it", // Change to your verified sender
-    subject: `Grazie per aver prenotato, ${nome}`, // Change to your
-    html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    const {email, nome} = res
+  try {
+    const data = await resend.emails.send({
+      from: 'amministrazione@centropicasso.it',
+      to: [`${email}`],
+      subject: `Grazie per aver prenotato, ${nome}`,
+      text: "",
+      html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
         <head>
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -316,8 +314,10 @@ export async function POST(req: Request) {
           </center>
         </body>
       </html>`,
-  };
-  await sgMail.send(msg);
-  console.log("email sent");
-  return new Response("SUCCESS", { status: 200 });
+    });
+
+    return Response.json(data);
+  } catch (error) {
+    return Response.json({ error });
+  }
 }
