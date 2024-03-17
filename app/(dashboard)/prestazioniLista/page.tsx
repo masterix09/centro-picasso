@@ -5,11 +5,17 @@ import ButtonModal from "@/components/dashboard/common/ButtonModal";
 import { db } from "@/lib/db";
 import { EModalType } from "@/enum/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useEffect, useState } from "react";
 import { useStore } from "@/store/store";
 import { getPrestazioniList } from "@/actions/actions.clinica";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +30,11 @@ export type TPrestazioneLista = {
 };
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+
+  if (status === "unauthenticated") router.push("/login");
   const [data, setData] = useState<TPrestazioneLista[]>([]);
 
   const { setIdPrestazione, setModalOpen, setModalType } = useStore(

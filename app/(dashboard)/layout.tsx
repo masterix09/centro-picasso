@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Modal from "@/components/dashboard/common/Modal";
 import { Provider } from "@/components/dashboard/common/Provider";
-import { Suspense } from "react";
+import NextAuthProvider from "@/components/webapp/NextAUthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,9 @@ export default function RootLayout({
         <Modal />
         <Sidebar>
           <div className="bg-[#f5f5f5] h-full lg:h-screen overflow-y-scroll">
-            <Provider>{children}</Provider>
+            <Provider>
+              <NextAuthProvider>{children}</NextAuthProvider>
+            </Provider>
           </div>
         </Sidebar>
       </body>

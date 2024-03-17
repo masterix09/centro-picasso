@@ -8,9 +8,14 @@ import { useEffect, useState } from "react";
 import { getAnamnesiById, updateAnamnesi } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
   const [data, setData] = useState<IAnamnesi | null>({
     AffezioniCardiache: false,
     AlterazionePressioneSanguigna: false,

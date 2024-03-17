@@ -17,7 +17,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import itLocale from "@fullcalendar/core/locales/it";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { getPrestazioniAgenda } from "@/actions/actions.clinica";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { TPrestazione } from "../../clinica/pianoCura/columns";
 import {
   ContextMenu,
@@ -28,10 +33,15 @@ import {
 } from "@/components/ui/context-menu";
 import { useStore } from "@/store/store";
 import { EventContentArg } from "@fullcalendar/core/index.js";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page({ params }: { params: { sede: string } }) {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
+
   // const [view, setView] = useState<ECalendarView>(ECalendarView.WEEK_VIEW);
   const {
     idPrestazioneAgenda,

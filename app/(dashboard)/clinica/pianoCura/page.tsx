@@ -3,12 +3,11 @@ import ArcateBody from "@/components/dashboard/PianoDiCura/ArcateBody";
 import DentiTable from "@/components/dashboard/PianoDiCura/DentiTable";
 import { DataTable } from "./data-table";
 // import { TPrestazione, columns } from "./columns";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
 import { EModalType } from "@/enum/types";
 import {
   Select,
@@ -19,10 +18,14 @@ import {
 } from "@/components/ui/select";
 import { EStatusPrestazione } from "@/types";
 import { updateStatusPrestazione } from "@/actions/actions.clinica";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
   const { idPiano, setIdPrestazione, setModalOpen, setModalType } = useStore(
     (state) => state
   );

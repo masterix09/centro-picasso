@@ -9,12 +9,24 @@ import { Button } from "@/components/ui/button";
 import { TPrestazioneLista } from "../prestazioniLista/page";
 import { useEffect, useState } from "react";
 import { useStore } from "@/store/store";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { getSede } from "@/actions/actions.clinica";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+
+  if (status === "unauthenticated") router.push("/login");
+
   const [data, setData] = useState<TSede[]>([]);
 
   const { setIdSede, setModalOpen, setModalType } = useStore((state) => state);

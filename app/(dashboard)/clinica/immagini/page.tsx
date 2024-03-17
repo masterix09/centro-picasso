@@ -1,7 +1,7 @@
 "use client";
 import { CldUploadWidget } from "next-cloudinary";
 import { createImage, getImageByIdPiano } from "@/actions/actions.clinica";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useStore } from "@/store/store";
 import {
   Carousel,
@@ -11,10 +11,14 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
   const [data, setData] = useState<{ url: string }[]>([]);
   const { idPiano } = useStore((state) => state);
 

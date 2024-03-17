@@ -9,11 +9,20 @@ import { getDocument } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
 import { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
   const { idDocumento, setIdDocumento, setModalOpen, setModalType } = useStore(
     (state) => state
   );

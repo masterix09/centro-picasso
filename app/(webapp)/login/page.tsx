@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -31,7 +32,12 @@ export default function Page() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+    signIn("credentials", {
+      username: values.username,
+      password: values.password,
+      callbackUrl: "/dashboard",
+    });
   }
   return (
     <main className="max-w-7xl mx-auto flex justify-center items-center  min-h-[80vh]">
@@ -46,7 +52,7 @@ export default function Page() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="type your email" {...field} />
+                    <Input placeholder="Inserisci email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -59,7 +65,7 @@ export default function Page() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Type your password" {...field} />
+                    <Input placeholder="Inserisci password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

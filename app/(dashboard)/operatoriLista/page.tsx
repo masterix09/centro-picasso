@@ -8,13 +8,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { getOperatore, getOperatoreById } from "@/actions/actions.clinica";
 import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/store";
+import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+
+  if (status === "unauthenticated") router.push("/login");
   const [data, setData] = useState<TOperatore[]>([]);
 
   const { setIdOperatore, setModalOpen, setModalType } = useStore(

@@ -1,10 +1,16 @@
 import { db } from "@/lib/db";
 import { differenceInDays, differenceInYears, format } from "date-fns";
+import { getServerSession } from "next-auth/next";
 import Image from "next/image";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) redirect("/login");
   const appuntamenti = await db.prestazione.findMany({
     where: {
       data_appuntamento: format(new Date(), "yyyy-MM-dd"),

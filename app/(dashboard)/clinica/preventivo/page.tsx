@@ -31,10 +31,15 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResocontoPagamento from "@/components/dashboard/documenti/PDFDocument/ResocontoPagamento";
 import { Button } from "@/components/ui/button";
 import { EStatusPrestazione } from "@/types";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") redirect("/login");
   const { idPiano, listino, setListino } = useStore((state) => state);
   const [data, setData] = useState<TPrestazionePreventivo[]>([]);
   const [pagamenti, setPagamenti] = useState<TPagamentiPreventivo[]>([]);
