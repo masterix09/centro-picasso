@@ -1,18 +1,52 @@
-"use client";
-
 import styles from "@/style/service/Hero/Hero.module.scss";
-import { useEffect, useState } from "react";
-// import Modale from "@/app/components/common/Modale";
 import Slider from "@/components/webapp/Slider";
 import Paragraph from "@/components/webapp/Paragraph";
 import BookAppointment from "@/components/webapp/BookAppointment";
 import { ServiziProps } from "@/models/common/common";
-import {
-  EBookAppointmentDirection,
-  EModalType,
-  ESliderSection,
-} from "@/enum/types";
-import { useStore } from "@/store/store";
+import { EBookAppointmentDirection, ESliderSection } from "@/enum/types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Servizi | Studio dentistico Centro Picasso",
+  description:
+    "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+  openGraph: {
+    type: "website",
+    description:
+      "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+    locale: "it-IT",
+    url: "https://www.centropicasso.it",
+    title: "Servizi | Studio dentistico Centro Picasso",
+    siteName: "Centro Picasso",
+  },
+  authors: {
+    name: "Andrea Verde",
+  },
+  twitter: {
+    description:
+      "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+    title: "Servizi | Studio dentistico Centro Picasso",
+    site: "Centro Picasso",
+    creator: "Andrea Verde",
+  },
+  keywords: [
+    "Sant'Antimo",
+    "Napoli",
+    "Centro Picasso",
+    "Studio Dentistico",
+    "Dentista",
+    "Odontoiatria",
+    "Trattamenti Dentali",
+    "Cure Dentistiche",
+    "Implantologia",
+    "Ortodonzia",
+    "Odontoiatra",
+    "Chirurgia Dentale",
+    "Urgenze Dentali",
+    "Prenotazione Online",
+    "Visita Odontoiatrica",
+  ],
+};
 
 export default function Servizi() {
   const heroContent: ServiziProps[] = [
@@ -54,22 +88,8 @@ export default function Servizi() {
     },
   ];
 
-  const [success, setSuccess] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
-    useStore((state) => state);
-
-  useEffect(() => {
-    console.log("success => ", success);
-    console.log("isOpen => ", isOpen);
-    setSuccessPrenotazione(success);
-    setModalOpen(isOpen);
-    setModalType(EModalType.PRENOTAZIONE_SITO);
-  }, [isOpen, setModalOpen, setModalType, setSuccessPrenotazione, success]);
-
   return (
     <main>
-      {/* {isOpen && <Modale isOpen={isOpen} success={success} />} */}
       <div className={styles.Hero}>
         <Slider
           cardType={ESliderSection.SERVICE_PAGE}
@@ -80,11 +100,7 @@ export default function Servizi() {
         />
       </div>
       <Paragraph />
-      <BookAppointment
-        direction={EBookAppointmentDirection.NORMAL}
-        setSuccess={setSuccess}
-        setIsOpen={setIsOpen}
-      />
+      <BookAppointment direction={EBookAppointmentDirection.NORMAL} />
     </main>
   );
 }

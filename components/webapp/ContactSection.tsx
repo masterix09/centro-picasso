@@ -1,15 +1,12 @@
 import Image from "next/image";
-import React, { FC } from "react";
+import React from "react";
 import styles from "@/style/ContactSection/ContactSection.module.scss";
 
 import CtaButton from "./CtaButton";
 import { museoBold, museoLight } from "@/utils/font";
+import Link from "next/link";
 
-type ContactSection = {
-  handleNavigation: () => void;
-};
-
-const ContactSection: FC<ContactSection> = ({ handleNavigation }) => {
+const ContactSection = () => {
   return (
     <div className={styles.container}>
       <div className={museoLight.className}>
@@ -89,9 +86,9 @@ const ContactSection: FC<ContactSection> = ({ handleNavigation }) => {
             </div>
           </div>
         </div>
-        <div className={styles.button} onClick={handleNavigation}>
+        <Link href="#sectionToScroll" className={styles.button}>
           <CtaButton title="FISSA UN APPUNTAMENTO" bgColor="#2A4B9A" />
-        </div>
+        </Link>
       </div>
     </div>
   );

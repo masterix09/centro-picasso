@@ -1,12 +1,8 @@
-"use client";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Header from "../../components/webapp/Header";
 import Footer from "@/components/webapp/Footer";
 import Modal from "@/components/dashboard/common/Modal";
-
-const inter = Inter({ subsets: ["latin"] });
+import { museoLight } from "@/utils/font";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -20,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${museoLight.className} scroll-smooth`}>
         <Modal />
         <header>
           <Header />

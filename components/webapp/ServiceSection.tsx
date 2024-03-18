@@ -1,18 +1,11 @@
-"use client";
-
-import React, { FC, useRef } from "react";
+import React from "react";
 import styles from "@/style/ServiceSection/ServiceSection.module.scss";
 import Image from "next/image";
-import Link from "next/link";
-import { useIsSM } from "@/utils/useWindowSizes";
 import { ESliderSection, TSliderProps } from "@/enum/types";
 import Slider from "./Slider";
+import Link from "next/link";
 
-type ServiceSectionProps = {
-  handleNavigation: () => void;
-};
-
-const ServiceSection: FC<ServiceSectionProps> = ({ handleNavigation }) => {
+const ServiceSection = () => {
   const card: TSliderProps[] = [
     {
       image: "Conservativa_Centro_Picasso.svg",
@@ -69,7 +62,11 @@ const ServiceSection: FC<ServiceSectionProps> = ({ handleNavigation }) => {
         </div>
         <div className={styles.customerArea}>
           <div className={styles.sectionLink}>
-            <div className={styles.link} onClick={handleNavigation}>
+            <Link
+              href="#sectionToScroll"
+              className={styles.link}
+              // onClick={handleNavigation}
+            >
               <div className={styles.cta}>
                 <p>Scopri cosa dicono di noi</p>
                 <Image
@@ -79,15 +76,23 @@ const ServiceSection: FC<ServiceSectionProps> = ({ handleNavigation }) => {
                   height={50}
                 />
               </div>
-            </div>
+            </Link>
           </div>
           <div className={styles.dateIcon}>
             <div className={styles.icon}>
               <Image
                 src="/images/Centro_Picasso_icon_Clienti.svg"
                 alt="icona dei clienti soddisfatti"
-                width={useIsSM() ? 35 : 75}
-                height={useIsSM() ? 35 : 75}
+                width={35}
+                height={35}
+                className="block lg:hidden"
+              />
+              <Image
+                src="/images/Centro_Picasso_icon_Clienti.svg"
+                alt="icona dei clienti soddisfatti"
+                width={75}
+                height={75}
+                className="hidden lg:block"
               />
               <div>
                 <p className={styles.percentage}>2345</p>
@@ -100,8 +105,16 @@ const ServiceSection: FC<ServiceSectionProps> = ({ handleNavigation }) => {
               <Image
                 src="/images/Centro_Picasso_icon_Smile.svg"
                 alt="icona dei sorrisi perfetti"
-                width={useIsSM() ? 35 : 75}
-                height={useIsSM() ? 35 : 75}
+                width={35}
+                height={35}
+                className="hidden lg:block"
+              />
+              <Image
+                src="/images/Centro_Picasso_icon_Smile.svg"
+                alt="icona dei sorrisi perfetti"
+                width={75}
+                height={75}
+                className="hidden lg:block"
               />
               <div>
                 <p className={styles.percentage}>100%</p>

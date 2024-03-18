@@ -37,7 +37,7 @@ const TestimonialSection = forwardRef<HTMLDivElement, {}>(
     ];
 
     return (
-      <div className={styles.container} ref={ref}>
+      <div className={styles.container} ref={ref} id="sectionToScroll">
         <div className={styles.innerContainer}>
           <div className={styles.textArea}>
             <div className={museoBold.className}>

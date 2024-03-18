@@ -1,57 +1,64 @@
-"use client";
-
 import styles from "@/style/ContactSection/ContactPage.module.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import stylesTwo from "@/style/ContactSection/Contact.module.scss";
-// import Modale from "@/app/components/common/Modale";
 import ContactSection from "@/components/webapp/ContactSection";
 import DoctorSection from "@/components/webapp/DoctorSection";
 import BookAppointment from "@/components/webapp/BookAppointment";
 import { EBookAppointmentDirection, EModalType } from "@/enum/types";
-import { useStore } from "@/store/store";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contatti | Studio dentistico Centro Picasso",
+  description:
+    "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+  openGraph: {
+    type: "website",
+    description:
+      "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+    locale: "it-IT",
+    url: "https://www.centropicasso.it",
+    title: "Contatti | Studio dentistico Centro Picasso",
+    siteName: "Centro Picasso",
+  },
+  authors: {
+    name: "Andrea Verde",
+  },
+  twitter: {
+    description:
+      "Centro Picasso - Il tuo studio dentistico di fiducia a Sant'Antimo. Offriamo cure odontoiatriche di alta qualità, incluse pulizie dentali, trattamenti per le carie e procedimenti cosmetici. Prenota una visita oggi stesso per un sorriso sano e luminoso! ",
+    title: "Contatti | Studio dentistico Centro Picasso",
+    site: "Centro Picasso",
+    creator: "Andrea Verde",
+  },
+  keywords: [
+    "Sant'Antimo",
+    "Napoli",
+    "Centro Picasso",
+    "Studio Dentistico",
+    "Dentista",
+    "Odontoiatria",
+    "Trattamenti Dentali",
+    "Cure Dentistiche",
+    "Implantologia",
+    "Ortodonzia",
+    "Odontoiatra",
+    "Chirurgia Dentale",
+    "Urgenze Dentali",
+    "Prenotazione Online",
+    "Visita Odontoiatrica",
+  ],
+};
 
 export default function Contatti() {
-  const refBook = useRef<HTMLDivElement>(null);
-
-  const handleNavigation = () => {
-    let currentSectionRef = null;
-
-    currentSectionRef = refBook;
-
-    window.scrollTo({
-      top: currentSectionRef?.current?.offsetTop,
-      behavior: "smooth",
-    });
-  };
-
-  const [success, setSuccess] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
-    useStore((state) => state);
-
-  useEffect(() => {
-    console.log("success => ", success);
-    console.log("isOpen => ", isOpen);
-    setSuccessPrenotazione(success);
-    setModalOpen(isOpen);
-    setModalType(EModalType.PRENOTAZIONE_SITO);
-  }, [isOpen, setModalOpen, setModalType, setSuccessPrenotazione, success]);
-
   return (
     <main>
-      {/* {isOpen && <Modale isOpen={isOpen} success={success} />} */}
       <div className={styles.container}>
-        <ContactSection handleNavigation={handleNavigation} />
+        <ContactSection />
       </div>
       <div className={stylesTwo.container}>
         <div className={stylesTwo.innerContainer}>
           <DoctorSection uri={"ciao"} />
-          <BookAppointment
-            direction={EBookAppointmentDirection.INVERSE}
-            ref={refBook}
-            setSuccess={setSuccess}
-            setIsOpen={setIsOpen}
-          />
+          <BookAppointment direction={EBookAppointmentDirection.INVERSE} />
         </div>
       </div>
     </main>

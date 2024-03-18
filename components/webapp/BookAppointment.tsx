@@ -8,11 +8,12 @@ import React, {
   Dispatch,
 } from "react";
 import styles from "@/style/BookAppointment/BookAppointment.module.scss";
-import { EBookAppointmentDirection } from "@/enum/types";
+import { EBookAppointmentDirection, EModalType } from "@/enum/types";
 import DatePicker from "react-datepicker";
 // import it from "date-fns/locale/it";
 // registerLocale("it", it);
 import "react-datepicker/dist/react-datepicker.css";
+import { useStore } from "@/store/store";
 
 type SelectOptionProps = {
   id: number;
@@ -24,8 +25,8 @@ const BookAppointment = forwardRef<
   HTMLDivElement,
   {
     direction: EBookAppointmentDirection;
-    setSuccess: Dispatch<SetStateAction<boolean>>;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setSuccess?: Dispatch<SetStateAction<boolean>>;
+    setIsOpen?: Dispatch<SetStateAction<boolean>>;
   }
 >(({ direction, setSuccess, setIsOpen }, ref): ReactElement => {
   const option: SelectOptionProps[] = [
@@ -44,6 +45,9 @@ const BookAppointment = forwardRef<
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
 
+  const { setIdOperatore, setModalOpen, setModalType, setSuccessPrenotazione } =
+    useStore((state) => state);
+
   const sendEmailToMe = async () => {
     const formattedDate = `${startDate.getDate()}/${
       startDate.getMonth() + 1
@@ -60,15 +64,18 @@ const BookAppointment = forwardRef<
       });
 
       if (res.ok) {
-        setIsOpen(true);
-        setSuccess(true);
+        setSuccessPrenotazione(true);
+        setModalOpen(true);
+        setModalType(EModalType.PRENOTAZIONE_SITO);
       } else {
-        setIsOpen(true);
-        setSuccess(false);
+        setSuccessPrenotazione(false);
+        setModalOpen(true);
+        setModalType(EModalType.PRENOTAZIONE_SITO);
       }
     } catch (e: any) {
-      setIsOpen(true);
-      setSuccess(false);
+      setSuccessPrenotazione(false);
+      setModalOpen(true);
+      setModalType(EModalType.PRENOTAZIONE_SITO);
     }
   };
 
@@ -85,12 +92,14 @@ const BookAppointment = forwardRef<
       if (res.ok) {
         sendEmailToMe();
       } else {
-        setIsOpen(true);
-        setSuccess(false);
+        setSuccessPrenotazione(true);
+        setModalOpen(true);
+        setModalType(EModalType.PRENOTAZIONE_SITO);
       }
     } catch (e: any) {
-      setIsOpen(true);
-      setSuccess(false);
+      setSuccessPrenotazione(false);
+      setModalOpen(true);
+      setModalType(EModalType.PRENOTAZIONE_SITO);
     }
   };
 
@@ -102,6 +111,7 @@ const BookAppointment = forwardRef<
           : `${styles.container} bg-transparent`
       }
       ref={ref}
+      id="sectionToScroll"
     >
       <div
         className={

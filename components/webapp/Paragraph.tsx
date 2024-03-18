@@ -56,12 +56,12 @@ const Paragraph = () => {
           soluzioni su misura per garantire il miglior trattamento possibile.
         </p>
         <p className={`mt-4 ${styles.elenco_numerato}`}>
-          3. Tecnologie all`&apos;`avanguardia: Utilizziamo strumenti innovativi
+          3. Tecnologie all&apos;avanguardia: Utilizziamo strumenti innovativi
           per diagnosi precise e trattamenti efficaci.
         </p>
         <p className={`mt-4 ${styles.elenco_numerato}`}>
-          4. Comfort e relax: Creiamo un`&apos;`atmosfera accogliente e
-          rilassante per mettervi a vostro agio durante le visite.
+          4. Comfort e relax: Creiamo un&apos;atmosfera accogliente e rilassante
+          per mettervi a vostro agio durante le visite.
         </p>
         <p className={`mt-4 ${styles.elenco_numerato}`}>
           5. Risultati visibili: Il nostro obiettivo è trasformare i sorrisi,

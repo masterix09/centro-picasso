@@ -1,10 +1,8 @@
-"use client";
 import React from "react";
 import Image from "next/image";
-// import { museoBold } from "../../utils/font";
-import { useIsSM } from "@/utils/useWindowSizes";
 import { ESliderSection } from "@/enum/types";
 import CtaButton from "./CtaButton";
+import { museoBold } from "@/utils/font";
 
 const HeroSection = ({
   titleStrong,
@@ -43,14 +41,15 @@ const HeroSection = ({
         }
       >
         <div className="w-scren flex justify-center items-center flex-col p-0 md:p-[30px] gap-[60px] xl:gap-[30px]">
-          {!useIsSM() && (
-            <Image
-              src="/images/Centro_Picasso_Logotipo.svg"
-              alt="logo dello studio dentistico Centro picasso in Sant'antimo provincia di Napoli"
-              width={340}
-              height={45}
-            />
-          )}
+          {/* {!useIsSM() && ( */}
+          <Image
+            src="/images/Centro_Picasso_Logotipo.svg"
+            alt="logo dello studio dentistico Centro picasso in Sant'antimo provincia di Napoli"
+            width={340}
+            height={45}
+            className="hidden md:block"
+          />
+          {/* )} */}
 
           <div className="flex flex-col md:flex-row">
             {icon && (
@@ -64,7 +63,9 @@ const HeroSection = ({
               </div>
             )}
             <div className="w-full">
-              <h1 className="text-5xl md:text-7xl text-left font-bold mt-4 md:mt-0 ">
+              <h1
+                className={`${museoBold.className} text-5xl md:text-7xl text-left font-bold mt-4 md:mt-0`}
+              >
                 {titleStrong}
               </h1>
               <h1 className="text-5xl md:text-7xl text-left ">{titleLight}</h1>
