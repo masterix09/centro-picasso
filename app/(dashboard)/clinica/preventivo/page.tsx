@@ -82,15 +82,15 @@ export default function Page() {
     data.map((item) => {
       if (item.status === "Completato") {
         if (listino === EListino.DEFAULT) {
-          return (totalEseguito =
-            totalEseguito + item.costoDefault! - calculateTotaleAcconti());
+          totalEseguito = totalEseguito + item.costoDefault!;
         }
         if (listino === EListino.GENTILE) {
-          return (totalEseguito =
-            totalEseguito + item.costoGentile! - calculateTotaleAcconti());
+          totalEseguito = totalEseguito + item.costoGentile!;
         }
       }
     });
+
+    totalEseguito = totalEseguito - calculateTotaleAcconti();
 
     return totalEseguito < 0 ? 0 : totalEseguito;
   };
