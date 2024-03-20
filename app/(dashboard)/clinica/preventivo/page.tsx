@@ -80,7 +80,7 @@ export default function Page() {
   const calculateTotaleEseguito = () => {
     let totalEseguito = 0;
     data.map((item) => {
-      if (item.status === "Eseguito") {
+      if (item.status === "Completato") {
         if (listino === EListino.DEFAULT) {
           return (totalEseguito = totalEseguito + item.costoDefault!);
         }

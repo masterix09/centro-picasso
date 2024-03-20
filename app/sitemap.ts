@@ -5,19 +5,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: 'https://centropicasso.it',
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'monthly',
       priority: 1,
     },
     {
       url: 'https://centropicasso.it/contatti',
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: 'https://centropicasso.it/servizi',
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
