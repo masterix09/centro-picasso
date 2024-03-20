@@ -92,7 +92,7 @@ export default function Page() {
       }
     });
 
-    return totalEseguito;
+    return totalEseguito < 0 ? 0 : totalEseguito;
   };
 
   return (
