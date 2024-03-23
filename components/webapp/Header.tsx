@@ -78,7 +78,7 @@ const Header = () => {
                 height={40}
               />
             </Link>
-            <Link href="/">
+            <Link href="https://www.instagram.com" target="_blank">
               <Image
                 src="/images/navbar/Centro_Picasso_icon_Instagram.svg"
                 alt="instagram"

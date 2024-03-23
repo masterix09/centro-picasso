@@ -32,31 +32,47 @@ const Footer = () => {
               <p className="text-white">
                 Via Pablo Picasso 104 Sant’Antimo, 80029 NA
               </p>
-              <p className="text-white">Tel: +39 081 833 9593</p>
+              <Link href="tel:0818339593">
+                <p className="text-white">Tel: +39 081 833 9593</p>
+              </Link>
             </div>
             <div className="w-100 md:w-[50%] flex flex-col gap-2 md:gap-4 pr-0 md:pr-[45px]">
               <p className="text-white">
                 Via Biagio Riccio 9 Giugliano, 80014 NA
               </p>
-              <p className="text-white">Tel: +39 081 506 2565</p>
+
+              <Link href="tel:0815062565">
+                <p className="text-white">Tel: +39 081 506 2565</p>
+              </Link>
             </div>
           </div>
         </div>
         <div className="w-100 md:w-[20%] flex flex-col mt-[60px] md:mt-0">
           <h3 className="text-white">Email</h3>
           <div className="w-100 flex flex-col gap-6">
-            <p className="text-white">conttatto1@centropicasso.it</p>
-            <p className="text-white">conttatto2@centropicasso.it</p>
+            <Link href="mailto:info@centropicasso.it">
+              <p className="text-white">info@centropicasso.it</p>
+            </Link>
+            <Link href="mailto:amministazione@centropicasso.it">
+              <p className="text-white">amministazione@centropicasso.it</p>
+            </Link>
           </div>
         </div>
         <div className="w-100 md:w-[15%] flex flex-col mt-[60px] md:mt-0">
           <h3 className="text-white">Instagram</h3>
           <div className="w-100 flex flex-col gap-6">
-            <p className="text-white">Instagram profile</p>
+            <Link href="https://www.instagram.com" target="_blank">
+              <p className="text-white">Instagram profile</p>
+            </Link>
           </div>
-          <h3 className="text-white mb-4">Facebook</h3>
+          <h3 className="text-white">Facebook</h3>
           <div className="w-100 flex flex-col gap-6">
-            <p className="text-white">Facebook profile</p>
+            <Link
+              href="https://www.facebook.com/p/Centro-Picasso-100068526079190/"
+              target="_blank"
+            >
+              <p className="text-white">Facebook profile</p>
+            </Link>
           </div>
         </div>
       </div>
