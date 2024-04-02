@@ -649,7 +649,13 @@ export async function updateAnamnesi (idPaziente: string, AffezioniCardiache: bo
     Profilassi: boolean | null,
     RicoveriOMalattie: boolean | null,
     TerapiaAnticoagulanti: boolean | null,
-    Ulcere: boolean | null){
+    Ulcere: boolean | null,
+    NomeDentista: string | null,
+    NomeMedico: string | null,
+    NumeroDentista: string | null,
+    NumeroMedico: string | null,
+    Note: string | null,
+    ){
         await db.cliente.update({
             where: {
                 id: idPaziente
@@ -684,6 +690,11 @@ export async function updateAnamnesi (idPaziente: string, AffezioniCardiache: bo
             RicoveriOMalattie,
             TerapiaAnticoagulanti,
             Ulcere,
+            numeroDentista: NumeroDentista ?? "",
+            numeroMedico: NumeroMedico ?? "",
+            nomeDentista: NomeDentista ?? "",
+            nomeMedico: NomeMedico ?? "",
+            note: Note ?? ""
 
             }
         })

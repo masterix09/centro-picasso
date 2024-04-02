@@ -4,12 +4,18 @@ import styles from "@/style/anamnesi/Anamnesi.module.scss";
 import Image from "next/image";
 import CuffieDoctorSVG from "@/public/gestionale/clinica/icon-anamnesi-1.svg";
 import { IAnamnesi } from "@/types";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getAnamnesiById, updateAnamnesi } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { FaUserDoctor } from "react-icons/fa6";
+import { LiaTeethSolid } from "react-icons/lia";
+import { SlNote } from "react-icons/sl";
+import { Textarea } from "@/components/ui/textarea";
+import { BsInfoSquareFill } from "react-icons/bs";
 
 export const dynamic = "force-dynamic";
 export default function Page() {
@@ -60,6 +66,19 @@ export default function Page() {
       getAnamnesiById(idCliente).then((data) => setData(data));
     }
   }, [idCliente]);
+
+  const onChangeInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    prop: string
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    setData((prevState) => ({
+      ...prevState!,
+      [prop]: e.target.value!,
+    }));
+  };
 
   return (
     <>
@@ -208,10 +227,10 @@ export default function Page() {
       </div>
       <div className={styles.container}>
         <div className={styles.sidebar}>
-          {/* <BsInfoSquareFill
+          <BsInfoSquareFill
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
-          /> */}
+          />
           <p className={styles.sectionTitle}>Altre informazioni</p>
         </div>
         <div className={styles.body}>
@@ -300,68 +319,68 @@ export default function Page() {
       </div>
       <div className={styles.container}>
         <div className={styles.sidebar}>
-          {/* <FaUserDoctor
+          <FaUserDoctor
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
-          /> */}
+          />
           <p className={styles.sectionTitle}>Medico curante</p>
         </div>
         <div className={styles.body}>
           <div className={styles.bodySx}>
-            {/* <Input
+            <Input
               placeholder="Nome medico curante"
               onChange={(e) => onChangeInput(e, "nomeMedico")}
-              value={data.nomeMedico!}
-            /> */}
+              value={data!.nomeMedico ?? ""}
+            />
           </div>
           <div className={styles.bodyDx}>
-            {/* <Input
+            <Input
               placeholder="Telefono medico curante"
               onChange={(e) => onChangeInput(e, "numeroMedico")}
-              value={data.numeroMedico!}
-            /> */}
+              value={data!.numeroMedico ?? ""}
+            />
           </div>
         </div>
       </div>
       <div className={styles.container}>
         <div className={styles.sidebar}>
-          {/* <LiaTeethSolid
+          <LiaTeethSolid
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
-          /> */}
+          />
           <p className={styles.sectionTitle}>Precedente dentista</p>
         </div>
         <div className={styles.body}>
           <div className={styles.bodySx}>
-            {/* <Input
+            <Input
               placeholder="Nome dentista precedente"
               onChange={(e) => onChangeInput(e, "nomeDentista")}
-              value={data.nomeDentista!}
-            /> */}
+              value={data!.nomeDentista ?? ""}
+            />
           </div>
           <div className={styles.bodyDx}>
-            {/* <Input
+            <Input
               placeholder="Telefono dentista precedente"
               onChange={(e) => onChangeInput(e, "numeroDentista")}
-              value={data.numeroDentista!}
-            /> */}
+              value={data!.numeroDentista ?? ""}
+            />
           </div>
         </div>
       </div>
       <div className={styles.container}>
         <div className={styles.sidebar}>
-          {/* <SlNote color="b8b8b8" style={{ width: "70px", height: "70px" }} /> */}
+          <SlNote color="b8b8b8" style={{ width: "70px", height: "70px" }} />
           <p className={styles.sectionTitle}>Ulteriori Note</p>
         </div>
         <div className={styles.body}>
           <div className={styles.bodySx}>
-            {/* <TextArea
+            <Textarea
               rows={4}
               name="note"
               onChange={(e) => onChangeInput(e, "note")}
               placeholder="Note.."
-              value={data.note!}
-            /> */}
+              value={data!.note ?? ""}
+            />
           </div>
         </div>
       </div>
@@ -370,35 +389,40 @@ export default function Page() {
           onClick={() =>
             updateAnamnesi(
               idCliente,
-              data!.AffezioniCardiache,
-              data!.AffezioniRenali,
-              data!.Affezionireumatiche,
-              data!.AlterazionePressioneSanguigna,
-              data!.Altro,
-              data!.AsmaOAltro,
-              data!.AssumeFarmaci,
-              data!.Bruxista,
-              data!.Copnseguenze,
-              data!.Diabete,
-              data!.Ematomi,
-              data!.Emorragie,
-              data!.EsamiOTerapia,
-              data!.FacilmenteInfezioni,
-              data!.Fumatore,
-              data!.GiaSubitoAnestesia,
-              data!.Gravidanza,
-              data!.HaSoffertoSoffreMalattieInfettive,
-              data!.IpersensibilitaVersoFarmaci,
-              data!.MalattiePsichiche,
-              data!.PatologieApparatoDigerente,
-              data!.PatologieGenitoUrinarie,
-              data!.PatologieOculari,
-              data!.PatologieSangue,
-              data!.PatologieSistemaNervoso,
-              data!.Profilassi,
-              data!.RicoveriOMalattie,
-              data!.TerapiaAnticoagulanti,
-              data!.Ulcere
+              !!data!.AffezioniCardiache,
+              !!data!.AffezioniRenali,
+              !!data!.Affezionireumatiche,
+              !!data!.AlterazionePressioneSanguigna,
+              !!data!.Altro,
+              !!data!.AsmaOAltro,
+              !!data!.AssumeFarmaci,
+              !!data!.Bruxista,
+              !!data!.Copnseguenze,
+              !!data!.Diabete,
+              !!data!.Ematomi,
+              !!data!.Emorragie,
+              !!data!.EsamiOTerapia,
+              !!data!.FacilmenteInfezioni,
+              !!data!.Fumatore,
+              !!data!.GiaSubitoAnestesia,
+              !!data!.Gravidanza,
+              !!data!.HaSoffertoSoffreMalattieInfettive,
+              !!data!.IpersensibilitaVersoFarmaci,
+              !!data!.MalattiePsichiche,
+              !!data!.PatologieApparatoDigerente,
+              !!data!.PatologieGenitoUrinarie,
+              !!data!.PatologieOculari,
+              !!data!.PatologieSangue,
+              !!data!.PatologieSistemaNervoso,
+              !!data!.Profilassi,
+              !!data!.RicoveriOMalattie,
+              !!data!.TerapiaAnticoagulanti,
+              !!data!.Ulcere,
+              data!.nomeDentista,
+              data!.nomeMedico,
+              data!.numeroDentista,
+              data!.numeroMedico,
+              data!.note
             )
           }
         >

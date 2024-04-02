@@ -20,8 +20,8 @@ const SwitchAnamnesi = ({
     <div className="flex items-center space-x-2">
       <Switch
         id="airplane-mode"
-        // checked={value}
-        defaultChecked={value}
+        checked={value}
+        // defaultChecked={value}
         onCheckedChange={(val) => {
           setData({ ...data, [prop]: val });
         }}
