@@ -27,6 +27,7 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   orario: z.string().min(2).max(50),
@@ -38,6 +39,7 @@ const ModalDeletePrestazionePianoCura = ({
   handleCloseModal: () => void;
 }) => {
   const { idPrestazione } = useStore((state) => state);
+  const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -49,9 +51,27 @@ const ModalDeletePrestazionePianoCura = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
-          onClick={() => {
-            deletePrestazionePianoCuraById(idPrestazione);
-            handleCloseModal();
+          onClick={async () => {
+            try {
+              const result = await deletePrestazionePianoCuraById(
+                idPrestazione
+              );
+              handleCloseModal();
+
+              if (result === "ok") {
+                toast({
+                  title: "Eliminazione con successo",
+                  description: "Prestazione eliminata con successo",
+                });
+              } else throw new Error();
+            } catch (error) {
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Eliminazione errata",
+                description:
+                  "Eliminazione non avvenuta con successo. Chiudi la modale e riprova",
+              });
+            }
           }}
         >
           Submit

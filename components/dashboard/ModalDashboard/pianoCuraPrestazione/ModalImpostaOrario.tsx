@@ -29,6 +29,7 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   start: z.string().min(2).max(50),
@@ -42,6 +43,7 @@ const ModalImpostaOrario = ({
 }) => {
   const { idPrestazione } = useStore((state) => state);
   const [data, setData] = useState<string>("");
+  const { toast } = useToast();
 
   useEffect(() => {
     getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
@@ -59,15 +61,30 @@ const ModalImpostaOrario = ({
 
   console.log(data);
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const start = `${data}T${values.start}`;
-    const end = `${data}T${values.end}`;
+    try {
+      const start = `${data}T${values.start}`;
+      const end = `${data}T${values.end}`;
 
-    addOrarioAppuntamento(idPrestazione, start, end);
-    handleCloseModal();
+      const result = await addOrarioAppuntamento(idPrestazione, start, end);
+      handleCloseModal();
+
+      if (result === "ok") {
+        toast({
+          title: "Orario impostato correttamente",
+        });
+      } else throw new Error();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Qualcosa e' andato storto.",
+        description:
+          "Orario non impostato correttamente. Prova a chiudere la modale e riprova",
+      });
+    }
   }
 
   return (

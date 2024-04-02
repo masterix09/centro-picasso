@@ -351,36 +351,55 @@ export async function setOrarioUscita (orario: string, idPrestazione: string) {
 
 
 export async function deletePrestazionePianoCuraById (idPrestazione: string) {
-    await db.prestazione.delete({
-        where: {
-            id: idPrestazione
-        },
+    try {
         
-    })
-    revalidatePath("/clinica/pianoCura")
+        await db.prestazione.delete({
+            where: {
+                id: idPrestazione
+            },
+            
+        })
+        revalidatePath("/clinica/pianoCura")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 
 export async function addDataAppuntamento (idPerstazione: string, date: string) {
-    await db.prestazione.update({
-        where: {
-            id: idPerstazione
-        },
-        data: {
-            data_appuntamento: date
-        }
-    })
+    try {
+        
+        await db.prestazione.update({
+            where: {
+                id: idPerstazione
+            },
+            data: {
+                data_appuntamento: date
+            }
+        })
+
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 
 export async function addOrarioAppuntamento (idPerstazione: string, start: string, end: string) {
-    await db.prestazione.update({
-        where: {
-            id: idPerstazione
-        },
-        data: {
-            start,
-            end
-        }
-    })
+    try {
+        
+        await db.prestazione.update({
+            where: {
+                id: idPerstazione
+            },
+            data: {
+                start,
+                end
+            }
+        })
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 export async function getDataAppuntamentoPrestazioneById (idPrestazione: string) {
     return await db.prestazione.findFirst({

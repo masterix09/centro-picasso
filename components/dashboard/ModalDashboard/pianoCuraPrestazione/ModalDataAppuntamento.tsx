@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
+import { useToast } from "@/components/ui/use-toast";
 
 const ModalDataAppuntamento = ({
   handleCloseModal,
@@ -32,6 +33,7 @@ const ModalDataAppuntamento = ({
 }) => {
   const { idPrestazione } = useStore((state) => state);
   const [date, setDate] = useState<Date>();
+  const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -71,10 +73,29 @@ const ModalDataAppuntamento = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
-          onClick={() => {
-            const dateFormat = format(date ?? "", "yyyy-MM-dd");
-            addDataAppuntamento(idPrestazione, dateFormat);
-            handleCloseModal();
+          onClick={async () => {
+            try {
+              const dateFormat = format(date ?? "", "yyyy-MM-dd");
+              const result = await addDataAppuntamento(
+                idPrestazione,
+                dateFormat
+              );
+              handleCloseModal();
+              if (result === "ok") {
+                toast({
+                  title: "Data appuntamento impostata correttamente",
+                  description:
+                    "La data del tuo appuntamento e' stata impostata correttamente.",
+                });
+              } else throw new Error();
+            } catch (error) {
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Qualcosa e' andato storto.",
+                description:
+                  "Data non impostat correttamente. Chiudi la modale e riprova ",
+              });
+            }
           }}
         >
           Submit
