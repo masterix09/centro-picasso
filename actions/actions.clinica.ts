@@ -51,37 +51,47 @@ export async function getPrestazioniList () {
 
 export async function addPrestazionePianoCura (array: string[], idPiano: string, idDente: string, sede: string, operatoreId: string) {
 
-    const prestazioni: TPrestazioneLista[] = await db.prestazioniLista.findMany({
-        where: {
-            id: {
-                in: [...array]
+    try {
+
+        const prestazioni: TPrestazioneLista[] = await db.prestazioniLista.findMany({
+            where: {
+                id: {
+                    in: [...array]
+                }
             }
-        }
-    })
+        })
+    
+        console.log("prestazioni where id equals to arrayId => ", prestazioni)
+    
+        const prestazioniAdd = prestazioni.map( (item) => {
+            return {
+                id: uuidv4(),
+                nome: item.nome,
+                categoria: item.categoria,
+                status: EStatusPrestazione.Prescritto,
+                createdAt: "",
+                costoGentile: Number(item.costoGentile),
+                costoDefault: Number(item.costoDefault),
+                pianoCuraId: idPiano,
+                operatoreId: operatoreId,
+                denteId: String(idDente),
+                sedeId: sede ?? ""
+            }
+        })
+    
+        await db.prestazione.createMany({
+            data: [...prestazioniAdd],
+          });
+    
+        revalidatePath("/clinica/pianoCura")
 
-    console.log("prestazioni where id equals to arrayId => ", prestazioni)
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
 
-    const prestazioniAdd = prestazioni.map( (item) => {
-        return {
-            id: uuidv4(),
-            nome: item.nome,
-            categoria: item.categoria,
-            status: EStatusPrestazione.Prescritto,
-            createdAt: "",
-            costoGentile: Number(item.costoGentile),
-            costoDefault: Number(item.costoDefault),
-            pianoCuraId: idPiano,
-            operatoreId: operatoreId,
-            denteId: String(idDente),
-            sedeId: sede ?? ""
-        }
-    })
-
-    await db.prestazione.createMany({
-        data: [...prestazioniAdd],
-      });
-
-    revalidatePath("/clinica/pianoCura")
+   
 }
 
 export async function createPrestazioneList (titolo: string, categoria: string, forWho: string, costoDefault: number, costoGentile: number) {
@@ -450,11 +460,19 @@ export async function deleteSedeById (idSede: string) {
 
 
 export async function deleteDocumentoById (idDocumento: string) {
-    await db.documenti.delete({
-        where: {
-            id: idDocumento
-        }
-    })
+    
+    try {
+        await db.documenti.delete({
+            where: {
+                id: idDocumento
+            }
+        })
+        
+        revalidatePath("/clinica/documenti")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 
 

@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useStore } from "@/store/store";
 import React from "react";
 
@@ -18,6 +19,7 @@ const ModalDeleteDocumento = ({
   handleCloseModal: () => void;
 }) => {
   const { idDocumento } = useStore((state) => state);
+  const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -29,9 +31,25 @@ const ModalDeleteDocumento = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
-          onClick={() => {
-            deleteDocumentoById(idDocumento);
-            handleCloseModal();
+          onClick={async () => {
+            try {
+              const result = await deleteDocumentoById(idDocumento);
+              handleCloseModal();
+              if (result === "ok") {
+                toast({
+                  title: "Eliminazione con successo.",
+                  description:
+                    "Il tuo documento e' stato eliminato con successo.",
+                });
+              } else throw new Error();
+            } catch (error) {
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Qualcosa e' andato storto.",
+                description:
+                  "Eliminazione non riuscita. Chiudi la modale e riprova",
+              });
+            }
           }}
         >
           Submit

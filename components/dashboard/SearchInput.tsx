@@ -97,20 +97,20 @@ const SearchInput = ({
                     setValue(currentValue === value ? "" : currentValue);
 
                     setOpen(false);
-                    {
-                      type === "PAZIENTE" &&
-                        router.push(
-                          pathname +
-                            "?" +
-                            createQueryString("idCliente", currentValue)
-                        );
-                      type === "PIANO_CURA" &&
-                        router.push(
-                          pathname +
-                            "?" +
-                            createQueryString("idPiano", currentValue)
-                        );
-                    }
+                    // {
+                    //   type === "PAZIENTE" &&
+                    //     router.push(
+                    //       pathname +
+                    //         "?" +
+                    //         createQueryString("idCliente", currentValue)
+                    //     );
+                    //   type === "PIANO_CURA" &&
+                    //     router.push(
+                    //       pathname +
+                    //         "?" +
+                    //         createQueryString("idPiano", currentValue)
+                    //     );
+                    // }
                     {
                       type === "PAZIENTE" && setIdCliente(currentValue);
                       type === "PIANO_CURA" && setIdPiano(currentValue);

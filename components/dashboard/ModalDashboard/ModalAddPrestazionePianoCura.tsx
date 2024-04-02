@@ -37,6 +37,7 @@ import { EStatusStepper } from "@/enum/types";
 import AggiungiPrestazione from "./createPrestazione/AggiungiPrestazione";
 import AppuntamentoPrestazione from "./createPrestazione/AppuntamentoPrestazione";
 import { useStore } from "@/store/store";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchemaAddPrestazioni = z.object({
   sede: z.string().min(2),
@@ -109,13 +110,35 @@ const ModalAddPrestazionePianoCura = ({
     // { name: "Step 3", href: "#", status: EStatusStepper.UPCOMING },
   ]);
 
-  function prestazioneFunction() {
+  const { toast } = useToast();
+
+  async function prestazioneFunction() {
     const values: z.infer<typeof formSchemaAddPrestazioni> = {
       operatore: form.watch("operatore"),
       prestazioni: form.watch("prestazioni"),
       sede: form.watch("sede"),
     };
-    onSubmitCreatePrestazione(values, idPiano ?? "", idDente ?? "");
+
+    try {
+      const result = await onSubmitCreatePrestazione(
+        values,
+        idPiano ?? "",
+        idDente ?? ""
+      );
+
+      if (result === "ok") {
+        toast({
+          title: "Prestazione aggiunta",
+          description: "Prestazione aggiunta con successo",
+        });
+      } else throw new Error();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Qualcosa è andato storto.",
+        description: "Prestazione non aggiunta. Chiudi la modale e riprova",
+      });
+    }
   }
 
   // TIME PICKER INPUT

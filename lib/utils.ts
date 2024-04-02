@@ -94,7 +94,7 @@ export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
 export function onSubmitCreatePrestazione(values: z.infer<typeof formSchema >, idPiano: string, idDente: string) {
   // Do something with the form values.
   // ✅ This will be type-safe and validated.  
-  addPrestazionePianoCura(values.prestazioni, idPiano, idDente, values.sede, values.operatore)
+  return addPrestazionePianoCura(values.prestazioni, idPiano, idDente, values.sede, values.operatore)
 }
 
 
