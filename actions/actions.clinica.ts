@@ -224,15 +224,21 @@ export async function createImage (array: string[], idPiano: string) {
 
 export async function createDocumento (idPiano: string, nome: string) {
 
-    await db.documenti.create({
-        data: {
-            id: uuidv4(),
-            nome,
-            createdAt: format(new Date(), "dd-MM-yyyy"),
-            url: "",
-            pianoCuraId: idPiano
-        }
-    })
+    try {
+        await db.documenti.create({
+            data: {
+                id: uuidv4(),
+                nome,
+                createdAt: format(new Date(), "dd-MM-yyyy"),
+                url: "",
+                pianoCuraId: idPiano
+            }
+        })
+        return "ok"    
+    } catch (error: any) {
+        return error.toString()
+    }
+    
 }
 
 
@@ -603,14 +609,21 @@ export async function getImageByIdPiano (idPiano: string) {
 }
 
 export async function updateStatusPrestazione (idPrestazione: string, status: string) {
-    await db.prestazione.update({
-        where: {
-            id: idPrestazione,
-        },
-        data: {
-            status
-        }
-    })
+    try {
+        
+        await db.prestazione.update({
+            where: {
+                id: idPrestazione,
+            },
+            data: {
+                status
+            }
+        })
+
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 
 

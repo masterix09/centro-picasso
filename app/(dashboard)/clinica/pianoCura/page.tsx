@@ -19,6 +19,7 @@ import {
 import { EStatusPrestazione } from "@/types";
 import { updateStatusPrestazione } from "@/actions/actions.clinica";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,7 @@ export default function Page() {
   );
 
   const [data, setData] = useState<TPrestazione[]>([]);
+  const { toast } = useToast();
 
   // const searchParams = useSearchParams();
   // const pathname = usePathname();
@@ -84,9 +86,28 @@ export default function Page() {
       cell: ({ row, getValue }) => {
         return (
           <Select
-            onValueChange={(value) =>
-              updateStatusPrestazione(row.original.id, value)
-            }
+            onValueChange={async (value) => {
+              try {
+                const result = await updateStatusPrestazione(
+                  row.original.id,
+                  value
+                );
+                if (result === "ok") {
+                  toast({
+                    title: "Stato aggiornato.",
+                    description:
+                      "Stato della prestazione aggiornato correttamente.",
+                  });
+                } else throw new Error();
+              } catch (error) {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nello stato.",
+                  description:
+                    "Lo stato della prestazione non e' stato aggiornato correttamente. Riprova",
+                });
+              }
+            }}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder={`${row.original.status}`} />

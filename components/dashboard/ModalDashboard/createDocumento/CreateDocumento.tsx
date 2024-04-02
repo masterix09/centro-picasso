@@ -30,6 +30,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useStore } from "@/store/store";
+import { useToast } from "@/components/ui/use-toast";
 
 const CreateDocumento = ({
   handleCloseModal,
@@ -41,6 +42,7 @@ const CreateDocumento = ({
   //   const idCliente = searchParams.get("idCliente");
 
   const { idPiano, idCliente } = useStore((state) => state);
+  const { toast } = useToast();
 
   const [modelSelected, setModelSelected] = useState(
     EDOcumenti["Trattamento dati personali"]
@@ -200,9 +202,24 @@ const CreateDocumento = ({
           <PDFDownloadLink
             document={document}
             fileName={`${user.nome}_${user.cognome}_${modelSelected}`}
-            onClick={() => {
+            onClick={async () => {
               if (idPiano) {
-                createDocumento(idPiano, modelSelected);
+                try {
+                  const result = await createDocumento(idPiano, modelSelected);
+                  if (result === "ok") {
+                    toast({
+                      title: "Creazione documento con successo.",
+                      description: "Creazione documento avvenuta con successo",
+                    });
+                  } else throw new Error();
+                } catch (error) {
+                  toast({
+                    variant: "destructive",
+                    title: "Uh oh! Qualcosa e' andato storto.",
+                    description:
+                      "Creazione documento non andato a buon fine. Chiudi la modale e riprova",
+                  });
+                }
               }
             }}
             className="bg-blue-300 rounded shadow-lg w-full px-6"
