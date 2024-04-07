@@ -26,10 +26,17 @@ export async function POST(
   })
 
 
-  const data = await db.image.createMany({
-    data: [...array]
+  // const data = await db.image.createMany({
+  //   data: [...array]
     
-  })
+  // })
+
+  const data = array.forEach(async (item) => {
+    await db.image.create({
+        data: item
+    })
+})
+
 
   console.log(data);
   
