@@ -3,7 +3,7 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
 import { db } from "@/lib/db";
-import { EModalType } from "@/enum/types";
+import { EFetchLabel, EModalType } from "@/enum/types";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   redirect,
@@ -37,19 +37,15 @@ export default function Page() {
   if (status === "unauthenticated") router.push("/login");
   const [data, setData] = useState<TPrestazioneLista[]>([]);
 
-  const { setIdPrestazione, setModalOpen, setModalType } = useStore(
-    (state) => state
-  );
-
-  // const searchParams = useSearchParams();
-  // const pathname = usePathname();
-  // const router = useRouter();
+  const {
+    setIdPrestazione,
+    setModalOpen,
+    setModalType,
+    fetchLabel,
+    setFetchLabel,
+  } = useStore((state) => state);
 
   const handleClick = (type: EModalType) => {
-    // const params = new URLSearchParams(searchParams);
-    // params.set("modalOpen", "true");
-    // params.set("modalType", type);
-    // router.replace(`${pathname}?${params.toString()}`);
     setModalOpen(true);
     setModalType(type);
   };
@@ -109,6 +105,13 @@ export default function Page() {
   useEffect(() => {
     getPrestazioniList().then((data) => setData(data));
   }, []);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_PRESTAZIONI) {
+      getPrestazioniList().then((data) => setData(data));
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, setFetchLabel]);
 
   // const data: TPrestazioneLista[] = await db.prestazioniLista.findMany();
 

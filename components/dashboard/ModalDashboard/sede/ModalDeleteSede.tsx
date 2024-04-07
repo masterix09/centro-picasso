@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
 
@@ -17,7 +18,7 @@ const ModalDeleteSede = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idSede } = useStore((state) => state);
+  const { idSede, setFetchLabel } = useStore((state) => state);
 
   return (
     <AlertDialogContent>
@@ -31,6 +32,7 @@ const ModalDeleteSede = ({
           type="button"
           onClick={() => {
             deleteSedeById(idSede);
+            setFetchLabel(EFetchLabel.LISTA_SEDI);
             handleCloseModal();
           }}
         >

@@ -199,12 +199,14 @@
 // }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("NEXT_PUBLIC_DATABASE_URL")
+  provider     = "sqlite"
+  // url          = env("NEXT_PUBLIC_DATABASE_URL")
+  url          = "file:./dev.db"
   relationMode = "prisma"
 }
 
@@ -318,7 +320,8 @@ model Operatore {
   cognome         String?
   colorAgenda     String?
   prestazione     Prestazione[]
-  note            String?           @db.LongText
+  // note            String?           @db.LongText
+  note            String?
   OperatoreOnSede OperatoreOnSede[]
   noteDashboard   noteDashboard?
 }
@@ -368,9 +371,9 @@ model PianoCura {
 }
 
 model Poltrona {
-  id     String           @id @unique
-  nome   String?
-  colore Poltrona_colore? @default(rosso)
+  id   String  @id @unique
+  nome String?
+  // colore Poltrona_colore? @default(rosso)
 }
 
 model Prestazione {
@@ -418,13 +421,14 @@ model noteDashboard {
   id          String    @id @unique
   nome        String?
   cognome     String?
-  testo       String    @db.LongText
+  // testo       String    @db.LongText
+  testo       String
   oiperatore  Operatore @relation(fields: [operatoreId], references: [id])
   operatoreId String    @unique
 }
 
-enum Poltrona_colore {
-  rosso
-  giallo
-  blu
-}
+// enum Poltrona_colore {
+//   rosso
+//   giallo
+//   blu
+// }

@@ -26,6 +26,7 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   orario: z.string().min(2).max(50),
@@ -36,7 +37,7 @@ const ModalUscita = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idPrestazioneAgenda } = useStore((state) => state);
+  const { idPrestazioneAgenda, setFetchLabel } = useStore((state) => state);
   const [data, setData] = useState<{
     categoria: string | null;
     nome: string | null;
@@ -93,6 +94,7 @@ const ModalUscita = ({
     // ✅ This will be type-safe and validated.
     // console.log(values);
     await setOrarioUscita(values.orario, idPrestazioneAgenda);
+    setFetchLabel(EFetchLabel.LISTA_EVENTI);
     handleCloseModal();
   }
 

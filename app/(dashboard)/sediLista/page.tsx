@@ -3,7 +3,7 @@ import { ESede, TSede, columns } from "./columns";
 import { DataTable } from "../prestazioniLista/data-table";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
 import { db } from "@/lib/db";
-import { EModalType } from "@/enum/types";
+import { EFetchLabel, EModalType } from "@/enum/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { TPrestazioneLista } from "../prestazioniLista/page";
@@ -29,18 +29,9 @@ export default function Page() {
 
   const [data, setData] = useState<TSede[]>([]);
 
-  const { setIdSede, setModalOpen, setModalType } = useStore((state) => state);
-
-  // const searchParams = useSearchParams();
-  // const pathname = usePathname();
-  // const router = useRouter();
-
+  const { setIdSede, setModalOpen, setModalType, setFetchLabel, fetchLabel } =
+    useStore((state) => state);
   const handleClick = (type: EModalType) => {
-    // const params = new URLSearchParams(searchParams);
-    // params.set("modalOpen", "true");
-    // params.set("modalType", type);
-    // router.replace(`${pathname}?${params.toString()}`);
-
     setModalOpen(true);
     setModalType(type);
   };
@@ -83,6 +74,13 @@ export default function Page() {
   useEffect(() => {
     getSede().then((data) => setData(data));
   }, []);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_SEDI) {
+      getSede().then((data) => setData(data));
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, setFetchLabel]);
 
   // const data: TSede[] = await db.sede.findMany();
   return (

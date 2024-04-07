@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { EDOcumenti, SmartTAGPropsDocument } from "@/enum/types";
+import { EDOcumenti, EFetchLabel, SmartTAGPropsDocument } from "@/enum/types";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import TrattamentoDatiPersonali from "../../documenti/PDFDocument/TrattamentoDatiPersonali";
 import ConsensoChirurgia from "../../documenti/PDFDocument/ConsensoChirurgia";
@@ -41,7 +41,7 @@ const CreateDocumento = ({
   //   const idPiano = searchParams.get("idPiano");
   //   const idCliente = searchParams.get("idCliente");
 
-  const { idPiano, idCliente } = useStore((state) => state);
+  const { idPiano, idCliente, setFetchLabel } = useStore((state) => state);
   const { toast } = useToast();
 
   const [modelSelected, setModelSelected] = useState(
@@ -211,6 +211,7 @@ const CreateDocumento = ({
                       title: "Creazione documento con successo.",
                       description: "Creazione documento avvenuta con successo",
                     });
+                    setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
                   } else throw new Error();
                 } catch (error) {
                   toast({

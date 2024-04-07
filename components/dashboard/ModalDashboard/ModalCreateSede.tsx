@@ -19,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createSede } from "@/actions/actions.clinica";
+import { useStore } from "@/store/store";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -29,6 +31,7 @@ const ModalCreateSede = ({
 }: {
   handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,6 +46,7 @@ const ModalCreateSede = ({
     // ✅ This will be type-safe and validated.
     // console.log(values);
     await createSede(values.nome);
+    setFetchLabel(EFetchLabel.LISTA_SEDI);
     handleCloseModal();
   }
 

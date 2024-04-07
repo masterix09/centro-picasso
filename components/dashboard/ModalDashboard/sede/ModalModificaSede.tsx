@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -38,7 +39,7 @@ const ModalModificaSede = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idSede } = useStore((state) => state);
+  const { idSede, setFetchLabel } = useStore((state) => state);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,6 +55,7 @@ const ModalModificaSede = ({
     // ✅ This will be type-safe and validated.
     // console.log(values);
     await updateSede(idSede, values.nome);
+    setFetchLabel(EFetchLabel.LISTA_SEDI);
     handleCloseModal();
   }
 

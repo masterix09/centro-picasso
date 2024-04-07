@@ -11,12 +11,13 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { ESesso, EStatusStepper } from "@/enum/types";
+import { EFetchLabel, ESesso, EStatusStepper } from "@/enum/types";
 import StepperForm, { TStepper } from "../common/StepperForm";
 import AnagraficaPaziente from "./createPaziente/AnagraficaPaziente";
 import DettagliContattoPaziente from "./createPaziente/DettagliContattoPaziente";
 import AltreInfoPaziente from "./createPaziente/AltreInfoPaziente";
 import { onSubmitCreatePaziente } from "@/lib/utils";
+import { useStore } from "@/store/store";
 
 export const formSchemaCreatePaziente = z.object({
   nome: z.string().min(2).max(50),
@@ -45,6 +46,7 @@ const ModalCreatePaziente = ({
 }: {
   handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   const form = useForm<z.infer<typeof formSchemaCreatePaziente>>({
     resolver: zodResolver(formSchemaCreatePaziente),
     defaultValues: {
@@ -70,6 +72,11 @@ const ModalCreatePaziente = ({
     { name: "Step 2", href: "#", status: EStatusStepper.UPCOMING },
     { name: "Step 3", href: "#", status: EStatusStepper.UPCOMING },
   ]);
+
+  const handleSubmit = (values: z.infer<typeof formSchemaCreatePaziente>) => {
+    onSubmitCreatePaziente(values);
+    setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
+  };
 
   return (
     <AlertDialogContent>

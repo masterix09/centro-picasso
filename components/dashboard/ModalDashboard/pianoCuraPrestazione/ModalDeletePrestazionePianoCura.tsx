@@ -28,6 +28,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   orario: z.string().min(2).max(50),
@@ -38,7 +39,7 @@ const ModalDeletePrestazionePianoCura = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idPrestazione } = useStore((state) => state);
+  const { idPrestazione, setFetchLabel } = useStore((state) => state);
   const { toast } = useToast();
 
   return (
@@ -59,6 +60,7 @@ const ModalDeletePrestazionePianoCura = ({
               handleCloseModal();
 
               if (result === "ok") {
+                setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
                 toast({
                   title: "Eliminazione con successo",
                   description: "Prestazione eliminata con successo",

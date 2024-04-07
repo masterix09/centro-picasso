@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "./data-table";
 import { TDocument, columns } from "./columns";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { EModalType } from "@/enum/types";
+import { EFetchLabel, EModalType } from "@/enum/types";
 import { db } from "@/lib/db";
 import { getDocument } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
@@ -63,7 +63,7 @@ export default function Page() {
     },
   ];
 
-  const { idPiano } = useStore((state) => state);
+  const { idPiano, fetchLabel, setFetchLabel } = useStore((state) => state);
   const [data, setData] = useState<TDocument[]>([]);
 
   useEffect(() => {
@@ -71,6 +71,15 @@ export default function Page() {
       getDocument(idPiano).then((data) => setData(data));
     }
   }, [idPiano]);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_DOCUMENTI) {
+      if (idPiano) {
+        getDocument(idPiano).then((data) => setData(data));
+      }
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, idPiano, setFetchLabel]);
 
   return (
     <>

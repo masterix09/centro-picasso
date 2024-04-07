@@ -7,6 +7,7 @@ import { EStatusPrestazione } from "@/types";
 import { format } from "date-fns";
 import { create } from "domain";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { redirect, RedirectType } from "next/navigation";
 import { json } from "stream/consumers";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -60,9 +61,7 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
                 }
             }
         })
-    
-        console.log("prestazioni where id equals to arrayId => ", prestazioni)
-    
+
         const prestazioniAdd = prestazioni.map( (item) => {
             return {
                 id: uuidv4(),
@@ -78,13 +77,15 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
                 sedeId: sede ?? ""
             }
         })
-    
-        await db.prestazione.createMany({
-            data: [...prestazioniAdd],
-          });
+              
+          prestazioniAdd.forEach(async (item) => {
+            await db.prestazione.create({
+                data: item,
+            })
+        })
     
         revalidatePath("/clinica/pianoCura")
-
+        
         return "ok"
         
     } catch (error: any) {
@@ -130,22 +131,29 @@ export async function createOperatore (nome: string, cognome: string, colore: st
         }
     })
 
-   
 
-    await db.operatoreOnSede.createMany({
-        data: [...temp],
-      });
+      temp.forEach(async (item) => {
+        await db.operatoreOnSede.create({
+            data: {
+                operatoreId: item.operatoreId,
+                sedeId: item.sedeId
+            }
+        })
+    })
 
     revalidatePath("/operatoriLista")
 }
 
 export async function getSede () {
-    return await db.sede.findMany({
+    const res =  await db.sede.findMany({
         select: {
             id: true,
             nome: true
         }
     })
+
+    revalidatePath("/sediLista")
+    return res
 
 }
 
@@ -213,11 +221,11 @@ export async function createImage (array: string[], idPiano: string) {
           note: ""
         }
       })
-
-    console.log("id piano => ", idPiano)
-
-    await db.image.createMany({
-        data: [...obj]
+   
+    obj.forEach(async (item) => {
+        await db.image.create({
+            data: item,
+        })
     })
 }
 

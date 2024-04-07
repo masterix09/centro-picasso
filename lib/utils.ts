@@ -1,4 +1,4 @@
-import { addPrestazionePianoCura, createPaziente } from "@/actions/actions.clinica";
+import { addPrestazionePianoCura, createPaziente, getPrestazioniByIdPiano } from "@/actions/actions.clinica";
 import { ERichiamo } from "@/enum/types";
 import useGetSearchParams from "@/utils/useGetSearchParams";
 import { type ClassValue, clsx } from "clsx"
@@ -66,8 +66,6 @@ export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
       dataRichiamo = format(addYears(new Date(), 1), "yyyy-MM-dd")
     }
 
-    console.log("richiamo => ", richiamo)
-    console.log("dataRichiamo => ", dataRichiamo)
 
   createPaziente(
     nome,
@@ -89,6 +87,7 @@ export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
     dataRichiamo,
     professione
   );
+  
 }
 // 2. Define a submit handler.
 export function onSubmitCreatePrestazione(values: z.infer<typeof formSchema >, idPiano: string, idDente: string) {

@@ -6,22 +6,11 @@ import {
 import NavbarClinica from "@/components/dashboard/NavbarClinica";
 import SearchInput from "@/components/dashboard/SearchInput";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { EModalType } from "@/enum/types";
-import { db } from "@/lib/db";
-import { IPaziente, IPianoCura } from "@/types";
-
-import {
-  ActivitySquare,
-  BadgeEuro,
-  FileImage,
-  FilePlus,
-  Heart,
-  ScrollText,
-  UserRoundPlus,
-} from "lucide-react";
+import { EFetchLabel, EModalType } from "@/enum/types";
+import { useStore } from "@/store/store";
+import { IPaziente } from "@/types";
+import { FilePlus, UserRoundPlus } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
@@ -39,6 +28,8 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
       clienteId: string;
     }[]
   >([]);
+
+  const { fetchLabel, setFetchLabel } = useStore((state) => state);
 
   const getNomeCognome = () => {
     const find = users?.find((framework) => framework.id === valuePaziente);
@@ -62,10 +53,28 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_PAZIENTI) {
+      getPazienti().then((data) => setUsers(data));
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, setFetchLabel]);
+
+  useEffect(() => {
     if (valuePaziente !== "") {
       getPianoCuraByIdCliente(valuePaziente).then((data) => setPianoCura(data));
     }
   }, [users, valuePaziente]);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_PIANO_CURA) {
+      if (valuePaziente !== "") {
+        getPianoCuraByIdCliente(valuePaziente).then((data) =>
+          setPianoCura(data)
+        );
+      }
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, setFetchLabel, valuePaziente]);
 
   return (
     <>

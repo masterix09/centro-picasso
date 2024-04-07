@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
 import { ColumnDef } from "@tanstack/react-table";
-import { EModalType } from "@/enum/types";
+import { EFetchLabel, EModalType } from "@/enum/types";
 import {
   Select,
   SelectContent,
@@ -27,19 +27,21 @@ export default function Page() {
   const { data: session, status } = useSession();
 
   if (status === "unauthenticated") redirect("/login");
-  const { idPiano, setIdPrestazione, setModalOpen, setModalType } = useStore(
-    (state) => state
-  );
+  const {
+    idPiano,
+    setIdPrestazione,
+    setModalOpen,
+    setModalType,
+    fetchLabel,
+    setFetchLabel,
+  } = useStore((state) => state);
 
   const [data, setData] = useState<TPrestazione[]>([]);
   const { toast } = useToast();
 
-  // const searchParams = useSearchParams();
-  // const pathname = usePathname();
-  // const router = useRouter();
-
   useEffect(() => {
     if (idPiano) {
+      console.log("normale");
       fetch(`/api/getPrestazione/${idPiano}`, {
         method: "GET",
       })
@@ -48,11 +50,21 @@ export default function Page() {
     }
   }, [idPiano]);
 
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA) {
+      if (idPiano) {
+        console.log("secondo fetch");
+        fetch(`/api/getPrestazione/${idPiano}`, {
+          method: "GET",
+        })
+          .then((data) => data.json())
+          .then((data) => setData(data));
+      }
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, idPiano, setFetchLabel]);
+
   const handleClick = (type: EModalType) => {
-    // const params = new URLSearchParams(searchParams);
-    // params.set("modalOpen", "true");
-    // params.set("modalType", type);
-    // router.replace(`${pathname}?${params.toString()}`);
     setModalOpen(true);
     setModalType(type);
   };
@@ -98,6 +110,7 @@ export default function Page() {
                     description:
                       "Stato della prestazione aggiornato correttamente.",
                   });
+                  setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
                 } else throw new Error();
               } catch (error) {
                 toast({

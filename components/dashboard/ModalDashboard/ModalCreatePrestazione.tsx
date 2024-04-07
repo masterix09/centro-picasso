@@ -1,6 +1,5 @@
 "use client";
 import {
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -13,7 +12,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,6 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createPrestazioneList } from "@/actions/actions.clinica";
+import { useStore } from "@/store/store";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   titolo: z.string().min(2).max(50),
@@ -43,6 +43,7 @@ const ModalCreatePrestazione = ({
 }: {
   handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,6 +69,7 @@ const ModalCreatePrestazione = ({
       values.costoDefault,
       values.costoGentile
     );
+    setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI);
   }
 
   return (

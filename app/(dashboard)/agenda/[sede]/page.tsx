@@ -1,34 +1,15 @@
 "use client";
-import CalendarMonthView from "@/components/dashboard/calendar/CalendarMonthView";
-import CalendarWeekView from "@/components/dashboard/calendar/CalendarWeekView";
-import { ECalendarView, EModalType } from "@/enum/types";
-import {
-  JSXElementConstructor,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useState,
-} from "react";
+import { EFetchLabel, EModalType } from "@/enum/types";
+import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import itLocale from "@fullcalendar/core/locales/it";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { getPrestazioniAgenda } from "@/actions/actions.clinica";
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { TPrestazione } from "../../clinica/pianoCura/columns";
+import { redirect } from "next/navigation";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useStore } from "@/store/store";
@@ -42,23 +23,15 @@ export default function Page({ params }: { params: { sede: string } }) {
 
   if (status === "unauthenticated") redirect("/login");
 
-  // const [view, setView] = useState<ECalendarView>(ECalendarView.WEEK_VIEW);
   const {
-    idPrestazioneAgenda,
     setIdPrestazioneAgenda,
     setModalOpen,
     setModalType,
+    fetchLabel,
+    setFetchLabel,
   } = useStore((state) => state);
 
-  // const searchParams = useSearchParams();
-  // const pathname = usePathname();
-  // const { replace } = useRouter();
-
   const handleClick = (type: EModalType) => {
-    // const params = new URLSearchParams(searchParams);
-    // params.set("modalOpen", "true");
-    // params.set("modalType", type);
-    // replace(`${pathname}?${params.toString()}`);
     setModalOpen(true);
     setModalType(type);
   };
@@ -158,6 +131,18 @@ export default function Page({ params }: { params: { sede: string } }) {
       .then((data) => setData(data))
       .catch((data) => console.log(data));
   }, [params.sede]);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_EVENTI) {
+      fetch(`/api/getAgendaPrestazioni/${params.sede}`, {
+        method: "GET",
+      })
+        .then((data) => data.json())
+        .then((data) => setData(data))
+        .catch((data) => console.log(data));
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, params.sede, setFetchLabel]);
 
   const events: {
     id: string;

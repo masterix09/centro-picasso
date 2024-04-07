@@ -1,5 +1,4 @@
-import { EListino, EModalType } from '@/enum/types'
-import { object } from 'zod'
+import { EFetchLabel, EListino, EModalType } from '@/enum/types'
 import { create } from 'zustand'
 
 interface StateSchema {
@@ -29,6 +28,8 @@ interface StateSchema {
   setListino :  (values: EListino) => void,
   successPrenotazione: boolean
   setSuccessPrenotazione: (value: boolean) => void
+  fetchLabel: EFetchLabel
+  setFetchLabel: (value: EFetchLabel) => void
 }
 
 export const useStore = create<StateSchema>()((set) => ({
@@ -57,6 +58,9 @@ export const useStore = create<StateSchema>()((set) => ({
   setDefaultValues: (value) => set((state) => ({defaultValues: value})),
   setListino: (value) => set((state) => ({listino: value})),
   successPrenotazione: false,
-  setSuccessPrenotazione: (value) => set((state) => ({successPrenotazione: value}))
+  setSuccessPrenotazione: (value) => set((state) => ({successPrenotazione: value})),
+  fetchLabel: EFetchLabel.NULL,
+  setFetchLabel: (value) => set((state) => ({fetchLabel: value})),
+
 }))
 

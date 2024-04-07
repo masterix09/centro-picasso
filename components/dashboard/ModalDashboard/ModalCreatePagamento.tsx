@@ -28,6 +28,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { createPagamento } from "@/actions/actions.clinica";
 import { DayPicker } from "react-day-picker";
+import { useStore } from "@/store/store";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   data: z.date({
@@ -45,6 +47,7 @@ const ModalCreatePagamento = ({
   handleCloseModal: () => void;
   idPiano: string | null;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,6 +62,7 @@ const ModalCreatePagamento = ({
     // ✅ This will be type-safe and validated.
     const data = format(new Date(values.data), "yyyy-MM-dd");
     createPagamento(data, values.importo, values.note, idPiano ?? "");
+    setFetchLabel(EFetchLabel.LISTA_PAGAMENTI);
   }
 
   return (

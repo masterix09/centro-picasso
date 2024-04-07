@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EFetchLabel } from "@/enum/types";
+import { useStore } from "@/store/store";
 import React from "react";
 
 const ModalCreatePianoCura = ({
@@ -17,10 +19,12 @@ const ModalCreatePianoCura = ({
   idCliente: string | null;
   handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   const onSubmit = (formData: FormData) => {
     const titolo = formData.get("titolo");
     console.log("titolo => ", titolo);
     createPianoCura(titolo?.toString() ?? "", idCliente ?? "");
+    setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
   };
 
   return (

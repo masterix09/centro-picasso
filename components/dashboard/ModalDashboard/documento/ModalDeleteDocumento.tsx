@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
 
@@ -18,7 +19,7 @@ const ModalDeleteDocumento = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idDocumento } = useStore((state) => state);
+  const { idDocumento, setFetchLabel } = useStore((state) => state);
   const { toast } = useToast();
 
   return (
@@ -41,6 +42,7 @@ const ModalDeleteDocumento = ({
                   description:
                     "Il tuo documento e' stato eliminato con successo.",
                 });
+                setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
               } else throw new Error();
             } catch (error) {
               toast({

@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MultiSelect } from "../../MultiSelect";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -55,7 +56,7 @@ const ModalModificaOperatore = ({
   });
   const [colore, setColore] = useState(operatore.colore);
 
-  const { idOperatore } = useStore((state) => state);
+  const { idOperatore, setFetchLabel } = useStore((state) => state);
 
   useEffect(() => {
     // Quando il componente si monta, richiama la funzione per ottenere i dati
@@ -85,6 +86,7 @@ const ModalModificaOperatore = ({
     // ✅ This will be type-safe and validated.
     // createOperatore(values.nome, values.cognome, colore, values.sede);
     updateOperatoreById(idOperatore, values.nome, values.cognome, colore);
+    setFetchLabel(EFetchLabel.LISTA_OPERATORI);
     handleCloseModal();
   }
 

@@ -16,7 +16,7 @@ import {
 } from "./columns";
 import { DataTable } from "./data-table";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { EListino, EModalType } from "@/enum/types";
+import { EFetchLabel, EListino, EModalType } from "@/enum/types";
 import { db } from "@/lib/db";
 import SelectListino from "@/components/dashboard/PianoDiCura/preventivo/SelectListino";
 import { useStore } from "@/store/store";
@@ -40,7 +40,9 @@ export default function Page() {
   const { data: session, status } = useSession();
 
   if (status === "unauthenticated") redirect("/login");
-  const { idPiano, listino, setListino } = useStore((state) => state);
+  const { idPiano, listino, setListino, fetchLabel, setFetchLabel } = useStore(
+    (state) => state
+  );
   const [data, setData] = useState<TPrestazionePreventivo[]>([]);
   const [pagamenti, setPagamenti] = useState<TPagamentiPreventivo[]>([]);
   const [pianoCreatedAt, setPianoCreatedAt] = useState<{
@@ -58,6 +60,13 @@ export default function Page() {
       getPianoCuraCreatedDate(idPiano).then((data) => setPianoCreatedAt(data));
     }
   }, [idPiano]);
+
+  useEffect(() => {
+    if (fetchLabel === EFetchLabel.LISTA_PAGAMENTI) {
+      getPagamentiByIdPiano(idPiano).then((data) => setPagamenti(data));
+      setFetchLabel(EFetchLabel.NULL);
+    }
+  }, [fetchLabel, idPiano, setFetchLabel]);
 
   const calculateTotale = () => {
     let costo: number = 0;
