@@ -76,6 +76,7 @@ const ModalCreatePaziente = ({
   const handleSubmit = (values: z.infer<typeof formSchemaCreatePaziente>) => {
     onSubmitCreatePaziente(values);
     setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
+    handleCloseModal();
   };
 
   return (
@@ -88,7 +89,7 @@ const ModalCreatePaziente = ({
         setStepper={setStepper}
         form={form}
         formSchema={formSchemaCreatePaziente}
-        submitMethod={onSubmitCreatePaziente}
+        submitMethod={handleSubmit}
       >
         {stepper.at(0)?.status === EStatusStepper.CURRENT && (
           <AnagraficaPaziente form={form} />

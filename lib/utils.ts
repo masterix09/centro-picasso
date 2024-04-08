@@ -1,4 +1,5 @@
 import { addPrestazionePianoCura, createPaziente, getPrestazioniByIdPiano } from "@/actions/actions.clinica";
+import { toast } from "@/components/ui/use-toast";
 import { ERichiamo } from "@/enum/types";
 import useGetSearchParams from "@/utils/useGetSearchParams";
 import { type ClassValue, clsx } from "clsx"
@@ -21,7 +22,7 @@ const formSchema: z.ZodObject<any, z.UnknownKeysParam, z.ZodTypeAny, {
 
 
 // 2. Define a submit handler.
-export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
+export async function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
   // Do something with the form values.
   // ✅ This will be type-safe and validated.
   // console.log(values);
@@ -67,7 +68,7 @@ export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
     }
 
 
-  createPaziente(
+  const res = await createPaziente(
     nome,
     cognome,
     data,
@@ -87,6 +88,21 @@ export function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
     dataRichiamo,
     professione
   );
+
+  if(res === "ok") {
+    toast({
+      title: "Paziente creato.",
+      description:
+        "Paziente creato correttamente.",
+    });
+  } else {
+    toast({
+      variant: "destructive",
+      title: "Uh Oh! Errore nella creazione.",
+      description:
+        "Errore nella creazione del paziente. Riprova",
+    });
+  }
   
 }
 // 2. Define a submit handler.

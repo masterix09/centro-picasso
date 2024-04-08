@@ -33,17 +33,25 @@ export async function getPrestazioniAgenda() {
 }
 
 export async function createPianoCura (titolo: string, clienteId: string) {
-    await db.pianoCura.create({
-        data: {
-            titolo,
-            id: uuidv4(),
-        clienteId: clienteId,
-           
-        }
-    })
 
-    // revalidatePath("/clinica/pianoCura")
-    revalidateTag("/clinica/pianoCura")
+    try {
+        await db.pianoCura.create({
+            data: {
+                titolo,
+                id: uuidv4(),
+            clienteId: clienteId,
+               
+            }
+        })
+    
+        // revalidatePath("/clinica/pianoCura")
+        revalidateTag("/clinica/pianoCura")
+
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
 }
 
 export async function getPrestazioniList () {
@@ -96,52 +104,70 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
 }
 
 export async function createPrestazioneList (titolo: string, categoria: string, forWho: string, costoDefault: number, costoGentile: number) {
-    await db.prestazioniLista.create({
-        data: {
-            id: uuidv4(),
-            nome: titolo,
-            categoria,
-            forWho,
-            costoGentile,
-            costoDefault,
-        }
-    })
+    
+    try {
+        await db.prestazioniLista.create({
+            data: {
+                id: uuidv4(),
+                nome: titolo,
+                categoria,
+                forWho,
+                costoGentile,
+                costoDefault,
+            }
+        })
+    
+        revalidatePath("/prestazioniLista")
 
-    revalidatePath("/prestazioniLista")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
 }
 
 
 export async function createOperatore (nome: string, cognome: string, colore: string, sede: string[]) {
 
-    const idOperatore = uuidv4();
+    
+    try {
+        const idOperatore = uuidv4();
 
-    await db.operatore.create({
-        data: {
-            id: idOperatore,
-            nome,
-            cognome,
-            colorAgenda: colore,
-        }
-    })
-
-    const temp = sede.map( (item) => {
-        return {
-            operatoreId: idOperatore,
-            sedeId: item,
-        }
-    })
-
-
-      temp.forEach(async (item) => {
-        await db.operatoreOnSede.create({
+        await db.operatore.create({
             data: {
-                operatoreId: item.operatoreId,
-                sedeId: item.sedeId
+                id: idOperatore,
+                nome,
+                cognome,
+                colorAgenda: colore,
             }
         })
-    })
+    
+        const temp = sede.map( (item) => {
+            return {
+                operatoreId: idOperatore,
+                sedeId: item,
+            }
+        })
+    
+    
+          temp.forEach(async (item) => {
+            await db.operatoreOnSede.create({
+                data: {
+                    operatoreId: item.operatoreId,
+                    sedeId: item.sedeId
+                }
+            })
+        })
+    
+        revalidatePath("/operatoriLista")
 
-    revalidatePath("/operatoriLista")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+   
 }
 
 export async function getSede () {
@@ -169,45 +195,59 @@ export async function createSede (nome: string) {
 }
 
 export async function createPagamento (data: string, importo: number, note: string, idPiano: string) {
-    await db.pagamenti.create({
-        data: {
-            id: uuidv4(),
-            createdAt: data,
-            importo: importo,
-            note,
-            pianoCuraId: idPiano
-        }
-    })
-
-    revalidatePath("/clinica/preventivo")
+    
+    try {
+        await db.pagamenti.create({
+            data: {
+                id: uuidv4(),
+                createdAt: data,
+                importo: importo,
+                note,
+                pianoCuraId: idPiano
+            }
+        })
+    
+        revalidatePath("/clinica/preventivo")
+        return "ok"   
+    } catch (error: any) {
+        return error.toString()
+    }
 }
 
 export async function createPaziente (nome: string, cognome: string, dataNascita: string, sesso: string, cf: string, straniero: boolean, luogoNascita: string, indirizzo: string, cap: string, citta: string, telefono: string, email: string, cellulare: string, motivo: string, listino: string, richiamo: string, dataRichiamo: string, professione: string) {
-    await db.cliente.create({
-        data: {
-            id: uuidv4(),
-            CAP: cap,
-            cellulare,
-            citta,
-            codice_fiscale: cf,
-            cognome,
-            data_nascita: dataNascita,
-            data_richiamo: dataRichiamo,
-            email,
-            indirizzo,
-            Listino: listino,
-            luogo_nascita: luogoNascita,
-            Motivo: motivo,
-            nome,
-            Professione: professione,
-            Richiamo: richiamo,
-            sesso,
-            straniero: straniero,
-            Telefono: telefono,
-        }
-    })
-
+    
+    try {
+        await db.cliente.create({
+            data: {
+                id: uuidv4(),
+                CAP: cap,
+                cellulare,
+                citta,
+                codice_fiscale: cf,
+                cognome,
+                data_nascita: dataNascita,
+                data_richiamo: dataRichiamo,
+                email,
+                indirizzo,
+                Listino: listino,
+                luogo_nascita: luogoNascita,
+                Motivo: motivo,
+                nome,
+                Professione: professione,
+                Richiamo: richiamo,
+                sesso,
+                straniero: straniero,
+                Telefono: telefono,
+            }
+        })
     revalidatePath("/clinica", "layout")
+    return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
+
 
 }
 
@@ -427,11 +467,22 @@ export async function getDataAppuntamentoPrestazioneById (idPrestazione: string)
 }
 
 export async function deleteOperatoreById (idOperatore: string) {
-    await db.operatore.delete({
-        where: {
-            id: idOperatore
-        }
-    })
+    
+    try {
+
+        await db.operatore.delete({
+            where: {
+                id: idOperatore
+            }
+        })
+
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
 }
 
 export async function getOperatoreById (idOperatore: string) {
@@ -484,11 +535,19 @@ export async function deletePrestazioneById (idPrestazione: string) {
 }
 
 export async function deleteSedeById (idSede: string) {
-    await db.sede.delete({
-        where: {
-            id: idSede
-        }
-    })
+    
+    try {
+        await db.sede.delete({
+            where: {
+                id: idSede
+            }
+        })
+
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
 }
 
 
@@ -519,31 +578,47 @@ export async function getSedeById (idSede : string) {
 
 
 export async function updateSede (idSedeVecchio: string, idSedeNuovo: string) {
-    await db.sede.update({
-        where: {
-            id: idSedeVecchio,
-        },
-        data: {
-            nome: idSedeNuovo,
-            id: idSedeNuovo
-        }
-    })
+
+    try {
+        await db.sede.update({
+            where: {
+                id: idSedeVecchio,
+            },
+            data: {
+                nome: idSedeNuovo,
+                id: idSedeNuovo
+            }
+        })
+        
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
 }
 
 export async function updateOperatoreById (idOperatore: string, nome: string, cognome: string, colore: string) {
 
-   await db.operatore.update({
-    where: {
-        id: idOperatore
-    },
-    data: {
-        cognome,
-        nome,
-        colorAgenda: colore
-    }
-   })
+   
+   try {
+    await db.operatore.update({
+        where: {
+            id: idOperatore
+        },
+        data: {
+            cognome,
+            nome,
+            colorAgenda: colore
+        }
+       })
+    
+       revalidatePath("/operatoriLista")
 
-   revalidatePath("/operatoriLista")
+       return "ok"
+   } catch (error: any) {
+    return error.toString()
+   }
+    
 }
 
 
@@ -563,18 +638,28 @@ export async function getPrestzioneListaById (idPrestazione: string) {
 }
 
 export async function updatePrestazioneLista (idPrestazione: string, categoria: string, nome: string, costoDefault: number, costoGentile: number, forWho: string) {
-    await db.prestazioniLista.update({
-        where: {
-            id: idPrestazione
-        },
-        data: {
-            categoria,
-            costoDefault,
-            costoGentile,
-            forWho,
-            nome
-        }
-    })
+    
+    try {
+        await db.prestazioniLista.update({
+            where: {
+                id: idPrestazione
+            },
+            data: {
+                categoria,
+                costoDefault,
+                costoGentile,
+                forWho,
+                nome
+            }
+        })
+
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
 }
 
 export async function getPianoCuraCreatedDate (idPianoCura: string) {

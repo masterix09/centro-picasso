@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EFetchLabel } from "@/enum/types";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -54,7 +55,19 @@ const ModalModificaSede = ({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // console.log(values);
-    await updateSede(idSede, values.nome);
+    const res = await updateSede(idSede, values.nome);
+    if (res === "ok") {
+      toast({
+        title: "Modifica sede.",
+        description: "Sede modificata correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella modifica.",
+        description: "Errore nella modifica della sede. Riprova",
+      });
+    }
     setFetchLabel(EFetchLabel.LISTA_SEDI);
     handleCloseModal();
   }

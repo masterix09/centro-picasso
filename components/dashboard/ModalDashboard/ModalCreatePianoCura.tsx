@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
@@ -20,11 +21,27 @@ const ModalCreatePianoCura = ({
   handleCloseModal: () => void;
 }) => {
   const { setFetchLabel } = useStore((state) => state);
-  const onSubmit = (formData: FormData) => {
+  const onSubmit = async (formData: FormData) => {
     const titolo = formData.get("titolo");
-    console.log("titolo => ", titolo);
-    createPianoCura(titolo?.toString() ?? "", idCliente ?? "");
+    const res = await createPianoCura(
+      titolo?.toString() ?? "",
+      idCliente ?? ""
+    );
+
+    if (res === "ok") {
+      toast({
+        title: "Piano cura creato.",
+        description: "Piano cura creato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione del piano cura. Riprova",
+      });
+    }
     setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
+    handleCloseModal();
   };
 
   return (
@@ -41,7 +58,6 @@ const ModalCreatePianoCura = ({
             id="titolo"
             placeholder="nome piano di cura"
           />
-          {/* <Button type="submit">Invia</Button> */}
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCloseModal}>
               Cancel

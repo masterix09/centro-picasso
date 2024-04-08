@@ -30,6 +30,7 @@ import { createPagamento } from "@/actions/actions.clinica";
 import { DayPicker } from "react-day-picker";
 import { useStore } from "@/store/store";
 import { EFetchLabel } from "@/enum/types";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   data: z.date({
@@ -57,11 +58,29 @@ const ModalCreatePagamento = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const data = format(new Date(values.data), "yyyy-MM-dd");
-    createPagamento(data, values.importo, values.note, idPiano ?? "");
+    const res = await createPagamento(
+      data,
+      values.importo,
+      values.note,
+      idPiano ?? ""
+    );
+    if (res === "ok") {
+      toast({
+        title: "Paziente creato.",
+        description: "Paziente creato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione del paziente. Riprova",
+      });
+    }
+    handleCloseModal();
     setFetchLabel(EFetchLabel.LISTA_PAGAMENTI);
   }
 

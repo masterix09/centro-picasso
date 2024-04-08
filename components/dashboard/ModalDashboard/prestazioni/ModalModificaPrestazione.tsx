@@ -34,6 +34,8 @@ import {
   updatePrestazioneLista,
 } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
+import { toast } from "@/components/ui/use-toast";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -62,7 +64,7 @@ const ModalModificaPrestazione = ({
     nome: "",
   });
 
-  const { idPrestazione } = useStore((state) => state);
+  const { idPrestazione, setFetchLabel } = useStore((state) => state);
 
   useEffect(() => {
     getPrestzioneListaById(idPrestazione).then((data) => setPrestazione(data));
@@ -88,11 +90,11 @@ const ModalModificaPrestazione = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
-    updatePrestazioneLista(
+
+    const res = await updatePrestazioneLista(
       idPrestazione,
       values.categoria,
       values.nome,
@@ -100,6 +102,19 @@ const ModalModificaPrestazione = ({
       values.costoGentile,
       values.forWho
     );
+    if (res === "ok") {
+      toast({
+        title: "Modifica prestazione.",
+        description: "Prestazione modificata correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella modifica.",
+        description: "Errore nella modifica della prestazione. Riprova",
+      });
+    }
+    setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI);
     handleCloseModal();
   }
 

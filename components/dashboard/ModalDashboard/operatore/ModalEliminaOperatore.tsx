@@ -7,6 +7,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
@@ -28,8 +29,21 @@ const ModalEliminaOperatore = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
-          onClick={() => {
-            deleteOperatoreById(idOperatore);
+          onClick={async () => {
+            const res = await deleteOperatoreById(idOperatore);
+            if (res === "ok") {
+              toast({
+                title: "Eliminazione operatore.",
+                description: "Operatore eliminato correttamente.",
+              });
+            } else {
+              toast({
+                variant: "destructive",
+                title: "Uh Oh! Errore nell eliminazione.",
+                description:
+                  "Errore nella eliminazione dell operatore. Riprova",
+              });
+            }
             setFetchLabel(EFetchLabel.LISTA_OPERATORI);
             handleCloseModal();
           }}

@@ -24,6 +24,9 @@ import { createOperatore, getSede } from "@/actions/actions.clinica";
 import { TagInput } from "../TagInput";
 import { MultiSelect, OptionType } from "../MultiSelect";
 import { json } from "stream/consumers";
+import { toast } from "@/components/ui/use-toast";
+import { useStore } from "@/store/store";
+import { EFetchLabel } from "@/enum/types";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -37,6 +40,7 @@ const ModalCreateOperatore = ({
 }: {
   handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore((state) => state);
   const [colore, setColore] = useState("red");
   const [sede, setSede] = useState<{ id: string; nome: string }[]>([]);
 
@@ -51,11 +55,29 @@ const ModalCreateOperatore = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    createOperatore(values.nome, values.cognome, colore, values.sede);
-    // console.log(values);
+    const res = await createOperatore(
+      values.nome,
+      values.cognome,
+      colore,
+      values.sede
+    );
+    if (res === "ok") {
+      toast({
+        title: "Creazione operatore.",
+        description: "Operatore creato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione dell operatore. Riprova",
+      });
+    }
+    setFetchLabel(EFetchLabel.LISTA_OPERATORI);
+    handleCloseModal();
   }
 
   useEffect(() => {

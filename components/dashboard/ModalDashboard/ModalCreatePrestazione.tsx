@@ -29,6 +29,7 @@ import {
 import { createPrestazioneList } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
 import { EFetchLabel } from "@/enum/types";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   titolo: z.string().min(2).max(50),
@@ -57,19 +58,31 @@ const ModalCreatePrestazione = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
 
-    createPrestazioneList(
+    const res = await createPrestazioneList(
       values.titolo,
       values.categoria,
       values.forWho,
       values.costoDefault,
       values.costoGentile
     );
+    if (res === "ok") {
+      toast({
+        title: "Creazione prestazione.",
+        description: "Prestazione creata correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione della prestazione. Riprova",
+      });
+    }
     setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI);
+    handleCloseModal();
   }
 
   return (

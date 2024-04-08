@@ -29,6 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MultiSelect } from "../../MultiSelect";
 import { EFetchLabel } from "@/enum/types";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -81,11 +82,28 @@ const ModalModificaOperatore = ({
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    // createOperatore(values.nome, values.cognome, colore, values.sede);
-    updateOperatoreById(idOperatore, values.nome, values.cognome, colore);
+
+    const res = await updateOperatoreById(
+      idOperatore,
+      values.nome,
+      values.cognome,
+      colore
+    );
+    if (res === "ok") {
+      toast({
+        title: "Modifica operatore.",
+        description: "Operatore modificato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella modifica.",
+        description: "Errore nella modifica dell operatore. Riprova",
+      });
+    }
     setFetchLabel(EFetchLabel.LISTA_OPERATORI);
     handleCloseModal();
   }

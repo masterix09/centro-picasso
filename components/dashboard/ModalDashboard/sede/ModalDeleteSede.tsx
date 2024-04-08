@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
@@ -30,8 +31,20 @@ const ModalDeleteSede = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
-          onClick={() => {
-            deleteSedeById(idSede);
+          onClick={async () => {
+            const res = await deleteSedeById(idSede);
+            if (res === "ok") {
+              toast({
+                title: "Eliminazione sede.",
+                description: "Sede eliminata correttamente.",
+              });
+            } else {
+              toast({
+                variant: "destructive",
+                title: "Uh Oh! Errore nell eliminazione.",
+                description: "Errore nella eliminazione della sede. Riprova",
+              });
+            }
             setFetchLabel(EFetchLabel.LISTA_SEDI);
             handleCloseModal();
           }}
