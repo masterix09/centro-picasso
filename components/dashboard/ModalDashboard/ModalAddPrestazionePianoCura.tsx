@@ -42,27 +42,10 @@ const ModalAddPrestazionePianoCura = ({
       prestazioni: [],
     },
   });
-  const [data, setData] = useState<TPrestazioneLista[]>([]);
-  const [sede, setSede] = useState<{ id: string; nome: string }[]>([]);
+
   const [prestazioni, setPrestazioni] = useState<TPrestazioneLista[]>([]);
 
   const { idPiano, idDente } = useStore((state) => state);
-
-  useEffect(() => {
-    fetch("/api/getPrestazioniList/", {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setData(data));
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/getSede", {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setSede(data));
-  }, []);
 
   const addPrestazione = (value: CheckedState, item: TPrestazioneLista) => {
     if (value === true) {

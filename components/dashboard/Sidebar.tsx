@@ -199,7 +199,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                   </li>
                   <li className="ps-3">
                     <a
-                      href="/agenda/Aversa"
+                      href="/agenda/aversa"
                       className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                     >
                       <svg

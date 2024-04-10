@@ -17,7 +17,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { EStatusPrestazione } from "@/types";
-import { updateStatusPrestazione } from "@/actions/actions.clinica";
+import {
+  getPrestazioniByIdPiano,
+  updateStatusPrestazione,
+} from "@/actions/actions.clinica";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -36,29 +39,27 @@ export default function Page() {
     setFetchLabel,
   } = useStore((state) => state);
 
-  const [data, setData] = useState<TPrestazione[]>([]);
+  const [data, setData] = useState<
+    {
+      status: string | null;
+      id: string;
+      nome: string | null;
+      categoria: string | null;
+      denteId: string | null;
+      costoDefault: number | null;
+      costoGentile: number | null;
+    }[]
+  >([]);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (idPiano) {
-      console.log("normale");
-      fetch(`/api/getPrestazione/${idPiano}`, {
-        method: "GET",
-      })
-        .then((data) => data.json())
-        .then((data) => setData(data));
-    }
+    getPrestazioniByIdPiano(idPiano).then((data) => setData(data));
   }, [idPiano]);
 
   useEffect(() => {
     if (fetchLabel === EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA) {
       if (idPiano) {
-        console.log("secondo fetch");
-        fetch(`/api/getPrestazione/${idPiano}`, {
-          method: "GET",
-        })
-          .then((data) => data.json())
-          .then((data) => setData(data));
+        getPrestazioniByIdPiano(idPiano).then((data) => setData(data));
       }
       setFetchLabel(EFetchLabel.NULL);
     }
@@ -79,7 +80,15 @@ export default function Page() {
     status: string;
   };
 
-  const columns: ColumnDef<TPrestazione>[] = [
+  const columns: ColumnDef<{
+    status: string | null;
+    id: string;
+    nome: string | null;
+    categoria: string | null;
+    denteId: string | null;
+    costoDefault: number | null;
+    costoGentile: number | null;
+  }>[] = [
     {
       accessorKey: "nome",
       header: "Prestazione",

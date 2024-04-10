@@ -13,7 +13,7 @@ import {
 } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useStore } from "@/store/store";
-import { getPrestazioniList } from "@/actions/actions.clinica";
+import { getPrestazioniListInPage } from "@/actions/actions.clinica";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 
@@ -103,12 +103,12 @@ export default function Page() {
   ];
 
   useEffect(() => {
-    getPrestazioniList().then((data) => setData(data));
+    getPrestazioniListInPage().then((data) => setData(data));
   }, []);
 
   useEffect(() => {
     if (fetchLabel === EFetchLabel.LISTA_PRESTAZIONI) {
-      getPrestazioniList().then((data) => setData(data));
+      getPrestazioniListInPage().then((data) => setData(data));
       setFetchLabel(EFetchLabel.NULL);
     }
   }, [fetchLabel, setFetchLabel]);

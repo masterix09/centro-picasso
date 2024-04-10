@@ -30,6 +30,10 @@ import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { TimePickerDemo } from "./time-picker-demo";
 import { Input } from "@/components/ui/input";
+import {
+  getOperatoreByIdSede,
+  getSedeInModalCreate,
+} from "@/actions/actions.clinica";
 
 const AppuntamentoPrestazione = ({
   form,
@@ -60,20 +64,12 @@ const AppuntamentoPrestazione = ({
   >([]);
 
   useEffect(() => {
-    fetch("/api/getSede", {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setSede(data));
+    getSedeInModalCreate().then((data) => setSede(data));
   }, []);
 
   const watchSede = form.watch("sede");
   useEffect(() => {
-    fetch(`/api/getOperatoriBySede/${watchSede}`, {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setOperatori(data));
+    getOperatoreByIdSede(watchSede).then((data) => setOperatori(data));
   }, [watchSede]);
 
   return (

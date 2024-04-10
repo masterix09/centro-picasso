@@ -1,3 +1,4 @@
+import { getPrestazioniList } from "@/actions/actions.clinica";
 import { TPrestazioneLista } from "@/app/(dashboard)/prestazioniLista/page";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -29,13 +30,8 @@ const AggiungiPrestazione = ({
   const [categoria, setCategoria] = useState<string>("");
 
   useEffect(() => {
-    fetch("/api/getPrestazioniList/", {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setData(data));
+    getPrestazioniList().then((data) => setData(data));
   }, []);
-
   const addPrestazione = (value: CheckedState, item: TPrestazioneLista) => {
     if (value === true) {
       setPrestazioni([...prestazioni, item]);

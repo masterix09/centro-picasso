@@ -15,6 +15,10 @@ import {
 import { useStore } from "@/store/store";
 import { EventContentArg } from "@fullcalendar/core/index.js";
 import { useSession } from "next-auth/react";
+import {
+  getPrestazioneAgendaById,
+  getPrestazioniAgenda,
+} from "@/actions/actions.clinica";
 
 export const dynamic = "force-dynamic";
 
@@ -124,22 +128,12 @@ export default function Page({ params }: { params: { sede: string } }) {
   >([]);
 
   useEffect(() => {
-    fetch(`/api/getAgendaPrestazioni/${params.sede}`, {
-      method: "GET",
-    })
-      .then((data) => data.json())
-      .then((data) => setData(data))
-      .catch((data) => console.log(data));
+    getPrestazioniAgenda(params.sede).then((data) => setData(data));
   }, [params.sede]);
 
   useEffect(() => {
     if (fetchLabel === EFetchLabel.LISTA_EVENTI) {
-      fetch(`/api/getAgendaPrestazioni/${params.sede}`, {
-        method: "GET",
-      })
-        .then((data) => data.json())
-        .then((data) => setData(data))
-        .catch((data) => console.log(data));
+      getPrestazioniAgenda(params.sede).then((data) => setData(data));
       setFetchLabel(EFetchLabel.NULL);
     }
   }, [fetchLabel, params.sede, setFetchLabel]);

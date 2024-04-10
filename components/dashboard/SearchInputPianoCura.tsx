@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Check, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -60,14 +60,6 @@ const SearchInput = ({
     const find = items?.find((framework) => framework.id === value);
     return `${find?.cognome} ${find?.nome}`;
   };
-
-  React.useEffect(() => {
-    try {
-      const response = fetch(`/api/getPianoCura/${value}`, {
-        method: "GET",
-      });
-    } catch (error) {}
-  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

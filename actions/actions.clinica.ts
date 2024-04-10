@@ -15,21 +15,37 @@ export async function getPazienti () {
     return await db.cliente.findMany()
 }
 
-export async function getPrestazioniAgenda() {
-    return db.prestazione.findMany({
-        include: {
-            pianoCura: {
-                include: {
-                    cliente: {
-                        select: {
-                            nome: true,
-                            cognome: true
-                        }
-                    }
-                }
+export async function getPrestazioniAgenda(idSede: string) {
+    revalidatePath("/agenda")
+    return await db.prestazione.findMany({
+        where: {
+          sedeId: idSede,
+        },
+        select: {
+          id: true,
+          nome: true,
+          start: true,
+          end: true,
+          ora_arrivo: true,
+          ora_saluta: true,
+          data_appuntamento: true,
+          operatore: {
+            select: {
+              id: true,
+              colorAgenda: true,
             }
+          },
+          pianoCura: {
+            select: {
+              cliente: {
+                select: {
+                  nome: true, cognome: true
+                }
+              }
+            }
+          }
         }
-      });
+      })
 }
 
 export async function createPianoCura (titolo: string, clienteId: string) {
@@ -55,7 +71,15 @@ export async function createPianoCura (titolo: string, clienteId: string) {
 }
 
 export async function getPrestazioniList () {
+    revalidatePath("/clinina/pianoCura")
     return await db.prestazioniLista.findMany();
+
+}
+
+export async function getPrestazioniListInPage () {
+    revalidatePath("/prestazioniLista")
+    return await db.prestazioniLista.findMany();
+
 }
 
 export async function addPrestazionePianoCura (array: string[], idPiano: string, idDente: string, sede: string, operatoreId: string) {
@@ -179,6 +203,19 @@ export async function getSede () {
     })
 
     revalidatePath("/sediLista")
+    return res
+
+}
+
+export async function getSedeInModalCreate () {
+    const res =  await db.sede.findMany({
+        select: {
+            id: true,
+            nome: true
+        }
+    })
+
+    revalidatePath("/clinica/pianoCura")
     return res
 
 }
@@ -485,6 +522,42 @@ export async function deleteOperatoreById (idOperatore: string) {
     
 }
 
+
+export async function getOperatoreByIdSede (idSede: string) {
+    revalidatePath("/clinica/pianoCura")
+    return await db.operatoreOnSede.findMany({
+        where: {
+          sede : {
+            nome: idSede
+          }
+        },
+        select: {
+          operatore: {
+            select: {
+              id: true,
+              cognome: true,
+              nome: true,
+            },
+          },
+        },
+      });
+}
+
+export async function getInfoPazienteById (idPaziente: string) {
+    revalidatePath("/clinica/pianoCura")
+    return await db.cliente.findFirst({
+        where: {
+          id: idPaziente
+        },
+        select: {
+    id: true,
+          nome: true,
+          cognome: true,
+          codice_fiscale: true
+        }
+      })
+}
+
 export async function getOperatoreById (idOperatore: string) {
     
 
@@ -683,6 +756,7 @@ export async function getPianoCuraCreatedDate (idPianoCura: string) {
 
 
 export async function getPianoCuraByIdCliente (idCliente: string) {
+    revalidatePath("/clinica")
     return await db.pianoCura.findMany({
         where: {
           clienteId: idCliente

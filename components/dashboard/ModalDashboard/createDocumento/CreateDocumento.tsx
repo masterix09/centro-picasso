@@ -18,7 +18,10 @@ import ConsensoTerzoMolare from "../../documenti/PDFDocument/ConsensoTerzoMolare
 import ConsensoEndodonzia from "../../documenti/PDFDocument/ConsensoEndodonzia";
 import ConsensoCBCT from "../../documenti/PDFDocument/ConsensoCBCT";
 import ConsensoAllineatori from "../../documenti/PDFDocument/ConsensoAllineatori";
-import { createDocumento } from "@/actions/actions.clinica";
+import {
+  createDocumento,
+  getInfoPazienteById,
+} from "@/actions/actions.clinica";
 import { useSearchParams } from "next/navigation";
 import {
   Select,
@@ -55,10 +58,10 @@ const CreateDocumento = ({
 
   const [user, setUser] = useState<{
     id: string;
-    nome: string;
-    cognome: string;
-    codice_fiscale: string;
-  }>({
+    nome: string | null;
+    cognome: string | null;
+    codice_fiscale: string | null;
+  } | null>({
     codice_fiscale: "",
     cognome: "",
     id: "",
@@ -66,22 +69,16 @@ const CreateDocumento = ({
   });
 
   useEffect(() => {
-    if (idCliente) {
-      fetch(`/api/getInfoPaziente/${idCliente}`, {
-        method: "GET",
-      })
-        .then((data) => data.json())
-        .then((data) => setUser(data));
-    }
+    getInfoPazienteById(idCliente).then((data) => setUser(data));
   }, [idCliente]);
 
   const document = useMemo(() => {
     if (modelSelected === EDOcumenti["Trattamento dati personali"])
       return (
         <TrattamentoDatiPersonali
-          nome={user.nome}
-          cf={user.codice_fiscale}
-          cognome={user.cognome}
+          nome={user?.nome ?? ""}
+          cf={user?.codice_fiscale ?? ""}
+          cognome={user?.cognome ?? ""}
         />
       );
 
@@ -89,41 +86,56 @@ const CreateDocumento = ({
       return (
         <ConsensoChirurgia
           description={description}
-          cognome={user.cognome}
-          nome={user.nome}
+          cognome={user?.cognome ?? ""}
+          nome={user?.nome ?? ""}
         />
       );
 
     if (modelSelected === EDOcumenti["Istruzioni post chirurgia"])
       return (
-        <IstruzioniPostChirurgia cognome={user.cognome} nome={user.nome} />
+        <IstruzioniPostChirurgia
+          cognome={user?.cognome ?? ""}
+          nome={user?.nome ?? ""}
+        />
       );
 
     if (modelSelected === EDOcumenti["Consenso terzo molare"])
-      return <ConsensoTerzoMolare cognome={user.cognome} nome={user.nome} />;
+      return (
+        <ConsensoTerzoMolare
+          cognome={user?.cognome ?? ""}
+          nome={user?.nome ?? ""}
+        />
+      );
 
     if (modelSelected === EDOcumenti["Consenso endodenzia"])
-      return <ConsensoEndodonzia cognome={user.cognome} nome={user.nome} />;
+      return (
+        <ConsensoEndodonzia
+          cognome={user?.cognome ?? ""}
+          nome={user?.nome ?? ""}
+        />
+      );
 
     if (modelSelected === EDOcumenti["Consesno CBCT"])
-      return <ConsensoCBCT cognome={user.cognome} nome={user.nome} />;
+      return (
+        <ConsensoCBCT cognome={user?.cognome ?? ""} nome={user?.nome ?? ""} />
+      );
 
     if (modelSelected === EDOcumenti["Consenso allineatori"])
       return <ConsensoAllineatori />;
 
     return (
       <TrattamentoDatiPersonali
-        cognome={user.cognome}
-        nome={user.nome}
-        cf={user.codice_fiscale}
+        cognome={user?.cognome ?? ""}
+        nome={user?.nome ?? ""}
+        cf={user?.codice_fiscale ?? ""}
       />
     );
   }, [
     description,
     modelSelected,
-    user.codice_fiscale,
-    user.cognome,
-    user.nome,
+    user?.codice_fiscale,
+    user?.cognome,
+    user?.nome,
   ]);
   const result = (Object.keys(EDOcumenti) as (keyof typeof EDOcumenti)[]).map(
     (key) => {
@@ -201,7 +213,7 @@ const CreateDocumento = ({
         {modelSelected && idCliente && idPiano && (
           <PDFDownloadLink
             document={document}
-            fileName={`${user.nome}_${user.cognome}_${modelSelected}`}
+            fileName={`${user?.nome}_${user?.cognome}_${modelSelected}`}
             onClick={async () => {
               if (idPiano) {
                 try {
