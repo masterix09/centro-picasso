@@ -18,7 +18,12 @@ import { useSession } from "next-auth/react";
 import {
   getPrestazioneAgendaById,
   getPrestazioniAgenda,
+  setOrarioArrivo,
+  setOrarioUscita,
 } from "@/actions/actions.clinica";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -60,8 +65,8 @@ export default function Page({ params }: { params: { sede: string } }) {
 
   const renderEventContent = (eventContent: EventContentArg) => {
     return (
-      <ContextMenu>
-        <ContextMenuTrigger>
+      <Dialog>
+        <DialogTrigger asChild>
           <div
             className={`rounded text-white shadow w-full h-full flex overflow-hidden gap-5 px-2`}
             style={{
@@ -71,34 +76,72 @@ export default function Page({ params }: { params: { sede: string } }) {
             <i className="text-xs">{eventContent.event.title}</i>
             <b className="text-xs">{eventContent.timeText}</b>
           </div>
-        </ContextMenuTrigger>
-        <ContextMenuContent className="w-64">
-          <ContextMenuItem
+        </DialogTrigger>
+        <DialogContent className="p-5">
+          <Button
             onClick={() => {
               setIdPrestazioneAgenda(eventContent.event.id);
               handleClick(EModalType.DETTAGLIO_EVENTO);
             }}
           >
             Guarda dettaglio
-          </ContextMenuItem>
-          <ContextMenuItem
-            onClick={() => {
+          </Button>
+          <Button
+            onClick={async () => {
               setIdPrestazioneAgenda(eventContent.event.id);
-              handleClick(EModalType.ORA_ARRIVO);
+              const res = await setOrarioArrivo(
+                `${new Date().getHours()}:${new Date().getMinutes()}`,
+                eventContent.event.id
+              );
+              if (res === "ok") {
+                toast({
+                  title: "Orario impostato.",
+                  description:
+                    "Orario arrivo paziente impostato correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell impostazione dell orario.",
+                  description:
+                    "Orario arrivo non impostato correttamente. Riprova",
+                });
+              }
+              setFetchLabel(EFetchLabel.LISTA_EVENTI);
+              // handleClick(EModalType.ORA_ARRIVO);
             }}
           >
             Arrivo cliente
-          </ContextMenuItem>
-          <ContextMenuItem
-            onClick={() => {
+          </Button>
+          <Button
+            onClick={async () => {
               setIdPrestazioneAgenda(eventContent.event.id);
-              handleClick(EModalType.ORA_USCITA);
+              // handleClick(EModalType.ORA_USCITA);
+              const res = await setOrarioUscita(
+                `${new Date().getHours()}:${new Date().getMinutes()}`,
+                eventContent.event.id
+              );
+              if (res === "ok") {
+                toast({
+                  title: "Orario impostato.",
+                  description:
+                    "Orario uscita paziente impostato correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell impostazione dell orario.",
+                  description:
+                    "Orario uscita non impostato correttamente. Riprova",
+                });
+              }
+              setFetchLabel(EFetchLabel.LISTA_EVENTI);
             }}
           >
             Uscita cliente
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+          </Button>
+        </DialogContent>
+      </Dialog>
     );
   };
 

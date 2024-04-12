@@ -148,7 +148,7 @@ export default function Page() {
               setData={setData}
               data={data!}
               prop="MalattiePsichiche"
-              value={data!.PatologieSistemaNervoso ?? false}
+              value={data!.MalattiePsichiche ?? false}
             />
             <SwitchAnamnesi
               label="Assume farmaci"

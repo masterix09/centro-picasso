@@ -473,7 +473,7 @@ const DentiTable = () => {
             <table
               width="50%"
               //   border="0"
-              align="center"
+              // align="center"
               //   cellpadding="0"
               //   cellspacing="1"
             >

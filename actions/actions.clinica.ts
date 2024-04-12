@@ -419,25 +419,46 @@ export async function getPrestazioneAgendaById (idPrestazione: string) {
 
 
 export async function setOrarioArrivo (orario: string, idPrestazione: string) {
-    await db.prestazione.update({
-        where: {
-            id: idPrestazione,
-        },
-        data: {
-            ora_arrivo: orario
-        }
-    })
+    
+    try {
+
+        await db.prestazione.update({
+            where: {
+                id: idPrestazione,
+            },
+            data: {
+                ora_arrivo: orario
+            }
+        })
+
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
 }
 
 export async function setOrarioUscita (orario: string, idPrestazione: string) {
-    await db.prestazione.update({
-        where: {
-            id: idPrestazione,
-        },
-        data: {
-            ora_saluta: orario
-        }
-    })
+    
+    try {
+    
+        await db.prestazione.update({
+            where: {
+                id: idPrestazione,
+            },
+            data: {
+                ora_saluta: orario
+            }
+        })
+
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+    
 }
 
 

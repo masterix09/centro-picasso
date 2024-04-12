@@ -79,8 +79,8 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <NavbarClinica />
-      <div className="w-full flex flex-col md:flex-row p-3 gap-6">
-        <div className="w-full md:w-1/4 rounded border-gray-300 bg-white p-4 ">
+      <div className="w-full flex flex-col lg:flex-row p-3 gap-6">
+        <div className="w-full lg:w-1/4 rounded border-gray-300 bg-white p-4 ">
           <div className="flex gap-4 items-center">
             <SearchInput
               label="Seleziona paziente..."

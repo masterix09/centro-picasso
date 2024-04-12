@@ -20,7 +20,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
         data-drawer-toggle="sidebar-multi-level-sidebar"
         aria-controls="sidebar-multi-level-sidebar"
         type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         onClick={handleTriggerSidebar}
       >
         <span className="sr-only">Open sidebar</span>
@@ -41,8 +41,8 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
       <div className="flex w-full h-full relative">
         <div
           id="sidebar-multi-level-sidebar"
-          className={`fixed top-0 left-0 z-40 md:z-0 w-[80%] md:w-[15%] h-screen transition-transform -translate-x-full md:translate-x-0 ${
-            openSidebar ? `translate-x-0` : ``
+          className={`z-40 lg:z-0 h-screen w-0 lg:w-[300px] ${
+            openSidebar ? `block w-[300px]` : `hidden lg:block `
           }`}
           aria-label="Sidebar"
         >
@@ -54,7 +54,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-5 h-5 block md:hidden text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                className="w-5 h-5 block lg:hidden text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 onClick={handleTriggerSidebar}
               >
                 <path
@@ -159,7 +159,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                 >
                   <li className="ps-3">
                     <a
-                      href="/agenda/sant'antimo"
+                      href="/agenda/santantimo"
                       className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                     >
                       <svg
@@ -332,9 +332,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
             </ul>
           </div>
         </div>
-        <section className="w-full md:w-[85%] lg:fixed top-12 md:top-0 right-0">
-          {children}
-        </section>
+        <section className="w-full">{children}</section>
       </div>
     </>
   );

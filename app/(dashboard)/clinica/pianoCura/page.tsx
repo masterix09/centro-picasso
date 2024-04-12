@@ -189,7 +189,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex w-full h-full flex-col md:flex-row gap-6">
+      <div className="flex w-full h-full flex-col lg:flex-row gap-6">
         <div>
           <DentiTable />
         </div>

@@ -20,7 +20,7 @@ export default function RootLayout({
         <Toaster />
         <Modal />
         <Sidebar>
-          <div className="bg-[#f5f5f5] h-full lg:h-screen overflow-y-scroll">
+          <div className="bg-[#f5f5f5] h-screen overflow-y-scroll">
             <Provider>
               <NextAuthProvider>{children}</NextAuthProvider>
             </Provider>

@@ -91,8 +91,14 @@ const ModalArrivo = ({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+
+    // console.log(`${new Date().getHours()}:${new Date().getMinutes()}`);
+
     // console.log(values);
-    await setOrarioArrivo(values.orario, idPrestazioneAgenda);
+    await setOrarioArrivo(
+      `${new Date().getHours()}:${new Date().getMinutes()}`,
+      idPrestazioneAgenda
+    );
     setFetchLabel(EFetchLabel.LISTA_EVENTI);
     handleCloseModal();
   }
