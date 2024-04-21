@@ -1,14 +1,8 @@
-"use client";
 import {
   addOrarioAppuntamento,
-  deletePrestazionePianoCuraById,
   getDataAppuntamentoPrestazioneById,
-  getPrestazioneAgendaById,
-  setOrarioArrivo,
-  setOrarioUscita,
 } from "@/actions/actions.clinica";
 import {
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -36,20 +30,23 @@ const formSchema = z.object({
   end: z.string().min(2).max(50),
 });
 
-const ModalImpostaOrario = ({
-  handleCloseModal,
+const ModalImpostaOrario = async ({
+  idPrestazione,
 }: {
-  handleCloseModal: () => void;
+  idPrestazione: string;
 }) => {
-  const { idPrestazione } = useStore((state) => state);
-  const [data, setData] = useState<string>("");
+  // const { idPrestazione } = useStore((state) => state);
+  // const [data, setData] = useState<string>("");
   const { toast } = useToast();
 
-  useEffect(() => {
-    getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
-      setData(item?.data_appuntamento ?? "")
-    );
-  }, [idPrestazione]);
+  // useEffect(() => {
+  //   getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
+  //     setData(item?.data_appuntamento ?? "")
+  //   );
+  // }, [idPrestazione]);
+
+  const data: { data_appuntamento: string | null } | null =
+    await getDataAppuntamentoPrestazioneById(idPrestazione);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,7 +67,6 @@ const ModalImpostaOrario = ({
       const end = `${data}T${values.end}`;
 
       const result = await addOrarioAppuntamento(idPrestazione, start, end);
-      handleCloseModal();
 
       if (result === "ok") {
         toast({
@@ -121,9 +117,7 @@ const ModalImpostaOrario = ({
             )}
           />
           <AlertDialogFooter>
-            <Button type="button" onClick={handleCloseModal}>
-              Cancel
-            </Button>
+            <Button type="button">Cancel</Button>
             <Button type="submit">Submit</Button>
           </AlertDialogFooter>
         </form>

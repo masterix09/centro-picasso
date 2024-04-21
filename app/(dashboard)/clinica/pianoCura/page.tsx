@@ -1,12 +1,8 @@
-"use client";
 import ArcateBody from "@/components/dashboard/PianoDiCura/ArcateBody";
 import DentiTable from "@/components/dashboard/PianoDiCura/DentiTable";
 import { DataTable } from "./data-table";
-// import { TPrestazione, columns } from "./columns";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/store/store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EFetchLabel, EModalType } from "@/enum/types";
 import {
@@ -23,64 +19,22 @@ import {
 } from "@/actions/actions.clinica";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
+import { columns } from "./columns";
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const { data: session, status } = useSession();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  // const { data: session, status } = useSession();
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
-  if (status === "unauthenticated") redirect("/login");
-  const {
-    idPiano,
-    setIdPrestazione,
-    setModalOpen,
-    setModalType,
-    fetchLabel,
-    setFetchLabel,
-  } = useStore((state) => state);
-
-  const [data, setData] = useState<
-    {
-      status: string | null;
-      id: string;
-      nome: string | null;
-      categoria: string | null;
-      denteId: string | null;
-      costoDefault: number | null;
-      costoGentile: number | null;
-    }[]
-  >([]);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    getPrestazioniByIdPiano(idPiano).then((data) => setData(data));
-  }, [idPiano]);
-
-  useEffect(() => {
-    if (fetchLabel === EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA) {
-      if (idPiano) {
-        getPrestazioniByIdPiano(idPiano).then((data) => setData(data));
-      }
-      setFetchLabel(EFetchLabel.NULL);
-    }
-  }, [fetchLabel, idPiano, setFetchLabel]);
-
-  const handleClick = (type: EModalType) => {
-    setModalOpen(true);
-    setModalType(type);
-  };
-
-  // This type is used to define the shape of our data.
-  // You can use a Zod schema here if you want.
-  type TPrestazione = {
-    id: string;
-    nome: string;
-    categoria: string;
-    dente: string;
-    status: string;
-  };
-
-  const columns: ColumnDef<{
+  const data: {
     status: string | null;
     id: string;
     nome: string | null;
@@ -88,104 +42,14 @@ export default function Page() {
     denteId: string | null;
     costoDefault: number | null;
     costoGentile: number | null;
-  }>[] = [
-    {
-      accessorKey: "nome",
-      header: "Prestazione",
-    },
-    {
-      accessorKey: "categoria",
-      header: "Categoria",
-    },
-    {
-      accessorKey: "denteId",
-      header: "Dente",
-    },
-    {
-      accessorKey: "status",
-      header: "Stato",
-      cell: ({ row, getValue }) => {
-        return (
-          <Select
-            onValueChange={async (value) => {
-              try {
-                const result = await updateStatusPrestazione(
-                  row.original.id,
-                  value
-                );
-                if (result === "ok") {
-                  toast({
-                    title: "Stato aggiornato.",
-                    description:
-                      "Stato della prestazione aggiornato correttamente.",
-                  });
-                  setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
-                } else throw new Error();
-              } catch (error) {
-                toast({
-                  variant: "destructive",
-                  title: "Uh Oh! Errore nello stato.",
-                  description:
-                    "Lo stato della prestazione non e' stato aggiornato correttamente. Riprova",
-                });
-              }
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={`${row.original.status}`} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Prescritto">Prescritto</SelectItem>
-              <SelectItem value="In corso">
-                {EStatusPrestazione["In corso"]}
-              </SelectItem>
-              <SelectItem value="Completato">
-                {EStatusPrestazione.Completato}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        );
-      },
-    },
-    {
-      id: "actions",
-      header: "actions",
-      cell: ({ row, getValue }) => {
-        return (
-          <div className="w-full flex gap-x-3">
-            <Button
-              type="button"
-              className="bg-red-500"
-              onClick={() => {
-                setIdPrestazione(row.original.id);
-                handleClick(EModalType.ELIMINA_PRESTAZIONE_PIANOCURA);
-              }}
-            >
-              Elimina
-            </Button>
-            <Button
-              type="button"
-              onClick={() => {
-                setIdPrestazione(row.original.id);
-                handleClick(EModalType.IMPOSTA_DATA_APPUNTAMENTO);
-              }}
-            >
-              Data
-            </Button>
-            <Button
-              type="button"
-              onClick={() => {
-                setIdPrestazione(row.original.id);
-                handleClick(EModalType.IMPOSTA_ORARIO_APPUNTAMENTO);
-              }}
-            >
-              Ora
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
+  }[] = await getPrestazioniByIdPiano(searchParams.idPiano?.toString() ?? "");
+
+  // const { toast } = useToast();
+
+  // const handleClick = (type: EModalType) => {
+  //   setModalOpen(true);
+  //   setModalType(type);
+  // };
 
   return (
     <>

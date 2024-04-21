@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-import { useStore } from "@/store/store";
 import {
   Popover,
   PopoverContent,
@@ -27,11 +26,11 @@ import { DayPicker } from "react-day-picker";
 import { useToast } from "@/components/ui/use-toast";
 
 const ModalDataAppuntamento = ({
-  handleCloseModal,
+  idPrestazione,
 }: {
-  handleCloseModal: () => void;
+  idPrestazione: string;
 }) => {
-  const { idPrestazione } = useStore((state) => state);
+  // const { idPrestazione } = useStore((state) => state);
   const [date, setDate] = useState<Date>();
   const { toast } = useToast();
 
@@ -70,7 +69,7 @@ const ModalDataAppuntamento = ({
       </Popover>
 
       <AlertDialogFooter>
-        <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
         <Button
           type="button"
           onClick={async () => {
@@ -80,7 +79,7 @@ const ModalDataAppuntamento = ({
                 idPrestazione,
                 dateFormat
               );
-              handleCloseModal();
+
               if (result === "ok") {
                 toast({
                   title: "Data appuntamento impostata correttamente",

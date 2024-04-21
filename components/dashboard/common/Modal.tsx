@@ -92,7 +92,7 @@ const Modal = () => {
       {modalType === EModalType.ORA_USCITA && (
         <ModalUscita handleCloseModal={handleCloseModal} />
       )}
-      {modalType === EModalType.ELIMINA_PRESTAZIONE_PIANOCURA && (
+      {/* {modalType === EModalType.ELIMINA_PRESTAZIONE_PIANOCURA && (
         <ModalDeletePrestazionePianoCura handleCloseModal={handleCloseModal} />
       )}
       {modalType === EModalType.IMPOSTA_DATA_APPUNTAMENTO && (
@@ -100,7 +100,7 @@ const Modal = () => {
       )}
       {modalType === EModalType.IMPOSTA_ORARIO_APPUNTAMENTO && (
         <ModalImpostaOrario handleCloseModal={handleCloseModal} />
-      )}
+      )} */}
       {modalType === EModalType.ELIMINA_OPERATORE && (
         <ModalEliminaOperatore handleCloseModal={handleCloseModal} />
       )}

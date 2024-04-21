@@ -463,8 +463,7 @@ export async function setOrarioUscita (orario: string, idPrestazione: string) {
 
 
 export async function deletePrestazionePianoCuraById (idPrestazione: string) {
-    try {
-        
+    
         await db.prestazione.delete({
             where: {
                 id: idPrestazione
@@ -472,10 +471,7 @@ export async function deletePrestazionePianoCuraById (idPrestazione: string) {
             
         })
         revalidatePath("/clinica/pianoCura")
-        return "ok"
-    } catch (error: any) {
-        return error.toString()
-    }
+      
 }
 
 export async function addDataAppuntamento (idPerstazione: string, date: string) {
@@ -489,6 +485,8 @@ export async function addDataAppuntamento (idPerstazione: string, date: string) 
                 data_appuntamento: date
             }
         })
+
+        revalidatePath("clinica/pianoCura")
 
         return "ok"
     } catch (error: any) {
@@ -808,10 +806,12 @@ export async function updateStatusPrestazione (idPrestazione: string, status: st
             }
         })
 
+    revalidatePath("/clinica/pianoCura")
         return "ok"
     } catch (error: any) {
         return error.toString()
     }
+
 }
 
 
