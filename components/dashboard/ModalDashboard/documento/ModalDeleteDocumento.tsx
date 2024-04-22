@@ -1,5 +1,3 @@
-"use client";
-
 import { deleteDocumentoById } from "@/actions/actions.clinica";
 import {
   AlertDialogCancel,
@@ -9,18 +7,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { EFetchLabel } from "@/enum/types";
-import { useStore } from "@/store/store";
 import React from "react";
 
-const ModalDeleteDocumento = ({
-  handleCloseModal,
-}: {
-  handleCloseModal: () => void;
-}) => {
-  const { idDocumento, setFetchLabel } = useStore((state) => state);
-  const { toast } = useToast();
+const ModalDeleteDocumento = ({ idDocumento }: { idDocumento: string }) => {
+  // const { idDocumento, setFetchLabel } = useStore((state) => state);
+  // const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -29,28 +20,28 @@ const ModalDeleteDocumento = ({
       </AlertDialogHeader>
       <p>Sicuro di voler eliminare questo documento?</p>
       <AlertDialogFooter>
-        <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
         <Button
           type="button"
           onClick={async () => {
             try {
               const result = await deleteDocumentoById(idDocumento);
-              handleCloseModal();
-              if (result === "ok") {
-                toast({
-                  title: "Eliminazione con successo.",
-                  description:
-                    "Il tuo documento e' stato eliminato con successo.",
-                });
-                setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
-              } else throw new Error();
+              // handleCloseModal();
+              // if (result === "ok") {
+              //   toast({
+              //     title: "Eliminazione con successo.",
+              //     description:
+              //       "Il tuo documento e' stato eliminato con successo.",
+              //   });
+              //   setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
+              // } else throw new Error();
             } catch (error) {
-              toast({
-                variant: "destructive",
-                title: "Uh oh! Qualcosa e' andato storto.",
-                description:
-                  "Eliminazione non riuscita. Chiudi la modale e riprova",
-              });
+              // toast({
+              //   variant: "destructive",
+              //   title: "Uh oh! Qualcosa e' andato storto.",
+              //   description:
+              //     "Eliminazione non riuscita. Chiudi la modale e riprova",
+              // });
             }
           }}
         >

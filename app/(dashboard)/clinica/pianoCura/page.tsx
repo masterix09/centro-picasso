@@ -1,24 +1,8 @@
 import ArcateBody from "@/components/dashboard/PianoDiCura/ArcateBody";
 import DentiTable from "@/components/dashboard/PianoDiCura/DentiTable";
 import { DataTable } from "./data-table";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { EFetchLabel, EModalType } from "@/enum/types";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { EStatusPrestazione } from "@/types";
-import {
-  getPrestazioniByIdPiano,
-  updateStatusPrestazione,
-} from "@/actions/actions.clinica";
-import { useSession } from "next-auth/react";
-import { useToast } from "@/components/ui/use-toast";
+import { redirect } from "next/navigation";
+import { getPrestazioniByIdPiano } from "@/actions/actions.clinica";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/utils/authOptions";
 import { columns } from "./columns";
@@ -30,7 +14,6 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  // const { data: session, status } = useSession();
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
@@ -43,13 +26,6 @@ export default async function Page({
     costoDefault: number | null;
     costoGentile: number | null;
   }[] = await getPrestazioniByIdPiano(searchParams.idPiano?.toString() ?? "");
-
-  // const { toast } = useToast();
-
-  // const handleClick = (type: EModalType) => {
-  //   setModalOpen(true);
-  //   setModalType(type);
-  // };
 
   return (
     <>

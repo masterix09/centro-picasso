@@ -126,12 +126,12 @@ export const columns: ColumnDef<{
             <ModalDataAppuntamento idPrestazione={row.original.id} />
           </AlertDialog>
 
-          {/* <AlertDialog>
+          <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button type="button">Ora</Button>
             </AlertDialogTrigger>
             <ModalImpostaOrario idPrestazione={row.original.id} />
-          </AlertDialog> */}
+          </AlertDialog>
         </div>
       );
     },

@@ -110,9 +110,9 @@ const Modal = () => {
       {modalType === EModalType.ELIMINA_SEDE && (
         <ModalDeleteSede handleCloseModal={handleCloseModal} />
       )}
-      {modalType === EModalType.ELIMINA_DOCUMENTO && (
+      {/* {modalType === EModalType.ELIMINA_DOCUMENTO && (
         <ModalDeleteDocumento handleCloseModal={handleCloseModal} />
-      )}
+      )} */}
       {modalType === EModalType.MODIFICA_SEDE && (
         <ModalModificaSede handleCloseModal={handleCloseModal} />
       )}

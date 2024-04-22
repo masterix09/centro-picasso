@@ -9,7 +9,7 @@ import { getAnamnesiById, updateAnamnesi } from "@/actions/actions.clinica";
 import { useStore } from "@/store/store";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { FaUserDoctor } from "react-icons/fa6";
 import { LiaTeethSolid } from "react-icons/lia";
@@ -19,6 +19,7 @@ import { BsInfoSquareFill } from "react-icons/bs";
 
 export const dynamic = "force-dynamic";
 export default function Page() {
+  const searchParams = useSearchParams();
   const { data: session, status } = useSession();
 
   if (status === "unauthenticated") redirect("/login");
@@ -59,13 +60,15 @@ export default function Page() {
     note: "",
   });
 
-  const { idCliente } = useStore((state) => state);
+  // const { idCliente } = useStore((state) => state);
 
   useEffect(() => {
-    if (idCliente) {
-      getAnamnesiById(idCliente).then((data) => setData(data));
+    if (searchParams.get("idCliente")) {
+      getAnamnesiById(searchParams.get("idCliente") ?? "").then((data) =>
+        setData(data)
+      );
     }
-  }, [idCliente]);
+  }, [searchParams]);
 
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -388,7 +391,7 @@ export default function Page() {
         <Button
           onClick={() =>
             updateAnamnesi(
-              idCliente,
+              searchParams.get("idCliente") ?? "",
               !!data!.AffezioniCardiache,
               !!data!.AffezioniRenali,
               !!data!.Affezionireumatiche,

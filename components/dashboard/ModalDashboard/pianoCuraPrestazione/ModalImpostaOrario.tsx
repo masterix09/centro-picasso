@@ -1,8 +1,10 @@
+"use client";
 import {
   addOrarioAppuntamento,
   getDataAppuntamentoPrestazioneById,
 } from "@/actions/actions.clinica";
 import {
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -18,7 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useStore } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,23 +31,16 @@ const formSchema = z.object({
   end: z.string().min(2).max(50),
 });
 
-const ModalImpostaOrario = async ({
-  idPrestazione,
-}: {
-  idPrestazione: string;
-}) => {
+const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
   // const { idPrestazione } = useStore((state) => state);
-  // const [data, setData] = useState<string>("");
+  const [data, setData] = useState<string>("");
   const { toast } = useToast();
 
-  // useEffect(() => {
-  //   getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
-  //     setData(item?.data_appuntamento ?? "")
-  //   );
-  // }, [idPrestazione]);
-
-  const data: { data_appuntamento: string | null } | null =
-    await getDataAppuntamentoPrestazioneById(idPrestazione);
+  useEffect(() => {
+    getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
+      setData(item?.data_appuntamento ?? "")
+    );
+  }, [idPrestazione]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -117,7 +111,7 @@ const ModalImpostaOrario = async ({
             )}
           />
           <AlertDialogFooter>
-            <Button type="button">Cancel</Button>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button type="submit">Submit</Button>
           </AlertDialogFooter>
         </form>

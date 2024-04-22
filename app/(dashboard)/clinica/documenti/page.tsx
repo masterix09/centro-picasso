@@ -1,85 +1,25 @@
-"use client";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "./data-table";
-import { TDocument, columns } from "./columns";
+import { columns, TDocument } from "./columns";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { EFetchLabel, EModalType } from "@/enum/types";
-import { db } from "@/lib/db";
+import { EModalType } from "@/enum/types";
 import { getDocument } from "@/actions/actions.clinica";
-import { useStore } from "@/store/store";
-import { useEffect, useState } from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const { data: session, status } = useSession();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
-  if (status === "unauthenticated") redirect("/login");
-  const { idDocumento, setIdDocumento, setModalOpen, setModalType } = useStore(
-    (state) => state
+  const data: TDocument[] = await getDocument(
+    searchParams.idPiano?.toString() ?? ""
   );
-
-  const handleClick = (type: EModalType) => {
-    setModalOpen(true);
-    setModalType(type);
-  };
-
-  const columns: ColumnDef<TDocument>[] = [
-    {
-      accessorKey: "nome",
-      header: "Nome",
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Creato il",
-    },
-    {
-      id: "actions",
-      header: "actions",
-      cell: ({ row, getValue }) => {
-        return (
-          <div className="w-full flex gap-x-3">
-            <Button
-              type="button"
-              className="bg-red-500"
-              onClick={() => {
-                setIdDocumento(row.original.id);
-                handleClick(EModalType.ELIMINA_DOCUMENTO);
-              }}
-            >
-              Elimina
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const { idPiano, fetchLabel, setFetchLabel } = useStore((state) => state);
-  const [data, setData] = useState<TDocument[]>([]);
-
-  useEffect(() => {
-    if (idPiano) {
-      getDocument(idPiano).then((data) => setData(data));
-    }
-  }, [idPiano]);
-
-  useEffect(() => {
-    if (fetchLabel === EFetchLabel.LISTA_DOCUMENTI) {
-      if (idPiano) {
-        getDocument(idPiano).then((data) => setData(data));
-      }
-      setFetchLabel(EFetchLabel.NULL);
-    }
-  }, [fetchLabel, idPiano, setFetchLabel]);
 
   return (
     <>

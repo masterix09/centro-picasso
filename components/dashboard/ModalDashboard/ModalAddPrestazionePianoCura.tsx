@@ -20,7 +20,7 @@ import AggiungiPrestazione from "./createPrestazione/AggiungiPrestazione";
 import AppuntamentoPrestazione from "./createPrestazione/AppuntamentoPrestazione";
 import { useStore } from "@/store/store";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const formSchemaAddPrestazioni = z.object({
   sede: z.string().min(2),
@@ -45,7 +45,10 @@ const ModalAddPrestazionePianoCura = ({
 
   const [prestazioni, setPrestazioni] = useState<TPrestazioneLista[]>([]);
 
-  const { idPiano, idDente } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idPiano = searchParams.get("idPiano");
+
+  const { idDente } = useStore((state) => state);
 
   const addPrestazione = (value: CheckedState, item: TPrestazioneLista) => {
     if (value === true) {
