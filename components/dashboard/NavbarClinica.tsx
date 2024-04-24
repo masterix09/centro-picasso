@@ -11,6 +11,7 @@ import {
   ScrollText,
   UserRoundPlus,
 } from "lucide-react";
+import { EListino } from "@/enum/types";
 
 const NavbarClinica = () => {
   const pathname = usePathname();
@@ -96,7 +97,7 @@ const NavbarClinica = () => {
         href={{
           pathname: "/clinica/preventivo",
           query: {
-            listino: "gentile",
+            listino: EListino.DEFAULT,
             idCliente: searchParams.get("idCliente"),
             idPiano: searchParams.get("idPiano"),
           },
