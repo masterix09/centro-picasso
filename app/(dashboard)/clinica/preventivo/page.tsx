@@ -1,12 +1,4 @@
-"use client";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   TPrestazionePreventivo,
   columnsGentile,
@@ -17,10 +9,7 @@ import {
 import { DataTable } from "./data-table";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
 import { EFetchLabel, EListino, EModalType } from "@/enum/types";
-import { db } from "@/lib/db";
 import SelectListino from "@/components/dashboard/PianoDiCura/preventivo/SelectListino";
-import { useStore } from "@/store/store";
-import { useEffect, useState } from "react";
 import {
   getPagamentiByIdPiano,
   getPianoCuraCreatedDate,
@@ -30,43 +19,48 @@ import { format } from "date-fns";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResocontoPagamento from "@/components/dashboard/documenti/PDFDocument/ResocontoPagamento";
 import { Button } from "@/components/ui/button";
-import { EStatusPrestazione } from "@/types";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
+import ButtonPDF from "@/components/dashboard/preventivo/ButtonPDF";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import ModalCreatePagamento from "@/components/dashboard/ModalDashboard/ModalCreatePagamento";
+import ButtonCreatePagamento from "@/components/dashboard/preventivo/ButtonCreatePagamento";
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const { data: session, status } = useSession();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
-  if (status === "unauthenticated") redirect("/login");
-  const { idPiano, listino, setListino, fetchLabel, setFetchLabel } = useStore(
-    (state) => state
+  const idPiano = searchParams.idPiano?.toString() ?? "";
+  const listino = searchParams.listino?.toString() ?? "";
+
+  const prestazioniData: TPrestazionePreventivo[] =
+    await getPrestazioniByIdPiano(idPiano);
+
+  const pagamentiData: TPagamentiPreventivo[] = await getPagamentiByIdPiano(
+    idPiano
   );
-  const [data, setData] = useState<TPrestazionePreventivo[]>([]);
-  const [pagamenti, setPagamenti] = useState<TPagamentiPreventivo[]>([]);
-  const [pianoCreatedAt, setPianoCreatedAt] = useState<{
+
+  const pianoCreatedAtData: {
     createdAt: Date | null;
     cliente: {
       nome: string | null;
       cognome: string | null;
     };
-  } | null>();
+  } | null = await getPianoCuraCreatedDate(idPiano);
 
-  useEffect(() => {
-    if (idPiano) {
-      getPrestazioniByIdPiano(idPiano).then((data) => setData(data));
-      getPagamentiByIdPiano(idPiano).then((data) => setPagamenti(data));
-      getPianoCuraCreatedDate(idPiano).then((data) => setPianoCreatedAt(data));
-    }
-  }, [idPiano]);
-
-  useEffect(() => {
-    if (fetchLabel === EFetchLabel.LISTA_PAGAMENTI) {
-      getPagamentiByIdPiano(idPiano).then((data) => setPagamenti(data));
-      setFetchLabel(EFetchLabel.NULL);
-    }
-  }, [fetchLabel, idPiano, setFetchLabel]);
+  // Wait for the promises to resolve
+  const [data, pagamenti, pianoCreatedAt] = await Promise.all([
+    prestazioniData,
+    pagamentiData,
+    pianoCreatedAtData,
+  ]);
 
   const calculateTotale = () => {
     let costo: number = 0;
@@ -168,30 +162,29 @@ export default function Page() {
         <div className="w-full flex justify-between items-center">
           <h3 className="font-bold my-3">Pagamenti e acconti</h3>
           <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-4">
-            <ButtonModal
+            {/* <ButtonModal
               type={EModalType.CREATE_PAGAMENTO}
               value="Crea pagamento"
+            /> */}
+
+            <ButtonCreatePagamento
+              idPiano={searchParams.idPiano?.toString() ?? ""}
             />
-            <PDFDownloadLink
-              document={
-                <ResocontoPagamento
-                  prestazioni={data}
-                  totale={calculateTotale()}
-                  pagamenti={pagamenti}
-                  totaleAcconti={calculateTotaleAcconti()}
-                  pianoCuraCreationDate={format(
-                    pianoCreatedAt?.createdAt ?? new Date(),
-                    "dd/MM/yyyy"
-                  )}
-                  totaleEseguito={calculateTotaleEseguito()}
-                  saldo={calculateTotale() - calculateTotaleAcconti()}
-                  listino={listino}
-                />
-              }
-              fileName={`${pianoCreatedAt?.cliente.cognome}_${pianoCreatedAt?.cliente.nome}_Resoconto_Pagamento`}
-            >
-              <Button type="button">Stampa resoconto</Button>
-            </PDFDownloadLink>
+
+            <ButtonPDF
+              calculateTotale={calculateTotale()}
+              calculateTotaleAcconti={calculateTotaleAcconti()}
+              calculateTotaleEseguito={calculateTotaleEseguito()}
+              cognomeCliente={pianoCreatedAt?.cliente.cognome ?? ""}
+              data={data}
+              listino={listino as EListino}
+              nomeCliente={pianoCreatedAt?.cliente.nome ?? ""}
+              pagamenti={pagamenti}
+              pianoCuraCreationDate={format(
+                pianoCreatedAt?.createdAt ?? new Date(),
+                "dd/MM/yyyy"
+              )}
+            />
           </div>
         </div>
         <DataTable columns={columnsPagamenti} data={pagamenti} />

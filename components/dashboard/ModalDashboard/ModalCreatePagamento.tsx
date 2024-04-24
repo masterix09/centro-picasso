@@ -25,11 +25,8 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
 import { createPagamento } from "@/actions/actions.clinica";
 import { DayPicker } from "react-day-picker";
-import { useStore } from "@/store/store";
-import { EFetchLabel } from "@/enum/types";
 import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
@@ -41,14 +38,7 @@ const formSchema = z.object({
   importo: z.string().transform((v) => Number(v) || 0),
 });
 
-const ModalCreatePagamento = ({
-  handleCloseModal,
-  idPiano,
-}: {
-  handleCloseModal: () => void;
-  idPiano: string | null;
-}) => {
-  const { setFetchLabel } = useStore((state) => state);
+const ModalCreatePagamento = ({ idPiano }: { idPiano: string | null }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,20 +58,18 @@ const ModalCreatePagamento = ({
       values.note,
       idPiano ?? ""
     );
-    if (res === "ok") {
-      toast({
-        title: "Paziente creato.",
-        description: "Paziente creato correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella creazione.",
-        description: "Errore nella creazione del paziente. Riprova",
-      });
-    }
-    handleCloseModal();
-    setFetchLabel(EFetchLabel.LISTA_PAGAMENTI);
+    // if (res === "ok") {
+    //   toast({
+    //     title: "Paziente creato.",
+    //     description: "Paziente creato correttamente.",
+    //   });
+    // } else {
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Uh Oh! Errore nella creazione.",
+    //     description: "Errore nella creazione del paziente. Riprova",
+    //   });
+    // }
   }
 
   return (
@@ -163,9 +151,7 @@ const ModalCreatePagamento = ({
             )}
           />
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCloseModal}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button type="submit">Submit</Button>
           </AlertDialogFooter>
         </form>

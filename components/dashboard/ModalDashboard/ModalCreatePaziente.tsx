@@ -41,11 +41,7 @@ export const formSchemaCreatePaziente = z.object({
   listino: z.string().min(2),
 });
 
-const ModalCreatePaziente = ({
-  handleCloseModal,
-}: {
-  handleCloseModal: () => void;
-}) => {
+const ModalCreatePaziente = () => {
   const { setFetchLabel } = useStore((state) => state);
   const form = useForm<z.infer<typeof formSchemaCreatePaziente>>({
     resolver: zodResolver(formSchemaCreatePaziente),
@@ -75,8 +71,7 @@ const ModalCreatePaziente = ({
 
   const handleSubmit = (values: z.infer<typeof formSchemaCreatePaziente>) => {
     onSubmitCreatePaziente(values);
-    setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
-    handleCloseModal();
+    // setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
   };
 
   return (
@@ -103,7 +98,7 @@ const ModalCreatePaziente = ({
       </StepperForm>
 
       <AlertDialogFooter>
-        <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

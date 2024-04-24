@@ -8,19 +8,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import { EFetchLabel } from "@/enum/types";
-import { useStore } from "@/store/store";
 import React from "react";
 
 const ModalCreatePianoCura = ({
   idCliente,
-  handleCloseModal,
-}: {
+}: // handleCloseModal,
+{
   idCliente: string | null;
-  handleCloseModal: () => void;
+  // handleCloseModal: () => void;
 }) => {
-  const { setFetchLabel } = useStore((state) => state);
   const onSubmit = async (formData: FormData) => {
     const titolo = formData.get("titolo");
     const res = await createPianoCura(
@@ -28,20 +24,20 @@ const ModalCreatePianoCura = ({
       idCliente ?? ""
     );
 
-    if (res === "ok") {
-      toast({
-        title: "Piano cura creato.",
-        description: "Piano cura creato correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella creazione.",
-        description: "Errore nella creazione del piano cura. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
-    handleCloseModal();
+    // if (res === "ok") {
+    //   toast({
+    //     title: "Piano cura creato.",
+    //     description: "Piano cura creato correttamente.",
+    //   });
+    // } else {
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Uh Oh! Errore nella creazione.",
+    //     description: "Errore nella creazione del piano cura. Riprova",
+    //   });
+    // }
+    // setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
+    // handleCloseModal();
   };
 
   return (
@@ -59,9 +55,7 @@ const ModalCreatePianoCura = ({
             placeholder="nome piano di cura"
           />
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCloseModal}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button type="submit">Submit</Button>
           </AlertDialogFooter>
         </form>

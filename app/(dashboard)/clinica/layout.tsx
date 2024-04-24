@@ -3,19 +3,25 @@ import {
   getPazienti,
   getPianoCuraByIdCliente,
 } from "@/actions/actions.clinica";
+import ModalCreatePaziente from "@/components/dashboard/ModalDashboard/ModalCreatePaziente";
+import ModalCreatePianoCura from "@/components/dashboard/ModalDashboard/ModalCreatePianoCura";
 import NavbarClinica from "@/components/dashboard/NavbarClinica";
 import SearchInput from "@/components/dashboard/SearchInput";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { EFetchLabel, EModalType } from "@/enum/types";
 import { useStore } from "@/store/store";
 import { IPaziente } from "@/types";
 import { FilePlus, UserRoundPlus } from "lucide-react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
 
 export default function ClinicaLayout({ children }: { children: ReactNode }) {
+  const searchParams = useSearchParams();
   const [valuePaziente, setValuePaziente] = useState<string>("");
   const [valuePinaoCura, setValuePianoCura] = useState<string>("");
   const [users, setUsers] = useState<IPaziente[]>([]);
@@ -91,13 +97,18 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
               displayValue={getNomeCognome}
               type="PAZIENTE"
             />
-            <ButtonModal
-              type={EModalType.CREATE_PAZIENTE}
-              className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
-              variant="ghost"
-            >
-              <UserRoundPlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
-            </ButtonModal>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant={"ghost"}
+                  className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
+                >
+                  <UserRoundPlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
+                </Button>
+              </AlertDialogTrigger>
+              <ModalCreatePaziente />
+            </AlertDialog>
           </div>
           <div className="flex items-center my-3 gap-x-4">
             <Image
@@ -118,9 +129,6 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
                 CF: <span className="text-black font-bold">{getCF()}</span>
               </h6>
             )}
-            {/* <h6 className="text-gray-400 text-sm">
-              ETA: <span className="text-black font-bold">24</span>
-            </h6> */}
           </div>
           {valuePaziente !== "" && (
             <div className="flex gap-4 items-center">
@@ -133,13 +141,20 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
                 displayValue={getNomePianoCura}
                 type="PIANO_CURA"
               />
-              <ButtonModal
-                variant="ghost"
-                className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
-                type={EModalType.CREATE_PIANO_CURA}
-              >
-                <FilePlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
-              </ButtonModal>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    type="button"
+                    variant={"ghost"}
+                    className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
+                  >
+                    <FilePlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
+                  </Button>
+                </AlertDialogTrigger>
+                <ModalCreatePianoCura
+                  idCliente={searchParams.get("idCliente")}
+                />
+              </AlertDialog>
             </div>
           )}
         </div>

@@ -65,24 +65,24 @@ const Modal = () => {
       {modalType === EModalType.CREATE_SEDE && (
         <ModalCreateSede handleCloseModal={handleCloseModal} />
       )}
-      {modalType === EModalType.CREATE_PIANO_CURA && (
+      {/* {modalType === EModalType.CREATE_PIANO_CURA && (
         <ModalCreatePianoCura
           idCliente={idCliente}
           handleCloseModal={handleCloseModal}
         />
-      )}
-      {modalType === EModalType.CREATE_PAZIENTE && (
+      )} */}
+      {/* {modalType === EModalType.CREATE_PAZIENTE && (
         <ModalCreatePaziente handleCloseModal={handleCloseModal} />
-      )}
+      )} */}
       {modalType === EModalType.CREATE_DOCUMENTO && (
         <CreateDocumento handleCloseModal={handleCloseModal} />
       )}
-      {modalType === EModalType.CREATE_PAGAMENTO && (
+      {/* {modalType === EModalType.CREATE_PAGAMENTO && (
         <ModalCreatePagamento
           handleCloseModal={handleCloseModal}
           idPiano={idPiano}
         />
-      )}
+      )} */}
       {modalType === EModalType.DETTAGLIO_EVENTO && (
         <ModalDettaglio handleCloseModal={handleCloseModal} />
       )}

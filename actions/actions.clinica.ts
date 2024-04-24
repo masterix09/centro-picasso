@@ -50,7 +50,7 @@ export async function getPrestazioniAgenda(idSede: string) {
 
 export async function createPianoCura (titolo: string, clienteId: string) {
 
-    try {
+    
         await db.pianoCura.create({
             data: {
                 titolo,
@@ -60,13 +60,9 @@ export async function createPianoCura (titolo: string, clienteId: string) {
             }
         })
     
-        // revalidatePath("/clinica/pianoCura")
-        revalidateTag("/clinica/pianoCura")
+        revalidatePath("/clinica/pianoCura")
 
-        return "ok"
-    } catch (error: any) {
-        return error.toString()
-    }
+       
     
 }
 
@@ -233,7 +229,7 @@ export async function createSede (nome: string) {
 
 export async function createPagamento (data: string, importo: number, note: string, idPiano: string) {
     
-    try {
+    
         await db.pagamenti.create({
             data: {
                 id: uuidv4(),
@@ -245,10 +241,7 @@ export async function createPagamento (data: string, importo: number, note: stri
         })
     
         revalidatePath("/clinica/preventivo")
-        return "ok"   
-    } catch (error: any) {
-        return error.toString()
-    }
+    
 }
 
 export async function createPaziente (nome: string, cognome: string, dataNascita: string, sesso: string, cf: string, straniero: boolean, luogoNascita: string, indirizzo: string, cap: string, citta: string, telefono: string, email: string, cellulare: string, motivo: string, listino: string, richiamo: string, dataRichiamo: string, professione: string) {
@@ -645,7 +638,7 @@ export async function deleteSedeById (idSede: string) {
 
 export async function deleteDocumentoById (idDocumento: string) {
     
-    try {
+    
         await db.documenti.delete({
             where: {
                 id: idDocumento
@@ -653,10 +646,7 @@ export async function deleteDocumentoById (idDocumento: string) {
         })
         
         revalidatePath("/clinica/documenti")
-        return "ok"
-    } catch (error: any) {
-        return error.toString()
-    }
+
 }
 
 

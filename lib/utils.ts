@@ -4,6 +4,7 @@ import { ERichiamo } from "@/enum/types";
 import useGetSearchParams from "@/utils/useGetSearchParams";
 import { type ClassValue, clsx } from "clsx"
 import { addMonths, addYears, format } from "date-fns";
+import { revalidatePath } from "next/cache";
 import { useSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge"
 import { z } from "zod";
@@ -103,7 +104,7 @@ export async function onSubmitCreatePaziente(values: z.infer<typeof formSchema >
         "Errore nella creazione del paziente. Riprova",
     });
   }
-  
+  revalidatePath("/clinica")
 }
 // 2. Define a submit handler.
 export function onSubmitCreatePrestazione(values: z.infer<typeof formSchema >, idPiano: string, idDente: string) {
