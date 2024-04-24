@@ -12,11 +12,13 @@ import { json } from "stream/consumers";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function getPazienti () {
-    return await db.cliente.findMany()
+    const res =  await db.cliente.findMany()
+    revalidatePath("/clinica/pianoCura", "layout")
+    return res
 }
 
 export async function getPrestazioniAgenda(idSede: string) {
-    revalidatePath("/agenda")
+    console.log(idSede)
     return await db.prestazione.findMany({
         where: {
           sedeId: idSede,
@@ -246,7 +248,7 @@ export async function createPagamento (data: string, importo: number, note: stri
 
 export async function createPaziente (nome: string, cognome: string, dataNascita: string, sesso: string, cf: string, straniero: boolean, luogoNascita: string, indirizzo: string, cap: string, citta: string, telefono: string, email: string, cellulare: string, motivo: string, listino: string, richiamo: string, dataRichiamo: string, professione: string) {
     
-    try {
+    
         await db.cliente.create({
             data: {
                 id: uuidv4(),
@@ -270,11 +272,8 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
                 Telefono: telefono,
             }
         })
-    revalidatePath("/clinica", "layout")
-    return "ok"
-    } catch (error: any) {
-        return error.toString()
-    }
+    revalidatePath("/clinica/pianoCura", "layout")
+    
     
     
 
@@ -297,6 +296,8 @@ export async function createImage (array: string[], idPiano: string) {
             data: item,
         })
     })
+
+    revalidatePath("/clinica/pianoCura")
 }
 
 
@@ -489,6 +490,7 @@ export async function addDataAppuntamento (idPerstazione: string, date: string) 
 
 export async function addOrarioAppuntamento (idPerstazione: string, start: string, end: string) {
     try {
+        
         
         await db.prestazione.update({
             where: {
@@ -774,7 +776,7 @@ export async function getPianoCuraByIdCliente (idCliente: string) {
 }
 
 export async function getImageByIdPiano (idPiano: string) {
-    return await await db.image.findMany({
+    const res =  await await db.image.findMany({
         where: {
          pianoCuraId: idPiano
         },
@@ -782,6 +784,9 @@ export async function getImageByIdPiano (idPiano: string) {
          url: true
         }
        });
+
+       revalidatePath("/clinica/pianoCura")
+       return res
 }
 
 export async function updateStatusPrestazione (idPrestazione: string, status: string) {

@@ -1,4 +1,3 @@
-"use client";
 import { getPrestazioneAgendaById } from "@/actions/actions.clinica";
 import {
   AlertDialogCancel,
@@ -7,16 +6,56 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useStore } from "@/store/store";
-import React, { useEffect, useState } from "react";
 
-const ModalDettaglio = ({
-  handleCloseModal,
+const ModalDettaglio = async ({
+  idPrestazioneAgenda,
 }: {
-  handleCloseModal: () => void;
+  idPrestazioneAgenda: string;
 }) => {
-  const { idPrestazioneAgenda } = useStore((state) => state);
-  const [data, setData] = useState<{
+  // const { idPrestazioneAgenda } = useStore((state) => state);
+  // const [data, setData] = useState<{
+  //   categoria: string | null;
+  //   nome: string | null;
+  //   ora_arrivo: string | null;
+  //   ora_saluta: string | null;
+  //   operatore: {
+  //     nome: string | null;
+  //     id: string;
+  //     cognome: string | null;
+  //   };
+  //   pianoCura: {
+  //     cliente: {
+  //       cognome: string | null;
+  //       nome: string | null;
+  //     };
+  //   };
+  // } | null>({
+  //   categoria: "",
+  //   nome: "",
+  //   operatore: {
+  //     cognome: "",
+  //     id: "",
+  //     nome: "",
+  //   },
+  //   ora_arrivo: "",
+  //   ora_saluta: "",
+  //   pianoCura: {
+  //     cliente: {
+  //       cognome: "",
+  //       nome: "",
+  //     },
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   if (idPrestazioneAgenda) {
+  //     getPrestazioneAgendaById(idPrestazioneAgenda).then((data) =>
+  //       setData(data)
+  //     );
+  //   }
+  // }, [idPrestazioneAgenda]);
+
+  const data: {
     categoria: string | null;
     nome: string | null;
     ora_arrivo: string | null;
@@ -32,31 +71,7 @@ const ModalDettaglio = ({
         nome: string | null;
       };
     };
-  } | null>({
-    categoria: "",
-    nome: "",
-    operatore: {
-      cognome: "",
-      id: "",
-      nome: "",
-    },
-    ora_arrivo: "",
-    ora_saluta: "",
-    pianoCura: {
-      cliente: {
-        cognome: "",
-        nome: "",
-      },
-    },
-  });
-
-  useEffect(() => {
-    if (idPrestazioneAgenda) {
-      getPrestazioneAgendaById(idPrestazioneAgenda).then((data) =>
-        setData(data)
-      );
-    }
-  }, [idPrestazioneAgenda]);
+  } | null = await getPrestazioneAgendaById(idPrestazioneAgenda);
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -94,7 +109,7 @@ const ModalDettaglio = ({
       </p>
 
       <AlertDialogFooter>
-        <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

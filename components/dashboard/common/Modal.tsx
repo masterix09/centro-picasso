@@ -83,9 +83,9 @@ const Modal = () => {
           idPiano={idPiano}
         />
       )} */}
-      {modalType === EModalType.DETTAGLIO_EVENTO && (
+      {/* {modalType === EModalType.DETTAGLIO_EVENTO && (
         <ModalDettaglio handleCloseModal={handleCloseModal} />
-      )}
+      )} */}
       {modalType === EModalType.ORA_ARRIVO && (
         <ModalArrivo handleCloseModal={handleCloseModal} />
       )}

@@ -1,8 +1,5 @@
-"use client";
-import { CldUploadWidget } from "next-cloudinary";
-import { createImage, getImageByIdPiano } from "@/actions/actions.clinica";
-import { redirect, useSearchParams } from "next/navigation";
-import { useStore } from "@/store/store";
+import { getImageByIdPiano } from "@/actions/actions.clinica";
+import { redirect } from "next/navigation";
 import {
   Carousel,
   CarouselContent,
@@ -10,51 +7,29 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import UploadWidget from "@/components/dashboard/immagini/UploadWidget";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const { data: session, status } = useSession();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
-  if (status === "unauthenticated") redirect("/login");
-  const [data, setData] = useState<{ url: string }[]>([]);
-  const { idPiano } = useStore((state) => state);
-
-  useEffect(() => {
-    if (idPiano) {
-      getImageByIdPiano(idPiano).then((data) => setData(data));
-    }
-  }, [idPiano]);
-
-  let url: string[] = [];
+  const data: { url: string }[] = await getImageByIdPiano(
+    searchParams.idPiano?.toString() ?? ""
+  );
 
   return (
     <div className="w-full">
       <div className="my-4">
-        {idPiano && (
-          <CldUploadWidget
-            uploadPreset="b59i7h4w"
-            onSuccess={async (results) => {
-              console.log(results);
-              //@ts-ignore
-              // setUrl([...url, results.info.url]);
-              url = [...url, results.info.url];
-              // url = results.info.url;
-              console.log(url);
-
-              console.log(idPiano);
-
-              if (idPiano !== null && idPiano !== undefined) {
-                await createImage(url, idPiano);
-              }
-            }}
-          >
-            {({ open }) => {
-              return <button onClick={() => open()}>Upload an Image</button>;
-            }}
-          </CldUploadWidget>
+        {searchParams.idPiano?.toString() && (
+          <UploadWidget idPiano={searchParams.idPiano?.toString() ?? ""} />
         )}
       </div>
       <Carousel
