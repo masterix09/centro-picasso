@@ -24,10 +24,13 @@ export default async function Page({
   return (
     <>
       <div className="w-full">
-        <ButtonModal
-          value="Crea documento"
-          type={EModalType.CREATE_DOCUMENTO}
-        />
+        {searchParams.idPiano?.toString() &&
+          searchParams.idPiano?.toString() && (
+            <ButtonModal
+              value="Crea documento"
+              type={EModalType.CREATE_DOCUMENTO}
+            />
+          )}
       </div>
       <div className="py-10">
         <DataTable columns={columns} data={data} />

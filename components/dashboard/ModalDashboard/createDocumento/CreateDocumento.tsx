@@ -40,11 +40,11 @@ const CreateDocumento = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  //   const searchParams = useSearchParams();
-  //   const idPiano = searchParams.get("idPiano");
-  //   const idCliente = searchParams.get("idCliente");
+  const searchParams = useSearchParams();
+  const idPiano = searchParams.get("idPiano") ?? "";
+  const idCliente = searchParams.get("idCliente") ?? "";
 
-  const { idPiano, idCliente, setFetchLabel } = useStore((state) => state);
+  const { setFetchLabel } = useStore((state) => state);
   const { toast } = useToast();
 
   const [modelSelected, setModelSelected] = useState(
@@ -210,7 +210,7 @@ const CreateDocumento = ({
           </div>
         )}
 
-        {modelSelected && idCliente && idPiano && (
+        {modelSelected && (
           <PDFDownloadLink
             document={document}
             fileName={`${user?.nome}_${user?.cognome}_${modelSelected}`}

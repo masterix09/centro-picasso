@@ -1,3 +1,4 @@
+"use client";
 import { createPianoCura } from "@/actions/actions.clinica";
 import {
   AlertDialogCancel,
@@ -8,6 +9,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EFetchLabel } from "@/enum/types";
+import { useStore } from "@/store/store";
 import React from "react";
 
 const ModalCreatePianoCura = ({
@@ -17,6 +20,7 @@ const ModalCreatePianoCura = ({
   idCliente: string | null;
   // handleCloseModal: () => void;
 }) => {
+  const { setFetchLabel } = useStore();
   const onSubmit = async (formData: FormData) => {
     const titolo = formData.get("titolo");
     const res = await createPianoCura(
@@ -36,7 +40,7 @@ const ModalCreatePianoCura = ({
     //     description: "Errore nella creazione del piano cura. Riprova",
     //   });
     // }
-    // setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
+    setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
     // handleCloseModal();
   };
 

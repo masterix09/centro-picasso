@@ -23,6 +23,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { it } from "date-fns/locale";
 
 const AnagraficaPaziente = ({
   form,
@@ -149,6 +150,7 @@ const AnagraficaPaziente = ({
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
+                      locale={it}
                     />
                   </div>
                 </PopoverContent>

@@ -71,7 +71,7 @@ const ModalCreatePaziente = () => {
 
   const handleSubmit = (values: z.infer<typeof formSchemaCreatePaziente>) => {
     onSubmitCreatePaziente(values);
-    // setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
+    setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
   };
 
   return (

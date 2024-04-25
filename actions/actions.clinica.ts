@@ -17,6 +17,24 @@ export async function getPazienti () {
     return res
 }
 
+export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
+    const res = await db.cliente.findFirst({
+        where: {
+            id: idCliente
+        },
+        select: {
+            nome: true,
+            cognome: true,
+            email: true,
+            data_nascita: true,
+            Telefono: true
+        }
+    })
+
+
+    return res
+}
+
 export async function getPrestazioniAgenda(idSede: string) {
     console.log(idSede)
     return await db.prestazione.findMany({

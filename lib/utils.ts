@@ -47,7 +47,7 @@ export async function onSubmitCreatePaziente(values: z.infer<typeof formSchema >
     telefono,
   } = values;
 
-  const data = format(new Date(dataNascita), "yyyy-MM-dd");
+  const data = format(new Date(dataNascita), "dd-MM-yyyy");
 
   let dataRichiamo = "";
     if (richiamo === "NonRichiamare") {

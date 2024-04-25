@@ -3,12 +3,21 @@ import {
   getPazienti,
   getPianoCuraByIdCliente,
 } from "@/actions/actions.clinica";
+import ModalAnagraficaPaziente from "@/components/dashboard/ModalAnagraficaPaziente";
 import ModalCreatePaziente from "@/components/dashboard/ModalDashboard/ModalCreatePaziente";
 import ModalCreatePianoCura from "@/components/dashboard/ModalDashboard/ModalCreatePianoCura";
 import NavbarClinica from "@/components/dashboard/NavbarClinica";
 import SearchInput from "@/components/dashboard/SearchInput";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { EFetchLabel, EModalType } from "@/enum/types";
 import { useStore } from "@/store/store";
@@ -110,19 +119,29 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
               <ModalCreatePaziente />
             </AlertDialog>
           </div>
-          <div className="flex items-center my-3 gap-x-4">
-            <Image
-              src={"/images/dashboard/male-avatar.png"}
-              alt="male avatar"
-              width={50}
-              height={50}
-            />
-            {valuePaziente && (
-              <div>
-                <h6 className="font-semibold">{getNomeCognome()}</h6>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <div className="flex items-center my-3 gap-x-4">
+                <Image
+                  src={"/images/dashboard/male-avatar.png"}
+                  alt="male avatar"
+                  width={50}
+                  height={50}
+                />
+                {valuePaziente && (
+                  <div>
+                    <h6 className="font-semibold">{getNomeCognome()}</h6>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="w-screen">
+              <ModalAnagraficaPaziente />
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <div className="py-3 border-t-2 border-b-2 border-t-gray-400 border-b-gray-400 flex justify-between my-2">
             {valuePaziente && (
               <h6 className="text-gray-400 text-sm">
