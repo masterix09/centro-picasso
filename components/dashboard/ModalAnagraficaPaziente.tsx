@@ -28,6 +28,7 @@ const ModalAnagraficaPaziente = () => {
       (item) => setUser(item)
     );
   }, [searchParams]);
+
   return (
     <div className="w-full">
       <div className="flex gap-x-3 items-center mb-5">
@@ -76,6 +77,9 @@ const ModalAnagraficaPaziente = () => {
             }}
           >
             Piani di cura
+          </Link>
+          <Link href={`/anagrafica/${searchParams.get("idCliente")}`}>
+            Anagrafica
           </Link>
         </div>
         <div className="col-span-9 border-t-2 border-t-black pl-2">

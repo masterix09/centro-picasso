@@ -27,7 +27,18 @@ export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
             cognome: true,
             email: true,
             data_nascita: true,
-            Telefono: true
+            Telefono: true,
+            CAP: true,
+            citta: true,
+            codice_fiscale: true,
+            indirizzo: true,
+            Listino: true,
+            luogo_nascita: true,
+            Motivo: true,
+            Richiamo: true,
+            Professione: true,
+            sesso: true,
+            straniero: true
         }
     })
 

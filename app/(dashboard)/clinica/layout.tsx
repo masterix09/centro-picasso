@@ -24,6 +24,7 @@ import { useStore } from "@/store/store";
 import { IPaziente } from "@/types";
 import { FilePlus, UserRoundPlus } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useState } from "react";
 
@@ -119,8 +120,8 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
               <ModalCreatePaziente />
             </AlertDialog>
           </div>
-          <AlertDialog>
-            <AlertDialogTrigger>
+          {valuePaziente && (
+            <Link href={`/anagrafica/${valuePaziente}`}>
               <div className="flex items-center my-3 gap-x-4">
                 <Image
                   src={"/images/dashboard/male-avatar.png"}
@@ -128,20 +129,12 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
                   width={50}
                   height={50}
                 />
-                {valuePaziente && (
-                  <div>
-                    <h6 className="font-semibold">{getNomeCognome()}</h6>
-                  </div>
-                )}
+                <div>
+                  <h6 className="font-semibold">{getNomeCognome()}</h6>
+                </div>
               </div>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="w-screen">
-              <ModalAnagraficaPaziente />
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            </Link>
+          )}
           <div className="py-3 border-t-2 border-b-2 border-t-gray-400 border-b-gray-400 flex justify-between my-2">
             {valuePaziente && (
               <h6 className="text-gray-400 text-sm">
