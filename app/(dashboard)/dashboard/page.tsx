@@ -24,7 +24,7 @@ export default async function Page() {
     },
   });
 
-  const currentDate = format(new Date(), "yyyy-MM-dd");
+  const currentDate = format(new Date(), "dd-MM-yyyy");
 
   const compleanni = await db.cliente.findMany({
     where: {

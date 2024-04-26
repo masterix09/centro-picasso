@@ -36,11 +36,11 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
   const [data, setData] = useState<string>("");
   const { toast } = useToast();
 
-  useEffect(() => {
-    getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
-      setData(item?.data_appuntamento ?? "")
-    );
-  }, [idPrestazione]);
+  // useEffect(() => {
+  //   getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
+  //     setData(item?.data_appuntamento ?? "")
+  //   );
+  // }, [idPrestazione]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,15 +50,16 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     },
   });
 
-  console.log(data);
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
     try {
-      const start = `${data}T${values.start}`;
-      const end = `${data}T${values.end}`;
+      const date: { data_appuntamento: string | null } | null =
+        await getDataAppuntamentoPrestazioneById(idPrestazione);
+      const start = `${date?.data_appuntamento}T${values.start}`;
+      const end = `${date?.data_appuntamento}T${values.end}`;
 
       const result = await addOrarioAppuntamento(idPrestazione, start, end);
 

@@ -1,8 +1,5 @@
 "use client";
-import {
-  addDataAppuntamento,
-  deletePrestazionePianoCuraById,
-} from "@/actions/actions.clinica";
+import { addDataAppuntamento } from "@/actions/actions.clinica";
 import {
   AlertDialogCancel,
   AlertDialogContent,
@@ -20,7 +17,6 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { useToast } from "@/components/ui/use-toast";
