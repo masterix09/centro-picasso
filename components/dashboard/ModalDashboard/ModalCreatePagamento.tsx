@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialogCancel,
   AlertDialogContent,
@@ -58,18 +59,18 @@ const ModalCreatePagamento = ({ idPiano }: { idPiano: string | null }) => {
       values.note,
       idPiano ?? ""
     );
-    // if (res === "ok") {
-    //   toast({
-    //     title: "Paziente creato.",
-    //     description: "Paziente creato correttamente.",
-    //   });
-    // } else {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Uh Oh! Errore nella creazione.",
-    //     description: "Errore nella creazione del paziente. Riprova",
-    //   });
-    // }
+    if (res === "ok") {
+      toast({
+        title: "Paziente creato.",
+        description: "Paziente creato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione del paziente. Riprova",
+      });
+    }
   }
 
   return (

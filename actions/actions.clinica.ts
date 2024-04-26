@@ -1,14 +1,10 @@
 "use server"
 
-import { TDocument } from "@/app/(dashboard)/clinica/documenti/columns";
 import { TPrestazioneLista } from "@/app/(dashboard)/prestazioniLista/page";
 import { db } from "@/lib/db"
 import { EStatusPrestazione } from "@/types";
 import { format } from "date-fns";
-import { create } from "domain";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { redirect, RedirectType } from "next/navigation";
-import { json } from "stream/consumers";
+import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function getPazienti () {
@@ -81,7 +77,7 @@ export async function getPrestazioniAgenda(idSede: string) {
 
 export async function createPianoCura (titolo: string, clienteId: string) {
 
-    
+    try {
         await db.pianoCura.create({
             data: {
                 titolo,
@@ -92,6 +88,11 @@ export async function createPianoCura (titolo: string, clienteId: string) {
         })
     
         revalidatePath("/clinica/pianoCura")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+        
 
        
     
@@ -260,7 +261,7 @@ export async function createSede (nome: string) {
 
 export async function createPagamento (data: string, importo: number, note: string, idPiano: string) {
     
-    
+    try {
         await db.pagamenti.create({
             data: {
                 id: uuidv4(),
@@ -272,12 +273,19 @@ export async function createPagamento (data: string, importo: number, note: stri
         })
     
         revalidatePath("/clinica/preventivo")
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
+        
     
 }
 
 export async function createPaziente (nome: string, cognome: string, dataNascita: string, sesso: string, cf: string, straniero: boolean, luogoNascita: string, indirizzo: string, cap: string, citta: string, telefono: string, email: string, cellulare: string, motivo: string, listino: string, richiamo: string, dataRichiamo: string, professione: string) {
     
-    
+    try {
+
         await db.cliente.create({
             data: {
                 id: uuidv4(),
@@ -302,6 +310,12 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
             }
         })
     revalidatePath("/clinica/pianoCura", "layout")
+    return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
+        
     
     
     
@@ -311,22 +325,30 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
 
 export async function createImage (array: string[], idPiano: string) {
 
-    const obj = array.map( (item) => {
-        return {
-          id: uuidv4(),
-          url: item,
-          pianoCuraId: idPiano,
-          note: ""
-        }
-      })
-   
-    obj.forEach(async (item) => {
-        await db.image.create({
-            data: item,
+    try {
+        const obj = array.map( (item) => {
+            return {
+              id: uuidv4(),
+              url: item,
+              pianoCuraId: idPiano,
+              note: ""
+            }
+          })
+       
+        obj.forEach(async (item) => {
+            await db.image.create({
+                data: item,
+            })
         })
-    })
+    
+        revalidatePath("/clinica/pianoCura")
+        return "ok"
+        
+    } catch (error: any) {
+        return error.toString()
+    }
 
-    revalidatePath("/clinica/pianoCura")
+   
 }
 
 
@@ -342,6 +364,8 @@ export async function createDocumento (idPiano: string, nome: string) {
                 pianoCuraId: idPiano
             }
         })
+        revalidatePath("/clinica/documenti")
+
         return "ok"    
     } catch (error: any) {
         return error.toString()
@@ -487,6 +511,7 @@ export async function setOrarioUscita (orario: string, idPrestazione: string) {
 
 export async function deletePrestazionePianoCuraById (idPrestazione: string) {
     
+    try {
         await db.prestazione.delete({
             where: {
                 id: idPrestazione
@@ -494,6 +519,11 @@ export async function deletePrestazionePianoCuraById (idPrestazione: string) {
             
         })
         revalidatePath("/clinica/pianoCura")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+        
       
 }
 
@@ -669,7 +699,7 @@ export async function deleteSedeById (idSede: string) {
 
 export async function deleteDocumentoById (idDocumento: string) {
     
-    
+    try {
         await db.documenti.delete({
             where: {
                 id: idDocumento
@@ -677,6 +707,12 @@ export async function deleteDocumentoById (idDocumento: string) {
         })
         
         revalidatePath("/clinica/documenti")
+        return "ok"
+    } catch (error: any) {
+        return error.toString()
+    }
+    
+       
 
 }
 

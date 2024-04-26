@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import React from "react";
@@ -28,18 +29,18 @@ const ModalCreatePianoCura = ({
       idCliente ?? ""
     );
 
-    // if (res === "ok") {
-    //   toast({
-    //     title: "Piano cura creato.",
-    //     description: "Piano cura creato correttamente.",
-    //   });
-    // } else {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Uh Oh! Errore nella creazione.",
-    //     description: "Errore nella creazione del piano cura. Riprova",
-    //   });
-    // }
+    if (res === "ok") {
+      toast({
+        title: "Piano cura creato.",
+        description: "Piano cura creato correttamente.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nella creazione.",
+        description: "Errore nella creazione del piano cura. Riprova",
+      });
+    }
     setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
     // handleCloseModal();
   };

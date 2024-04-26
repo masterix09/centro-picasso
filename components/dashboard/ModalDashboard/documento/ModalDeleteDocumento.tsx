@@ -7,11 +7,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import React from "react";
 
 const ModalDeleteDocumento = ({ idDocumento }: { idDocumento: string }) => {
   // const { idDocumento, setFetchLabel } = useStore((state) => state);
-  // const { toast } = useToast();
+  const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -27,21 +28,21 @@ const ModalDeleteDocumento = ({ idDocumento }: { idDocumento: string }) => {
             try {
               const result = await deleteDocumentoById(idDocumento);
               // handleCloseModal();
-              // if (result === "ok") {
-              //   toast({
-              //     title: "Eliminazione con successo.",
-              //     description:
-              //       "Il tuo documento e' stato eliminato con successo.",
-              //   });
-              //   setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
-              // } else throw new Error();
+              if (result === "ok") {
+                toast({
+                  title: "Eliminazione con successo.",
+                  description:
+                    "Il tuo documento e' stato eliminato con successo.",
+                });
+                // setFetchLabel(EFetchLabel.LISTA_DOCUMENTI);
+              } else throw new Error();
             } catch (error) {
-              // toast({
-              //   variant: "destructive",
-              //   title: "Uh oh! Qualcosa e' andato storto.",
-              //   description:
-              //     "Eliminazione non riuscita. Chiudi la modale e riprova",
-              // });
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Qualcosa e' andato storto.",
+                description:
+                  "Eliminazione non riuscita. Chiudi la modale e riprova",
+              });
             }
           }}
         >

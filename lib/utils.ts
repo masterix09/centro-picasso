@@ -90,20 +90,20 @@ export async function onSubmitCreatePaziente(values: z.infer<typeof formSchema >
     professione
   );
 
-  // if(res === "ok") {
-  //   toast({
-  //     title: "Paziente creato.",
-  //     description:
-  //       "Paziente creato correttamente.",
-  //   });
-  // } else {
-  //   toast({
-  //     variant: "destructive",
-  //     title: "Uh Oh! Errore nella creazione.",
-  //     description:
-  //       "Errore nella creazione del paziente. Riprova",
-  //   });
-  // }
+  if(res === "ok") {
+    toast({
+      title: "Paziente creato.",
+      description:
+        "Paziente creato correttamente.",
+    });
+  } else {
+    toast({
+      variant: "destructive",
+      title: "Uh Oh! Errore nella creazione.",
+      description:
+        "Errore nella creazione del paziente. Riprova",
+    });
+  }
 }
 // 2. Define a submit handler.
 export function onSubmitCreatePrestazione(values: z.infer<typeof formSchema >, idPiano: string, idDente: string) {

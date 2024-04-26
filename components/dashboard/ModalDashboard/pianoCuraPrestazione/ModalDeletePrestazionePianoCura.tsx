@@ -1,3 +1,4 @@
+"use client";
 import { deletePrestazionePianoCuraById } from "@/actions/actions.clinica";
 import {
   AlertDialogCancel,
@@ -7,6 +8,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast, useToast } from "@/components/ui/use-toast";
 import React from "react";
 import { z } from "zod";
 
@@ -16,7 +18,7 @@ const ModalDeletePrestazionePianoCura = ({
   idPrestazione: string;
 }) => {
   // const { idPrestazione, setFetchLabel } = useStore((state) => state);
-  // const { toast } = useToast();
+  const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -35,20 +37,20 @@ const ModalDeletePrestazionePianoCura = ({
               );
               // handleCloseModal();
 
-              // if (result === "ok") {
-              //   setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
-              //   toast({
-              //     title: "Eliminazione con successo",
-              //     description: "Prestazione eliminata con successo",
-              //   });
-              // } else throw new Error();
+              if (result === "ok") {
+                // setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
+                toast({
+                  title: "Eliminazione con successo",
+                  description: "Prestazione eliminata con successo",
+                });
+              } else throw new Error();
             } catch (error) {
-              // toast({
-              //   variant: "destructive",
-              //   title: "Uh oh! Eliminazione errata",
-              //   description:
-              //     "Eliminazione non avvenuta con successo. Chiudi la modale e riprova",
-              // });
+              toast({
+                variant: "destructive",
+                title: "Uh oh! Eliminazione errata",
+                description:
+                  "Eliminazione non avvenuta con successo. Chiudi la modale e riprova",
+              });
             }
           }}
         >

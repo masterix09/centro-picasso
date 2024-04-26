@@ -1,11 +1,14 @@
 "use client";
 import { createImage } from "@/actions/actions.clinica";
 import { Button } from "@/components/ui/button";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { CldUploadWidget } from "next-cloudinary";
 import React from "react";
 
 const UploadWidget = ({ idPiano }: { idPiano: string }) => {
   let url: string[] = [];
+
+  const { toast } = useToast();
 
   return (
     <CldUploadWidget
@@ -21,7 +24,21 @@ const UploadWidget = ({ idPiano }: { idPiano: string }) => {
         console.log(idPiano);
 
         if (idPiano !== null && idPiano !== undefined) {
-          await createImage(url, idPiano);
+          const res = await createImage(url, idPiano);
+
+          if (res === "ok") {
+            toast({
+              title: "Immagine caricata.",
+              description: "Immagine caricata correttamente.",
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Uh Oh! Errore nell upload.",
+              description:
+                "L'immagine non e' stata caricata correttamente. Riprova",
+            });
+          }
         }
       }}
     >

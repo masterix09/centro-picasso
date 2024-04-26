@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
 import { useStore } from "@/store/store";
 import { EStatusPrestazione } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -71,20 +72,20 @@ export const columns: ColumnDef<{
                 value
               );
               if (result === "ok") {
-                // toast({
-                //   title: "Stato aggiornato.",
-                //   description:
-                //     "Stato della prestazione aggiornato correttamente.",
-                // });
+                toast({
+                  title: "Stato aggiornato.",
+                  description:
+                    "Stato della prestazione aggiornato correttamente.",
+                });
                 // setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI_PIANO_CURA);
               } else throw new Error();
             } catch (error) {
-              // toast({
-              //   variant: "destructive",
-              //   title: "Uh Oh! Errore nello stato.",
-              //   description:
-              //     "Lo stato della prestazione non e' stato aggiornato correttamente. Riprova",
-              // });
+              toast({
+                variant: "destructive",
+                title: "Uh Oh! Errore nello stato.",
+                description:
+                  "Lo stato della prestazione non e' stato aggiornato correttamente. Riprova",
+              });
             }
           }}
         >
