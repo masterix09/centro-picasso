@@ -25,10 +25,14 @@ const CalendarBody = ({
     textColor: string;
     ora_arrivo: string;
     ora_saluta: string;
+    nome: string;
+    nomeOperatore: string;
+    cognomeOperatore: string;
   }[];
 }) => {
   console.log(events);
   const renderEventContent = (eventContent: EventContentArg) => {
+    const item = events.filter((item) => item.id === eventContent.event.id);
     return (
       <Dialog>
         <DialogTrigger asChild>
@@ -43,12 +47,28 @@ const CalendarBody = ({
           </div>
         </DialogTrigger>
         <DialogContent className="p-5">
-          {/* <AlertDialog> */}
-          {/* <AlertDialogTrigger asChild> */}
-          {/* <Button type="button">Elimina</Button> */}
-          {/* </AlertDialogTrigger> */}
-          {/* <ModalDettaglio idPrestazioneAgenda={eventContent.event.id} /> */}
-          {/* </AlertDialog> */}
+          <ModalDettaglio
+            nomePrestazione={item?.at(0)?.nome ?? ""}
+            nomeCognomePaziente={item?.at(0)?.title ?? ""}
+            operatoreNome={item.at(0)?.nomeOperatore ?? ""}
+            operatoreCognome={item.at(0)?.nomeOperatore ?? ""}
+            oraArrivo={
+              item
+                .at(0)
+                ?.ora_arrivo.substring(
+                  item.at(0)?.ora_arrivo?.length! - 5 ?? 11,
+                  item.at(0)?.ora_arrivo.length
+                ) ?? ""
+            }
+            oraUscita={
+              item
+                .at(0)
+                ?.ora_saluta.substring(
+                  item.at(0)?.ora_saluta?.length! - 5 ?? 11,
+                  item.at(0)?.ora_saluta.length
+                ) ?? ""
+            }
+          />
           <Button
             onClick={async () => {
               // setIdPrestazioneAgenda(eventContent.event.id);

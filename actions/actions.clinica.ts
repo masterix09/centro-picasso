@@ -60,6 +60,8 @@ export async function getPrestazioniAgenda(idSede: string) {
             select: {
               id: true,
               colorAgenda: true,
+              cognome: true,
+              nome: true
             }
           },
           pianoCura: {
@@ -434,7 +436,7 @@ export async function getPagamentiByIdPiano (idPiano: string) {
 }
 
 export async function getPrestazioneAgendaById (idPrestazione: string) {
-    return await db.prestazione.findFirst({
+    const res = await db.prestazione.findFirst({
         where: {
             id: idPrestazione
         },
@@ -462,6 +464,7 @@ export async function getPrestazioneAgendaById (idPrestazione: string) {
             ora_saluta: true
         }
     })
+    return res
 }
 
 

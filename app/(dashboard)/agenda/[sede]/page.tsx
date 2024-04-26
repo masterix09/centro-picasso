@@ -26,6 +26,8 @@ export default async function Page({ params }: { params: { sede: string } }) {
     operatore: {
       id: string;
       colorAgenda: string | null;
+      nome: string | null;
+      cognome: string | null;
     };
     pianoCura: {
       cliente: {
@@ -52,6 +54,9 @@ export default async function Page({ params }: { params: { sede: string } }) {
     textColor: string;
     ora_arrivo: string;
     ora_saluta: string;
+    nome: string;
+    nomeOperatore: string;
+    cognomeOperatore: string;
     // className: string[];
   }[] = data.map((item) => {
     return {
@@ -68,6 +73,9 @@ export default async function Page({ params }: { params: { sede: string } }) {
       textColor: "white",
       ora_arrivo: item.ora_arrivo ?? "",
       ora_saluta: item.ora_saluta ?? "",
+      nome: item.nome ?? "",
+      nomeOperatore: item.operatore.nome ?? "",
+      cognomeOperatore: item.operatore.cognome ?? "",
       // className: getColor(
       //   item.ora_arrivo ?? "",
       //   item.ora_saluta ?? "",
