@@ -73,18 +73,18 @@ const ModalDettaglio = async ({
     };
   } | null = await getPrestazioneAgendaById(idPrestazioneAgenda);
   return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Dettaglio appuntamento</AlertDialogTitle>
-      </AlertDialogHeader>
+    // <AlertDialogContent>
+    //   <AlertDialogHeader>
+    //     <AlertDialogTitle>Dettaglio appuntamento</AlertDialogTitle>
+    //   </AlertDialogHeader>
 
+    <>
       <p className="font-bold">
         Paziente:{" "}
         <span className="font-normal">
           {data?.pianoCura.cliente.cognome} {data?.pianoCura.cliente.nome}
         </span>
       </p>
-
       <p className="font-bold">
         Categoria della prestazione da effettuare:{" "}
         <span className="font-normal">{data?.categoria}</span>
@@ -107,11 +107,12 @@ const ModalDettaglio = async ({
         Orario di uscita del paziente:{" "}
         <span className="font-normal">{data?.ora_saluta}</span>
       </p>
+    </>
 
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-      </AlertDialogFooter>
-    </AlertDialogContent>
+    //   <AlertDialogFooter>
+    //     <AlertDialogCancel>Cancel</AlertDialogCancel>
+    //   </AlertDialogFooter>
+    // </AlertDialogContent>
   );
 };
 

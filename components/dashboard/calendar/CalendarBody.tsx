@@ -10,6 +10,7 @@ import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import ModalDettaglio from "../ModalDashboard/modalAgenda/ModalDettaglio";
 import { setOrarioArrivo, setOrarioUscita } from "@/actions/actions.clinica";
+import { toast } from "@/components/ui/use-toast";
 
 const CalendarBody = ({
   events,
@@ -42,20 +43,12 @@ const CalendarBody = ({
           </div>
         </DialogTrigger>
         <DialogContent className="p-5">
-          {/* <Button
-                onClick={() => {
-                  setIdPrestazioneAgenda(eventContent.event.id);
-                  handleClick(EModalType.DETTAGLIO_EVENTO);
-                }}
-              >
-                Guarda dettaglio
-              </Button> */}
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button type="button">Elimina</Button>
-            </AlertDialogTrigger>
-            <ModalDettaglio idPrestazioneAgenda={eventContent.event.id} />
-          </AlertDialog>
+          {/* <AlertDialog> */}
+          {/* <AlertDialogTrigger asChild> */}
+          {/* <Button type="button">Elimina</Button> */}
+          {/* </AlertDialogTrigger> */}
+          {/* <ModalDettaglio idPrestazioneAgenda={eventContent.event.id} /> */}
+          {/* </AlertDialog> */}
           <Button
             onClick={async () => {
               // setIdPrestazioneAgenda(eventContent.event.id);
@@ -63,20 +56,20 @@ const CalendarBody = ({
                 `${new Date().getHours()}:${new Date().getMinutes()}`,
                 eventContent.event.id
               );
-              // if (res === "ok") {
-              //   toast({
-              //     title: "Orario impostato.",
-              //     description:
-              //       "Orario arrivo paziente impostato correttamente.",
-              //   });
-              // } else {
-              //   toast({
-              //     variant: "destructive",
-              //     title: "Uh Oh! Errore nell impostazione dell orario.",
-              //     description:
-              //       "Orario arrivo non impostato correttamente. Riprova",
-              //   });
-              // }
+              if (res === "ok") {
+                toast({
+                  title: "Orario impostato.",
+                  description:
+                    "Orario arrivo paziente impostato correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell impostazione dell orario.",
+                  description:
+                    "Orario arrivo non impostato correttamente. Riprova",
+                });
+              }
               // setFetchLabel(EFetchLabel.LISTA_EVENTI);
               // handleClick(EModalType.ORA_ARRIVO);
             }}
@@ -91,20 +84,20 @@ const CalendarBody = ({
                 `${new Date().getHours()}:${new Date().getMinutes()}`,
                 eventContent.event.id
               );
-              // if (res === "ok") {
-              //   toast({
-              //     title: "Orario impostato.",
-              //     description:
-              //       "Orario uscita paziente impostato correttamente.",
-              //   });
-              // } else {
-              //   toast({
-              //     variant: "destructive",
-              //     title: "Uh Oh! Errore nell impostazione dell orario.",
-              //     description:
-              //       "Orario uscita non impostato correttamente. Riprova",
-              //   });
-              // }
+              if (res === "ok") {
+                toast({
+                  title: "Orario impostato.",
+                  description:
+                    "Orario uscita paziente impostato correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell impostazione dell orario.",
+                  description:
+                    "Orario uscita non impostato correttamente. Riprova",
+                });
+              }
               // setFetchLabel(EFetchLabel.LISTA_EVENTI);
             }}
           >

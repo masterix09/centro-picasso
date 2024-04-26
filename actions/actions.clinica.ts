@@ -478,6 +478,7 @@ export async function setOrarioArrivo (orario: string, idPrestazione: string) {
             }
         })
 
+        revalidatePath("/agenda")
         return "ok"
         
     } catch (error: any) {
@@ -499,6 +500,8 @@ export async function setOrarioUscita (orario: string, idPrestazione: string) {
                 ora_saluta: orario
             }
         })
+
+        revalidatePath("/agenda")
 
         return "ok"
     } catch (error: any) {
