@@ -25,6 +25,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
+import { format } from "date-fns";
 
 const formSchema = z.object({
   start: z.string().min(2).max(50),
@@ -58,8 +59,10 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     try {
       const date: { data_appuntamento: string | null } | null =
         await getDataAppuntamentoPrestazioneById(idPrestazione);
-      const start = `${date?.data_appuntamento}T${values.start}`;
-      const end = `${date?.data_appuntamento}T${values.end}`;
+
+      const dateFormatted = format(date?.data_appuntamento ?? "", "yyyy-dd-MM");
+      const start = `${dateFormatted}T${values.start}`;
+      const end = `${dateFormatted}T${values.end}`;
 
       const result = await addOrarioAppuntamento(idPrestazione, start, end);
 

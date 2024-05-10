@@ -13,7 +13,7 @@ export default async function Page() {
   if (!session) redirect("/login");
   const appuntamenti = await db.prestazione.findMany({
     where: {
-      data_appuntamento: format(new Date(), "yyyy-MM-dd"),
+      data_appuntamento: format(new Date(), "dd-MM-yyyy"),
     },
     include: {
       pianoCura: {
@@ -29,7 +29,7 @@ export default async function Page() {
   const compleanni = await db.cliente.findMany({
     where: {
       data_nascita: {
-        endsWith: currentDate.substring(5),
+        equals: currentDate,
       },
     },
   });

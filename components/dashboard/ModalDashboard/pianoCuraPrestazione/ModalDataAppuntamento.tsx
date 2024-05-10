@@ -70,7 +70,7 @@ const ModalDataAppuntamento = ({
           type="button"
           onClick={async () => {
             try {
-              const dateFormat = format(date ?? "", "yyyy-MM-dd");
+              const dateFormat = format(date ?? "", "dd-MM-yyyy");
               const result = await addDataAppuntamento(
                 idPrestazione,
                 dateFormat
