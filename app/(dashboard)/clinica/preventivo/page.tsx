@@ -111,13 +111,13 @@ export default async function Page({
           <p className="text-md text-gray-500">Listino</p>
           <SelectListino />
         </div>
-        <div className=" p-3 w-full">
+        {/* <div className=" p-3 w-full">
           <p className="text-md text-gray-500">Sconto</p>
           <div className="w-full flex items-center gap-2">
             <Input placeholder="0" className="w-[100px]" />
             <span className="text-gray-400">%</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <DataTable
