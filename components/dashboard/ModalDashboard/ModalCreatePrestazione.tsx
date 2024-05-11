@@ -34,7 +34,6 @@ import { toast } from "@/components/ui/use-toast";
 const formSchema = z.object({
   titolo: z.string().min(2).max(50),
   categoria: z.string().min(2).max(50),
-  forWho: z.string().min(2).max(50),
   costoDefault: z.string().transform((v) => Number(v) || 0),
   costoGentile: z.string().transform((v) => Number(v) || 0),
 });
@@ -51,7 +50,6 @@ const ModalCreatePrestazione = ({
     defaultValues: {
       titolo: "",
       categoria: "",
-      forWho: "",
       costoDefault: 0,
       costoGentile: 0,
     },
@@ -65,7 +63,6 @@ const ModalCreatePrestazione = ({
     const res = await createPrestazioneList(
       values.titolo,
       values.categoria,
-      values.forWho,
       values.costoDefault,
       values.costoGentile
     );
@@ -110,32 +107,6 @@ const ModalCreatePrestazione = ({
                 <FormLabel>Categoria</FormLabel>
                 <FormControl>
                   <Input placeholder="Categoria prestazione" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="forWho"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Seleziona tipologia</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleziona un opzione" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Denti">Denti</SelectItem>
-                      <SelectItem value="Arcate">Arcate</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

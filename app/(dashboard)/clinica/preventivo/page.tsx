@@ -127,7 +127,7 @@ export default async function Page({
 
       <div className="ml-auto right-0 w-fit bg-white rounded p-3 shadow-xl">
         <h3 className="font-bold">
-          Totale <span className="font-normal">{calculateTotale()}$</span>
+          Totale <span className="font-normal">{calculateTotale()}€</span>
         </h3>
       </div>
 

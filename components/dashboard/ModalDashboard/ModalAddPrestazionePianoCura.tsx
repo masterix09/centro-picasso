@@ -84,6 +84,12 @@ const ModalAddPrestazionePianoCura = ({
         idDente ?? ""
       );
 
+      form.reset();
+      setStepper([
+        { name: "Step 1", href: "#", status: EStatusStepper.CURRENT },
+        { name: "Step 2", href: "#", status: EStatusStepper.UPCOMING },
+      ]);
+
       if (result === "ok") {
         toast({
           title: "Prestazione aggiunta",
@@ -116,6 +122,7 @@ const ModalAddPrestazionePianoCura = ({
         formSchema={formSchemaAddPrestazioni}
         // submitMethod={onSubmitCreatePrestazione}
         submitMethod={prestazioneFunction}
+        handleCloseModal={handleCloseModal}
       >
         {stepper.at(0)?.status === EStatusStepper.CURRENT && (
           <AggiungiPrestazione form={form} />
@@ -132,7 +139,18 @@ const ModalAddPrestazionePianoCura = ({
       </StepperForm>
 
       <AlertDialogFooter>
-        <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
+        <AlertDialogCancel
+          onClickCapture={() => {
+            form.reset();
+            setStepper([
+              { name: "Step 1", href: "#", status: EStatusStepper.CURRENT },
+              { name: "Step 2", href: "#", status: EStatusStepper.UPCOMING },
+            ]);
+            handleCloseModal();
+          }}
+        >
+          Cancel
+        </AlertDialogCancel>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

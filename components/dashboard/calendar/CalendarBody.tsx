@@ -51,7 +51,7 @@ const CalendarBody = ({
             nomePrestazione={item?.at(0)?.nome ?? ""}
             nomeCognomePaziente={item?.at(0)?.title ?? ""}
             operatoreNome={item.at(0)?.nomeOperatore ?? ""}
-            operatoreCognome={item.at(0)?.nomeOperatore ?? ""}
+            operatoreCognome={item.at(0)?.cognomeOperatore ?? ""}
             oraArrivo={
               item
                 .at(0)

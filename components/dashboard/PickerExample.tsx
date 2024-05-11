@@ -8,8 +8,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { colors } from "@/utils/colors";
 import { Paintbrush } from "lucide-react";
 import { useMemo, useState } from "react";
+import { ScrollArea } from "../ui/scroll-area";
 
 export function PickerExample({
   background,
@@ -41,16 +43,6 @@ export function GradientPicker({
   setBackground: (background: string) => void;
   className?: string;
 }) {
-  const solids = [
-    "#E2E2E2",
-    "#ff75c3",
-    "#ffa647",
-    "#ffe83f",
-    "#70e2ff",
-    "#cd93ff",
-    "#09203f",
-  ];
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -77,24 +69,19 @@ export function GradientPicker({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="">
-        <div className="mt-0 flex flex-wrap gap-1">
-          {solids.map((s) => (
-            <div
-              key={s}
-              style={{ background: s }}
-              className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
-              onClick={() => setBackground(s)}
-            />
-          ))}
-        </div>
-
-        <Input
-          id="custom"
-          value={background}
-          className="col-span-2 mt-4 h-8"
-          onChange={(e) => setBackground(e.currentTarget.value)}
-        />
+      <PopoverContent className="h-[300px] w-[350px] ">
+        <ScrollArea className="h-full p-4">
+          <div className="mt-0 flex flex-wrap gap-1">
+            {colors.map((s) => (
+              <div
+                key={s}
+                style={{ background: s }}
+                className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
+                onClick={() => setBackground(s)}
+              />
+            ))}
+          </div>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

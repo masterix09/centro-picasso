@@ -68,10 +68,6 @@ export default function Page() {
       header: "Costo Gentile",
     },
     {
-      accessorKey: "forWho",
-      header: "Appartenenza",
-    },
-    {
       id: "actions",
       header: "actions",
       cell: ({ row, getValue }) => {

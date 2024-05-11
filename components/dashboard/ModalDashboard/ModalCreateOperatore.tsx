@@ -86,7 +86,7 @@ const ModalCreateOperatore = ({
   }, []);
 
   return (
-    <AlertDialogContent>
+    <AlertDialogContent className="">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

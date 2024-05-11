@@ -23,6 +23,7 @@ const StepperForm = ({
   form,
   formSchema,
   submitMethod,
+  handleCloseModal,
 }: {
   stepper: TStepper[];
   setStepper: React.Dispatch<React.SetStateAction<TStepper[]>>;
@@ -30,6 +31,7 @@ const StepperForm = ({
   form: any;
   formSchema: z.ZodObject<any>;
   submitMethod(values: z.infer<typeof formSchema>): void;
+  handleCloseModal?: () => void;
 }) => {
   const [index, setIndex] = useState<number>(0);
 
@@ -41,6 +43,7 @@ const StepperForm = ({
     if (stepper.at(stepper.length - 1)?.status === EStatusStepper.CURRENT) {
       console.log("eccomi");
       form.handleSubmit(submitMethod);
+      handleCloseModal && handleCloseModal();
     } else {
       let foundCurrent = false;
 

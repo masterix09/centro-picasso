@@ -106,6 +106,7 @@ export async function getPrestazioniList () {
 
 }
 
+
 export async function getPrestazioniListInPage () {
     revalidatePath("/prestazioniLista")
     return await db.prestazioniLista.findMany();
@@ -157,7 +158,7 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
    
 }
 
-export async function createPrestazioneList (titolo: string, categoria: string, forWho: string, costoDefault: number, costoGentile: number) {
+export async function createPrestazioneList (titolo: string, categoria: string, costoDefault: number, costoGentile: number) {
     
     try {
         await db.prestazioniLista.create({
@@ -165,7 +166,7 @@ export async function createPrestazioneList (titolo: string, categoria: string, 
                 id: uuidv4(),
                 nome: titolo,
                 categoria,
-                forWho,
+                forWho: "",
                 costoGentile,
                 costoDefault,
             }
@@ -792,7 +793,7 @@ export async function getPrestzioneListaById (idPrestazione: string) {
     })
 }
 
-export async function updatePrestazioneLista (idPrestazione: string, categoria: string, nome: string, costoDefault: number, costoGentile: number, forWho: string) {
+export async function updatePrestazioneLista (idPrestazione: string, categoria: string, nome: string, costoDefault: number, costoGentile: number) {
     
     try {
         await db.prestazioniLista.update({
@@ -803,8 +804,21 @@ export async function updatePrestazioneLista (idPrestazione: string, categoria: 
                 categoria,
                 costoDefault,
                 costoGentile,
-                forWho,
+                forWho: "",
                 nome
+            }
+        })
+
+        await db.prestazione.updateMany({
+            where: {
+                nome,
+                categoria,
+            },
+            data: {
+                categoria,
+                costoDefault,
+                costoGentile,
+                nome,
             }
         })
 

@@ -56,22 +56,32 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
+    const date: { data_appuntamento: string | null } | null =
+      await getDataAppuntamentoPrestazioneById(idPrestazione);
+    await processSubmit(
+      date?.data_appuntamento ?? "05-05-2023",
+      values.start,
+      values.end
+    );
+  }
+
+  const processSubmit = async (
+    data_appuntamento: string,
+    startTime: string,
+    endTime: string
+  ) => {
     try {
-      const date: { data_appuntamento: string | null } | null =
-        await getDataAppuntamentoPrestazioneById(idPrestazione);
-
-      const dateFormatted = format(date?.data_appuntamento ?? "", "yyyy-dd-MM");
-      const start = `${dateFormatted}T${values.start}`;
-      const end = `${dateFormatted}T${values.end}`;
-
+      const formattedDate = data_appuntamento.split("-").reverse().join("-");
+      const start = `${formattedDate}T${startTime}`;
+      const end = `${formattedDate}T${endTime}`;
       const result = await addOrarioAppuntamento(idPrestazione, start, end);
-
       if (result === "ok") {
         toast({
           title: "Orario impostato correttamente",
         });
       } else throw new Error();
     } catch (error) {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Uh oh! Qualcosa e' andato storto.",
@@ -79,7 +89,7 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
           "Orario non impostato correttamente. Prova a chiudere la modale e riprova",
       });
     }
-  }
+  };
 
   return (
     <AlertDialogContent>

@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const DettagliContattoPaziente = ({
   form,
@@ -57,92 +58,89 @@ const DettagliContattoPaziente = ({
   >;
 }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-x-6 gap-y-2">
-      <div className="w-full md:w-1/2">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+    <ScrollArea className=" h-[400px] flex flex-row gap-y-4">
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input placeholder="Email" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="telefono"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Telefono</FormLabel>
+            <FormControl>
+              <Input placeholder="Telefono" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="cellulare"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Cellulare</FormLabel>
+            <FormControl>
+              <Input placeholder="Cellulare" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="professione"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Professione</FormLabel>
+            <FormControl>
+              <Input placeholder="Professione" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="richiamo"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Richiamo</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona richiamo" />
+                </SelectTrigger>
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="telefono"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefono</FormLabel>
-              <FormControl>
-                <Input placeholder="Telefono" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="cellulare"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cellulare</FormLabel>
-              <FormControl>
-                <Input placeholder="Cellulare" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-      <div className="w-full">
-        <FormField
-          control={form.control}
-          name="professione"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Professione</FormLabel>
-              <FormControl>
-                <Input placeholder="Professione" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="richiamo"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Richiamo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleziona richiamo" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {(
-                    Object.keys(ERichiamo) as Array<keyof typeof ERichiamo>
-                  ).map((item) => {
+              <SelectContent>
+                {(Object.keys(ERichiamo) as Array<keyof typeof ERichiamo>).map(
+                  (item) => {
                     return (
                       <SelectItem value={item} key={item}>
                         {item}
                       </SelectItem>
                     );
-                  })}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-    </div>
+                  }
+                )}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </ScrollArea>
   );
 };
 

@@ -40,7 +40,6 @@ import { EFetchLabel } from "@/enum/types";
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
   categoria: z.string().min(2).max(50),
-  forWho: z.string().min(2).max(50),
   costoDefault: z.string().transform((v) => Number(v) || 0),
   costoGentile: z.string().transform((v) => Number(v) || 0),
 });
@@ -76,14 +75,12 @@ const ModalModificaPrestazione = ({
     defaultValues: {
       nome: "",
       categoria: "",
-      forWho: "",
       costoDefault: 0,
       costoGentile: 0,
     },
     values: {
       nome: prestazione?.nome ?? "",
       categoria: prestazione?.categoria ?? "",
-      forWho: prestazione?.forWho ?? "",
       costoDefault: prestazione?.costoDefault ?? 0,
       costoGentile: prestazione?.costoGentile ?? 0,
     },
@@ -99,8 +96,7 @@ const ModalModificaPrestazione = ({
       values.categoria,
       values.nome,
       values.costoDefault,
-      values.costoGentile,
-      values.forWho
+      values.costoGentile
     );
     if (res === "ok") {
       toast({
@@ -143,32 +139,6 @@ const ModalModificaPrestazione = ({
                 <FormLabel>Categoria</FormLabel>
                 <FormControl>
                   <Input placeholder="Categoria prestazione" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="forWho"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Seleziona tipologia</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleziona un opzione" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Denti">Denti</SelectItem>
-                      <SelectItem value="Arcate">Arcate</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
