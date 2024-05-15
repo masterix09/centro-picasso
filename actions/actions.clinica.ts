@@ -742,9 +742,10 @@ export async function updateSede (idSedeVecchio: string, idSedeNuovo: string) {
             },
             data: {
                 nome: idSedeNuovo,
-                id: idSedeNuovo
+                
             }
         })
+
         
         return "ok"
     } catch (error: any) {

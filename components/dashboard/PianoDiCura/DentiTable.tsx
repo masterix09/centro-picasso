@@ -5,6 +5,7 @@ import styles from "@/style/gestionale/clinica/clinicaDenti.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { EModalType } from "@/enum/types";
 import { useStore } from "@/store/store";
+import { toast } from "@/components/ui/use-toast";
 // import { useDispatch } from "react-redux";
 // import { AppDispatch, useAppSelector } from "@/redux/store";
 // import { setModalOpen, setModalType } from "@/redux/features/common-slice";
@@ -36,7 +37,7 @@ const DentiTable = () => {
   //   };
 
   const [denteNumber, setDenteNumber] = useState<number>();
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   // const pathname = usePathname();
   // const { replace } = useRouter();
 
@@ -48,9 +49,27 @@ const DentiTable = () => {
     // params.set("modalType", EModalType.ADD_PRESTAZIONE_PIANOCURA);
     // params.set("dente", dente as unknown as string);
     // replace(`${pathname}?${params.toString()}`);
-    setModalOpen(true);
-    setModalType(EModalType.ADD_PRESTAZIONE_PIANOCURA);
-    setIdDente(dente as unknown as string);
+    if (searchParams.get("idCliente")) {
+      if (searchParams.get("idPiano")) {
+        setModalOpen(true);
+        setModalType(EModalType.ADD_PRESTAZIONE_PIANOCURA);
+        setIdDente(dente as unknown as string);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Seleziona un piano di cura.",
+          description:
+            "Per poter creare una prestazione seleziona prima un piano di cura",
+        });
+      }
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Seleziona un paziente.",
+        description:
+          "Per poter creare una prestazione seleziona prima un paziente",
+      });
+    }
   };
 
   return (

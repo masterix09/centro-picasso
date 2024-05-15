@@ -46,7 +46,7 @@ const ModalModificaSede = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nome: idSede,
+      nome: "",
     },
   });
 
@@ -69,13 +69,14 @@ const ModalModificaSede = ({
       });
     }
     setFetchLabel(EFetchLabel.LISTA_SEDI);
+    form.reset();
     handleCloseModal();
   }
 
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Elmina sede</AlertDialogTitle>
+        <AlertDialogTitle>Modifica sede</AlertDialogTitle>
       </AlertDialogHeader>
 
       <Form {...form}>
@@ -94,7 +95,12 @@ const ModalModificaSede = ({
             )}
           />
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCloseModal}>
+            <AlertDialogCancel
+              onClick={() => {
+                form.reset();
+                handleCloseModal();
+              }}
+            >
               Cancel
             </AlertDialogCancel>
             <Button type="submit">Submit</Button>
