@@ -117,6 +117,15 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
 
     try {
 
+        const idSede = await db.sede.findFirst({
+            where: {
+                nome: sede
+            },
+            select: {
+                id: true,
+            }
+        })
+
         const prestazioni: TPrestazioneLista[] = await db.prestazioniLista.findMany({
             where: {
                 id: {
@@ -137,7 +146,7 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
                 pianoCuraId: idPiano,
                 operatoreId: operatoreId,
                 denteId: String(idDente),
-                sedeId: sede ?? ""
+                sedeId: idSede?.id ?? ""
             }
         })
               
