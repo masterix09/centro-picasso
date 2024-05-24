@@ -21,6 +21,7 @@ import AppuntamentoPrestazione from "./createPrestazione/AppuntamentoPrestazione
 import { useStore } from "@/store/store";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const formSchemaAddPrestazioni = z.object({
   sede: z.string().min(2),

@@ -20,6 +20,7 @@ import { onSubmitCreatePaziente } from "@/lib/utils";
 import { useStore } from "@/store/store";
 import Image from "next/image";
 import loaderImg from "@/public/animation.gif";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const formSchemaCreatePaziente = z.object({
   nome: z.string().min(2, "Inserisci almeno 2 caratteri").max(50),
@@ -116,6 +117,53 @@ const ModalCreatePaziente = () => {
       </StepperForm>
 
       <AlertDialogFooter>
+        <ScrollArea className="flex w-full flex-col h-[100px]">
+          {form.formState.errors.cap !== undefined && (
+            <p className="text-sm text-red-500">Controlla cap</p>
+          )}
+          {form.formState.errors.cellulare !== undefined && (
+            <p className="text-sm text-red-500">Controlla cellulare</p>
+          )}
+          {form.formState.errors.cf !== undefined && (
+            <p className="text-sm text-red-500">Controlla cf</p>
+          )}
+          {form.formState.errors.citta !== undefined && (
+            <p className="text-sm text-red-500">Controlla citta</p>
+          )}
+          {form.formState.errors.cognome !== undefined && (
+            <p className="text-sm text-red-500">Controlla cognome</p>
+          )}
+          {form.formState.errors.dataNascita !== undefined && (
+            <p className="text-sm text-red-500">Controlla data nascita</p>
+          )}
+          {form.formState.errors.email !== undefined && (
+            <p className="text-sm text-red-500">Controlla email</p>
+          )}
+          {form.formState.errors.indirizzo !== undefined && (
+            <p className="text-sm text-red-500">Controlla indirizzo</p>
+          )}
+          {form.formState.errors.listino !== undefined && (
+            <p className="text-sm text-red-500">Controlla listino</p>
+          )}
+          {form.formState.errors.luogoNascita !== undefined && (
+            <p className="text-sm text-red-500">Controlla luogo di nascita</p>
+          )}
+          {form.formState.errors.motivo !== undefined && (
+            <p className="text-sm text-red-500">Controlla motivo</p>
+          )}
+          {form.formState.errors.nome !== undefined && (
+            <p className="text-sm text-red-500">Controlla nome</p>
+          )}
+          {form.formState.errors.professione !== undefined && (
+            <p className="text-sm text-red-500">Controlla professione</p>
+          )}
+          {form.formState.errors.richiamo !== undefined && (
+            <p className="text-sm text-red-500">Controlla richiamo</p>
+          )}
+          {form.formState.errors.telefono !== undefined && (
+            <p className="text-sm text-red-500">Controlla telefono</p>
+          )}
+        </ScrollArea>
         <AlertDialogCancel
           onClickCapture={() => {
             form.reset();

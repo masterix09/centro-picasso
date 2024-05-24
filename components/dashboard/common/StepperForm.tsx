@@ -5,7 +5,7 @@ import { CheckIcon } from "lucide-react";
 import { EStatusStepper, TUseFormReturnCreatePaziente } from "@/enum/types";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Form } from "@/components/ui/form";
+import { Form, useFormField } from "@/components/ui/form";
 import { format } from "date-fns";
 import { createPaziente } from "@/actions/actions.clinica";
 import { onSubmitCreatePaziente, onSubmitCreatePrestazione } from "@/lib/utils";
@@ -40,28 +40,22 @@ const StepperForm = ({
   }
 
   const handleNextStepper = () => {
-    if (stepper.at(stepper.length - 1)?.status === EStatusStepper.CURRENT) {
-      console.log("eccomi");
-      form.handleSubmit(submitMethod);
-      handleCloseModal && handleCloseModal();
-    } else {
-      let foundCurrent = false;
+    let foundCurrent = false;
 
-      const updatedStepper = stepper.map((step) => {
-        if (foundCurrent && step.status === EStatusStepper.UPCOMING) {
-          // Change the status of the first upcoming step after current to CURRENT
-          foundCurrent = false; // Reset foundCurrent after the transition
-          return { ...step, status: EStatusStepper.CURRENT };
-        } else if (step.status === EStatusStepper.CURRENT) {
-          foundCurrent = true;
-          return { ...step, status: EStatusStepper.COMPLETE };
-        }
+    const updatedStepper = stepper.map((step) => {
+      if (foundCurrent && step.status === EStatusStepper.UPCOMING) {
+        // Change the status of the first upcoming step after current to CURRENT
+        foundCurrent = false; // Reset foundCurrent after the transition
+        return { ...step, status: EStatusStepper.CURRENT };
+      } else if (step.status === EStatusStepper.CURRENT) {
+        foundCurrent = true;
+        return { ...step, status: EStatusStepper.COMPLETE };
+      }
 
-        return step;
-      });
-      setStepper(updatedStepper);
-      setIndex(index + 1);
-    }
+      return step;
+    });
+    setStepper(updatedStepper);
+    setIndex(index + 1);
   };
 
   const handlePrevStepper = () => {
@@ -86,6 +80,10 @@ const StepperForm = ({
     }
 
     setStepper(updatedStepper);
+  };
+
+  const handleSubmit = () => {
+    form.handleSubmit(submitMethod);
   };
 
   return (
@@ -174,18 +172,27 @@ const StepperForm = ({
               {children}
               {/* <Button type="submit">Submit</Button> */}
               <div className="w-full flex flex-col md:flex-row gapx-x-6 gap-y-5">
-                <Button
-                  onClick={handleNextStepper}
-                  // disabled={
-                  //   stepper.at(stepper.length - 1)?.status === EStatusStepper.CURRENT
-                  // }
-                  type="submit"
-                >
-                  Avanti
-                </Button>
+                {stepper.at(stepper.length - 1)?.status !==
+                  EStatusStepper.CURRENT && (
+                  <Button
+                    onClick={handleNextStepper}
+                    // disabled={
+                    //   stepper.at(stepper.length - 1)?.status === EStatusStepper.CURRENT
+                    // }
+                    //type="submit"
+                  >
+                    Avanti
+                  </Button>
+                )}
+                {stepper.at(stepper.length - 1)?.status ===
+                  EStatusStepper.CURRENT && (
+                  <Button onClick={handleSubmit}>Invia</Button>
+                )}
+
                 <Button
                   onClick={handlePrevStepper}
                   disabled={stepper.at(0)?.status === EStatusStepper.CURRENT}
+                  type="button"
                 >
                   Indietro
                 </Button>
