@@ -26,24 +26,19 @@ export const formSchemaCreatePaziente = z.object({
   nome: z.string().min(2, "Inserisci almeno 2 caratteri").max(50),
   cognome: z.string().min(2, "Inserisci almeno 2 caratteri").max(50),
   sesso: z.string().min(2),
-  dataNascita: z.date({
-    required_error: "Data di nascita richiesta.",
-  }),
+  dataNascita: z.date(),
   straniero: z.boolean(),
-  luogoNascita: z.string().min(4, "Inserisci almeno 4 caratteri"),
-  cf: z.string().min(9, "Inserisci almeno 10 caratteri"),
-  indirizzo: z.string().min(5, "Inserisci almeno 5 caratteri"),
-  cap: z
-    .string()
-    .min(5, "Inserisci almeno 5 caratteri")
-    .max(5, "Numero di caratteri massimo consentito 5"),
-  citta: z.string().min(4, "Inserisci almeno 4 caratteri"),
-  email: z.string().email("Non e una mail valida").min(2),
-  cellulare: z.string().min(9, "Inserisci almeno 9 caratteri").max(11),
-  telefono: z.string().min(9, "Inserisci almeno 9 caratteri").max(11),
-  professione: z.string().min(4, "Inserisci almeno 4 caratteri"),
+  luogoNascita: z.string(),
+  cf: z.string(),
+  indirizzo: z.string(),
+  cap: z.string(),
+  citta: z.string(),
+  email: z.string().email("Non e una mail valida"),
+  cellulare: z.string().default(""),
+  telefono: z.string().default(""),
+  professione: z.string(),
   richiamo: z.string().min(2),
-  motivo: z.string().min(2, "Inserisci almeno 2 caratteri"),
+  motivo: z.string(),
   listino: z.string().min(2),
 });
 
