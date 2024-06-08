@@ -127,32 +127,39 @@ const AnagraficaPaziente = ({
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-full pl-3 text-left font-normal",
+                      "w-[240px] pl-3 text-left font-normal",
                       !field.value && "text-muted-foreground"
                     )}
                   >
                     {field.value ? (
-                      format(field.value, "PPP")
+                      format(field.value, "dd-MM-yyyy")
                     ) : (
-                      <span>Seleziona una data</span>
+                      <span>Scegli una data</span>
                     )}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <div className="w-full relative p-0 m-0">
-                  <DayPicker
-                    captionLayout="dropdown-buttons"
-                    fromYear={1926}
-                    toYear={2060}
-                    className="w-fit"
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    locale={it}
-                  />
-                </div>
+                <Calendar
+                  locale={it}
+                  mode="single"
+                  selected={field.value}
+                  onSelect={field.onChange}
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
+                  fromDate={new Date("1900-01-01")}
+                  fromMonth={new Date("1900-01-01")}
+                  fromYear={1900}
+                  toDate={new Date()}
+                  toMonth={new Date()}
+                  toYear={new Date().getFullYear()}
+                  today={new Date()}
+                  captionLayout="dropdown-buttons"
+                  lang="it-IT"
+                  initialFocus
+                />
               </PopoverContent>
             </Popover>
             <FormMessage />

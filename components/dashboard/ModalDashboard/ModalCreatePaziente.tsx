@@ -33,7 +33,7 @@ export const formSchemaCreatePaziente = z.object({
   indirizzo: z.string(),
   cap: z.string(),
   citta: z.string(),
-  email: z.string().email("Non e una mail valida"),
+  email: z.string(),
   cellulare: z.string().default(""),
   telefono: z.string().default(""),
   professione: z.string(),
