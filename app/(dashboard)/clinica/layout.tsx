@@ -79,7 +79,7 @@ export default function ClinicaLayout({ children }: { children: ReactNode }) {
     if (valuePaziente !== "") {
       getPianoCuraByIdCliente(valuePaziente).then((data) => setPianoCura(data));
     }
-  }, [users, valuePaziente]);
+  }, [valuePaziente]);
 
   useEffect(() => {
     if (fetchLabel === EFetchLabel.LISTA_PIANO_CURA) {

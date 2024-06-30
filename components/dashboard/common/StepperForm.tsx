@@ -9,6 +9,7 @@ import { Form, useFormField } from "@/components/ui/form";
 import { format } from "date-fns";
 import { createPaziente } from "@/actions/actions.clinica";
 import { onSubmitCreatePaziente, onSubmitCreatePrestazione } from "@/lib/utils";
+import { AlertDialogAction } from "@/components/ui/alert-dialog";
 
 export type TStepper = {
   name: string;
@@ -82,8 +83,12 @@ const StepperForm = ({
     setStepper(updatedStepper);
   };
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleSubmit = () => {
+    setIsLoading(true);
     form.handleSubmit(submitMethod);
+    setIsLoading(false);
   };
 
   return (
@@ -185,9 +190,18 @@ const StepperForm = ({
                   </Button>
                 )}
                 {stepper.at(stepper.length - 1)?.status ===
-                  EStatusStepper.CURRENT && (
-                  <Button onClick={handleSubmit}>Invia</Button>
-                )}
+                  EStatusStepper.CURRENT &&
+                  isLoading === false && (
+                    <AlertDialogAction type="submit" disabled={isLoading}>
+                      <Button
+                        onClick={handleSubmit}
+                        type="submit"
+                        disabled={isLoading}
+                      >
+                        Invia
+                      </Button>
+                    </AlertDialogAction>
+                  )}
 
                 <Button
                   onClick={handlePrevStepper}

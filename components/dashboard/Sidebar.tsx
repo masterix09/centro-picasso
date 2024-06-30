@@ -289,6 +289,29 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                 </Link>
               </li>
               <li>
+                <Link
+                  href="/listaPazienti"
+                  className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+
+                  <span className="ms-3 text-white group-hover:text-black">
+                    Lista Pazienti
+                  </span>
+                </Link>
+              </li>
+              <li>
                 <div className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group">
                   <svg
                     fill="#000000"

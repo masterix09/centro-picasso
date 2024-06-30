@@ -288,7 +288,7 @@ model Documenti {
   id          String    @unique
   url         String
   nome        String
-  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id])
+  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
   pianoCuraId String
   createdAt   String
 
@@ -299,7 +299,7 @@ model Image {
   id          String    @id @unique
   url         String
   note        String
-  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id])
+  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
   pianoCuraId String
 
   @@index([pianoCuraId])
@@ -349,7 +349,7 @@ model Pagamenti {
   importo     Int?
   createdAt   String?
   note        String?
-  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id])
+  pianoCura   PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
   pianoCuraId String
 
   @@index([pianoCuraId])
@@ -364,7 +364,7 @@ model PianoCura {
   documenti    Documenti[]
   image        Image[]
   pagamenti    Pagamenti[]
-  cliente      Cliente       @relation(fields: [clienteId], references: [id])
+  cliente      Cliente       @relation(fields: [clienteId], references: [id], onDelete: Cascade)
   clienteId    String
 
   @@index([clienteId])
@@ -388,7 +388,7 @@ model Prestazione {
   data_appuntamento String?
   costoDefault      Int?
   costoGentile      Int?
-  pianoCura         PianoCura @relation(fields: [pianoCuraId], references: [id])
+  pianoCura         PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
   pianoCuraId       String
   denteId           String?
   poltronaId        String?

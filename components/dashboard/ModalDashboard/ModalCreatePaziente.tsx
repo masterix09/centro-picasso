@@ -62,6 +62,7 @@ const ModalCreatePaziente = () => {
       richiamo: "",
       motivo: "",
       listino: "",
+      dataNascita: new Date(),
     },
   });
 

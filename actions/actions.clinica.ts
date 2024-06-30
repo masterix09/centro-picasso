@@ -298,6 +298,8 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
     
     try {
 
+
+
         await db.cliente.create({
             data: {
                 id: uuidv4(),
@@ -306,7 +308,7 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
                 citta,
                 codice_fiscale: cf,
                 cognome,
-                data_nascita: dataNascita,
+                data_nascita: dataNascita ?? new Date(),
                 data_richiamo: dataRichiamo,
                 email,
                 indirizzo,
@@ -596,15 +598,28 @@ export async function deleteOperatoreById (idOperatore: string) {
     
     try {
 
+        await db.operatoreOnSede.deleteMany({
+            where: {
+                operatoreId: idOperatore,
+            }
+        })
+
         await db.operatore.delete({
             where: {
                 id: idOperatore
             }
         })
 
+        await db.prestazione.deleteMany({
+            where: {
+                operatoreId: idOperatore
+            },
+        })
+
         return "ok"
         
     } catch (error: any) {
+        console.log(error.toString())
         return error.toString()
     }
     

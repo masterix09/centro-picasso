@@ -35,6 +35,7 @@ import ModalModificaSede from "../ModalDashboard/sede/ModalModificaSede";
 import ModalModificaOperatore from "../ModalDashboard/operatore/ModalModificaOperatore";
 import ModalModificaPrestazione from "../ModalDashboard/prestazioni/ModalModificaPrestazione";
 import ModalePrenotazione from "@/components/webapp/ModalePrenotazione";
+import ModalDeletePaziente from "../ModalDashboard/deletePaziente/ModalDeletePaziente";
 
 const Modal = () => {
   const {
@@ -103,6 +104,9 @@ const Modal = () => {
       )} */}
       {modalType === EModalType.ELIMINA_OPERATORE && (
         <ModalEliminaOperatore handleCloseModal={handleCloseModal} />
+      )}
+      {modalType === EModalType.ELIMINA_PAZIENTE && (
+        <ModalDeletePaziente handleCloseModal={handleCloseModal} />
       )}
       {modalType === EModalType.ELIMINA_PRESTAZIONE && (
         <ModalDeletePrestazione handleCloseModal={handleCloseModal} />
