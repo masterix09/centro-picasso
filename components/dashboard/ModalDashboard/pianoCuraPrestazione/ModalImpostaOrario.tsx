@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -36,6 +36,8 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
   // const { idPrestazione } = useStore((state) => state);
   const [data, setData] = useState<string>("");
   const { toast } = useToast();
+
+  const [isPending, startTransition] = useTransition();
 
   // useEffect(() => {
   //   getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
@@ -56,13 +58,15 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const date: { data_appuntamento: string | null } | null =
-      await getDataAppuntamentoPrestazioneById(idPrestazione);
-    await processSubmit(
-      date?.data_appuntamento ?? "05-05-2023",
-      values.start,
-      values.end
-    );
+    startTransition(async () => {
+      const date: { data_appuntamento: string | null } | null =
+        await getDataAppuntamentoPrestazioneById(idPrestazione);
+      await processSubmit(
+        date?.data_appuntamento ?? "05-05-2023",
+        values.start,
+        values.end
+      );
+    });
   }
 
   const processSubmit = async (
@@ -125,7 +129,9 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
           />
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Imposta"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

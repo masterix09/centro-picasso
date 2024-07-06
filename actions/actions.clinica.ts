@@ -721,7 +721,7 @@ export async function getOperatoreById (idOperatore: string) {
 
 export async function deletePrestazioneById (idPrestazione: string) {
 
-    await db.prestazione.delete({
+    await db.prestazioniLista.delete({
         where: {
             id: idPrestazione
         }

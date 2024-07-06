@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { DayPicker } from "react-day-picker";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -29,6 +29,7 @@ const ModalDataAppuntamento = ({
   // const { idPrestazione } = useStore((state) => state);
   const [date, setDate] = useState<Date>();
   const { toast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <AlertDialogContent>
@@ -68,21 +69,24 @@ const ModalDataAppuntamento = ({
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <Button
           type="button"
+          disabled={isPending}
           onClick={async () => {
             try {
-              const dateFormat = format(date ?? "", "dd-MM-yyyy");
-              const result = await addDataAppuntamento(
-                idPrestazione,
-                dateFormat
-              );
+              startTransition(async () => {
+                const dateFormat = format(date ?? "", "dd-MM-yyyy");
+                const result = await addDataAppuntamento(
+                  idPrestazione,
+                  dateFormat
+                );
 
-              if (result === "ok") {
-                toast({
-                  title: "Data appuntamento impostata correttamente",
-                  description:
-                    "La data del tuo appuntamento e' stata impostata correttamente.",
-                });
-              } else throw new Error();
+                if (result === "ok") {
+                  toast({
+                    title: "Data appuntamento impostata correttamente",
+                    description:
+                      "La data del tuo appuntamento e' stata impostata correttamente.",
+                  });
+                } else throw new Error();
+              });
             } catch (error) {
               toast({
                 variant: "destructive",
@@ -93,7 +97,7 @@ const ModalDataAppuntamento = ({
             }
           }}
         >
-          Submit
+          {isPending ? "Loading" : "Imposta"}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
