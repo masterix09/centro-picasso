@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useTransition } from "react";
 
 const ModalDeletePrestazione = ({
   handleCloseModal,
@@ -19,6 +19,7 @@ const ModalDeletePrestazione = ({
 }) => {
   const searchParams = useSearchParams();
   const idPrestazione = searchParams.get("idPrestazione") ?? "";
+  const [isPending, startTransition] = useTransition();
 
   return (
     <AlertDialogContent>
@@ -30,12 +31,15 @@ const ModalDeletePrestazione = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
+          disabled={isPending}
           onClick={() => {
-            deletePrestazioneById(idPrestazione);
-            handleCloseModal();
+            startTransition(async () => {
+              deletePrestazioneById(idPrestazione);
+              handleCloseModal();
+            });
           }}
         >
-          Submit
+          {isPending ? "Loading" : "Elimina"}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>

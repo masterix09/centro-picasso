@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -44,6 +44,7 @@ const ModalModificaSede = ({
   const searchParams = useSearchParams();
   const idSede = searchParams.get("idSede") ?? "";
   const { setFetchLabel } = useStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,22 +56,24 @@ const ModalModificaSede = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await updateSede(idSede, values.nome);
-    if (res === "ok") {
-      toast({
-        title: "Modifica sede.",
-        description: "Sede modificata correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella modifica.",
-        description: "Errore nella modifica della sede. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_SEDI);
-    form.reset();
-    handleCloseModal();
+    startTransition(async () => {
+      const res = await updateSede(idSede, values.nome);
+      if (res === "ok") {
+        toast({
+          title: "Modifica sede.",
+          description: "Sede modificata correttamente.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Errore nella modifica.",
+          description: "Errore nella modifica della sede. Riprova",
+        });
+      }
+      setFetchLabel(EFetchLabel.LISTA_SEDI);
+      form.reset();
+      handleCloseModal();
+    });
   }
 
   return (
@@ -103,7 +106,9 @@ const ModalModificaSede = ({
             >
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Modifica"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

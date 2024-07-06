@@ -6,7 +6,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -68,6 +68,8 @@ const ModalModificaPrestazione = ({
   const idPrestazione = searchParams.get("idPrestazione") ?? "";
   const { setFetchLabel } = useStore((state) => state);
 
+  const [isPending, startTransition] = useTransition();
+
   useEffect(() => {
     getPrestzioneListaById(idPrestazione).then((data) => setPrestazione(data));
   }, [idPrestazione]);
@@ -94,27 +96,29 @@ const ModalModificaPrestazione = ({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const res = await updatePrestazioneLista(
-      idPrestazione,
-      values.categoria,
-      values.nome,
-      values.costoDefault,
-      values.costoGentile
-    );
-    if (res === "ok") {
-      toast({
-        title: "Modifica prestazione.",
-        description: "Prestazione modificata correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella modifica.",
-        description: "Errore nella modifica della prestazione. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI);
-    handleCloseModal();
+    startTransition(async () => {
+      const res = await updatePrestazioneLista(
+        idPrestazione,
+        values.categoria,
+        values.nome,
+        values.costoDefault,
+        values.costoGentile
+      );
+      if (res === "ok") {
+        toast({
+          title: "Modifica prestazione.",
+          description: "Prestazione modificata correttamente.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Errore nella modifica.",
+          description: "Errore nella modifica della prestazione. Riprova",
+        });
+      }
+      setFetchLabel(EFetchLabel.LISTA_PRESTAZIONI);
+      handleCloseModal();
+    });
   }
 
   return (
@@ -177,7 +181,9 @@ const ModalModificaPrestazione = ({
             <AlertDialogCancel onClick={handleCloseModal}>
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Modifica"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

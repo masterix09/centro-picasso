@@ -54,7 +54,7 @@ const ModalDeletePaziente = ({
             });
           }}
         >
-          {isPending ? "Loading" : "Submit"}
+          {isPending ? "Loading" : "Elimina"}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>

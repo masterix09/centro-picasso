@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -43,6 +43,7 @@ const ModalCreateOperatore = ({
   const { setFetchLabel } = useStore((state) => state);
   const [colore, setColore] = useState("red");
   const [sede, setSede] = useState<{ id: string; nome: string }[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,26 +59,29 @@ const ModalCreateOperatore = ({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const res = await createOperatore(
-      values.nome,
-      values.cognome,
-      colore,
-      values.sede
-    );
-    if (res === "ok") {
-      toast({
-        title: "Creazione operatore.",
-        description: "Operatore creato correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella creazione.",
-        description: "Errore nella creazione dell operatore. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_OPERATORI);
-    handleCloseModal();
+
+    startTransition(async () => {
+      const res = await createOperatore(
+        values.nome,
+        values.cognome,
+        colore,
+        values.sede
+      );
+      if (res === "ok") {
+        toast({
+          title: "Creazione operatore.",
+          description: "Operatore creato correttamente.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Errore nella creazione.",
+          description: "Errore nella creazione dell operatore. Riprova",
+        });
+      }
+      setFetchLabel(EFetchLabel.LISTA_OPERATORI);
+      handleCloseModal();
+    });
   }
 
   useEffect(() => {
@@ -159,7 +163,9 @@ const ModalCreateOperatore = ({
             <AlertDialogCancel onClick={handleCloseModal}>
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Crea"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

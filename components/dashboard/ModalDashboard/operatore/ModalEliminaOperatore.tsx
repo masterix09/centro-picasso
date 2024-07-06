@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useTransition } from "react";
 
 const ModalEliminaOperatore = ({
   handleCloseModal,
@@ -18,6 +18,7 @@ const ModalEliminaOperatore = ({
 }) => {
   const searchParams = useSearchParams();
   const idOperatore = searchParams.get("idOperatore") ?? "";
+  const [isPending, startTransition] = useTransition();
 
   return (
     <AlertDialogContent>
@@ -29,25 +30,28 @@ const ModalEliminaOperatore = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
+          disabled={isPending}
           onClick={async () => {
-            const res = await deleteOperatoreById(idOperatore);
-            if (res === "ok") {
-              toast({
-                title: "Eliminazione operatore.",
-                description: "Operatore eliminato correttamente.",
-              });
-            } else {
-              toast({
-                variant: "destructive",
-                title: "Uh Oh! Errore nell eliminazione.",
-                description:
-                  "Errore nella eliminazione dell operatore. Riprova",
-              });
-            }
-            handleCloseModal();
+            startTransition(async () => {
+              const res = await deleteOperatoreById(idOperatore);
+              if (res === "ok") {
+                toast({
+                  title: "Eliminazione operatore.",
+                  description: "Operatore eliminato correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell eliminazione.",
+                  description:
+                    "Errore nella eliminazione dell operatore. Riprova",
+                });
+              }
+              handleCloseModal();
+            });
           }}
         >
-          Submit
+          {isPending ? "Loading" : "Elimina"}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>

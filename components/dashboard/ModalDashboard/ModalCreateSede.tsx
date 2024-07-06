@@ -4,7 +4,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 
-import React from "react";
+import React, { useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ const ModalCreateSede = ({
   handleCloseModal: () => void;
 }) => {
   const { setFetchLabel } = useStore((state) => state);
+  const [isPending, startTransition] = useTransition();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,9 +42,11 @@ const ModalCreateSede = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createSede(values.nome);
-    setFetchLabel(EFetchLabel.LISTA_SEDI);
-    handleCloseModal();
+    startTransition(async () => {
+      await createSede(values.nome);
+      setFetchLabel(EFetchLabel.LISTA_SEDI);
+      handleCloseModal();
+    });
   }
 
   return (
@@ -67,7 +70,9 @@ const ModalCreateSede = ({
             <AlertDialogCancel onClick={handleCloseModal}>
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Crea"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

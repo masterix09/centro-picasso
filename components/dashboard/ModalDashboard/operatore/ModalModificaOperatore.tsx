@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { PickerExample } from "../../PickerExample";
 import {
   Form,
@@ -61,6 +61,7 @@ const ModalModificaOperatore = ({
   const searchParams = useSearchParams();
   const idOperatore = searchParams.get("idOperatore") ?? "";
   const { setFetchLabel } = useStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     // Quando il componente si monta, richiama la funzione per ottenere i dati
@@ -89,32 +90,34 @@ const ModalModificaOperatore = ({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    const res = await updateOperatoreById(
-      idOperatore,
-      values.nome,
-      values.cognome,
-      colore
-    );
-    if (res === "ok") {
-      toast({
-        title: "Modifica operatore.",
-        description: "Operatore modificato correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella modifica.",
-        description: "Errore nella modifica dell operatore. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_OPERATORI);
-    handleCloseModal();
+    startTransition(async () => {
+      const res = await updateOperatoreById(
+        idOperatore,
+        values.nome,
+        values.cognome,
+        colore
+      );
+      if (res === "ok") {
+        toast({
+          title: "Modifica operatore.",
+          description: "Operatore modificato correttamente.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Errore nella modifica.",
+          description: "Errore nella modifica dell operatore. Riprova",
+        });
+      }
+      setFetchLabel(EFetchLabel.LISTA_OPERATORI);
+      handleCloseModal();
+    });
   }
 
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Elmina operatore</AlertDialogTitle>
+        <AlertDialogTitle>Modifica operatore</AlertDialogTitle>
       </AlertDialogHeader>
 
       <Form {...form}>
@@ -191,7 +194,9 @@ const ModalModificaOperatore = ({
             <AlertDialogCancel onClick={handleCloseModal}>
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Modifica"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </Form>

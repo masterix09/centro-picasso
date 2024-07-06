@@ -13,7 +13,7 @@ import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useTransition } from "react";
 
 const ModalDeleteSede = ({
   handleCloseModal,
@@ -23,6 +23,7 @@ const ModalDeleteSede = ({
   const searchParams = useSearchParams();
   const idSede = searchParams.get("idSede") ?? "";
   const { setFetchLabel } = useStore((state) => state);
+  const [isPending, startTransition] = useTransition();
 
   return (
     <AlertDialogContent>
@@ -34,25 +35,28 @@ const ModalDeleteSede = ({
         <AlertDialogCancel onClick={handleCloseModal}>Cancel</AlertDialogCancel>
         <Button
           type="button"
+          disabled={isPending}
           onClick={async () => {
-            const res = await deleteSedeById(idSede);
-            if (res === "ok") {
-              toast({
-                title: "Eliminazione sede.",
-                description: "Sede eliminata correttamente.",
-              });
-            } else {
-              toast({
-                variant: "destructive",
-                title: "Uh Oh! Errore nell eliminazione.",
-                description: "Errore nella eliminazione della sede. Riprova",
-              });
-            }
-            setFetchLabel(EFetchLabel.LISTA_SEDI);
-            handleCloseModal();
+            startTransition(async () => {
+              const res = await deleteSedeById(idSede);
+              if (res === "ok") {
+                toast({
+                  title: "Eliminazione sede.",
+                  description: "Sede eliminata correttamente.",
+                });
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Uh Oh! Errore nell eliminazione.",
+                  description: "Errore nella eliminazione della sede. Riprova",
+                });
+              }
+              setFetchLabel(EFetchLabel.LISTA_SEDI);
+              handleCloseModal();
+            });
           }}
         >
-          Submit
+          {isPending ? "Loading" : "Elimina"}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>

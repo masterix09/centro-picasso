@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
-import React from "react";
+import React, { useTransition } from "react";
 
 const ModalCreatePianoCura = ({
   idCliente,
@@ -22,27 +22,31 @@ const ModalCreatePianoCura = ({
   // handleCloseModal: () => void;
 }) => {
   const { setFetchLabel } = useStore();
-  const onSubmit = async (formData: FormData) => {
-    const titolo = formData.get("titolo");
-    const res = await createPianoCura(
-      titolo?.toString() ?? "",
-      idCliente ?? ""
-    );
+  const [isPending, startTransition] = useTransition();
 
-    if (res === "ok") {
-      toast({
-        title: "Piano cura creato.",
-        description: "Piano cura creato correttamente.",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Uh Oh! Errore nella creazione.",
-        description: "Errore nella creazione del piano cura. Riprova",
-      });
-    }
-    setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
-    // handleCloseModal();
+  const onSubmit = async (formData: FormData) => {
+    startTransition(async () => {
+      const titolo = formData.get("titolo");
+      const res = await createPianoCura(
+        titolo?.toString() ?? "",
+        idCliente ?? ""
+      );
+
+      if (res === "ok") {
+        toast({
+          title: "Piano cura creato.",
+          description: "Piano cura creato correttamente.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh Oh! Errore nella creazione.",
+          description: "Errore nella creazione del piano cura. Riprova",
+        });
+      }
+      setFetchLabel(EFetchLabel.LISTA_PIANO_CURA);
+      // handleCloseModal();
+    });
   };
 
   return (
@@ -61,7 +65,9 @@ const ModalCreatePianoCura = ({
           />
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Loading" : "Crea"}
+            </Button>
           </AlertDialogFooter>
         </form>
       </AlertDialogHeader>
