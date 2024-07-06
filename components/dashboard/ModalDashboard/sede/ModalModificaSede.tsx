@@ -30,6 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { EFetchLabel } from "@/enum/types";
 import { toast } from "@/components/ui/use-toast";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -40,7 +41,9 @@ const ModalModificaSede = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idSede, setFetchLabel } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idSede = searchParams.get("idSede") ?? "";
+  const { setFetchLabel } = useStore((state) => state);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,9 +55,6 @@ const ModalModificaSede = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values);
     const res = await updateSede(idSede, values.nome);
     if (res === "ok") {
       toast({

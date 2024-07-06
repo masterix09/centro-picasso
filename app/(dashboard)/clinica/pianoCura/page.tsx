@@ -6,13 +6,17 @@ import { getPrestazioniByIdPiano } from "@/actions/actions.clinica";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/utils/authOptions";
 import { columns } from "./columns";
+import LayoutClinica from "@/components/dashboard/common/LayoutClinica";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: {
+    idCliente: string;
+    idPiano: string;
+  };
 }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
@@ -28,7 +32,12 @@ export default async function Page({
   }[] = await getPrestazioniByIdPiano(searchParams.idPiano?.toString() ?? "");
 
   return (
-    <>
+    <LayoutClinica
+      searchParams={{
+        idCliente: searchParams.idCliente,
+        idPianoCura: searchParams.idPiano,
+      }}
+    >
       <div className="flex w-full h-full flex-col lg:flex-row gap-6">
         <div>
           <DentiTable />
@@ -38,6 +47,6 @@ export default async function Page({
         </div>
       </div>
       <DataTable columns={columns} data={data} />
-    </>
+    </LayoutClinica>
   );
 }

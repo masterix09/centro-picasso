@@ -1,99 +1,17 @@
-"use client";
-import { ESede, TOperatore } from "./columns";
-import { DataTable } from "../prestazioniLista/data-table";
 import ButtonModal from "@/components/dashboard/common/ButtonModal";
-import { db } from "@/lib/db";
-import { EFetchLabel, EModalType } from "@/enum/types";
-import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { getOperatore, getOperatoreById } from "@/actions/actions.clinica";
-import { useEffect, useState } from "react";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useStore } from "@/store/store";
-import { useSession } from "next-auth/react";
+import { EModalType } from "@/enum/types";
+import { getOperatore } from "@/actions/actions.clinica";
+import { redirect } from "next/navigation";
+import TabellaOperatoriLista from "@/components/dashboard/operatoriLista/TabellaOperatoriLista";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
 
-export const dynamic = "force-dynamic";
+export default async function Page() {
+  const session = await getServerSession(authOptions);
 
-export default function Page() {
-  const { data: session, status } = useSession();
+  if (!session) redirect("/login");
 
-  const router = useRouter();
-
-  if (status === "unauthenticated") router.push("/login");
-  const [data, setData] = useState<TOperatore[]>([]);
-
-  const {
-    setIdOperatore,
-    setModalOpen,
-    setModalType,
-    setFetchLabel,
-    fetchLabel,
-  } = useStore((state) => state);
-
-  const handleClick = (type: EModalType) => {
-    setModalOpen(true);
-    setModalType(type);
-  };
-
-  const columns: ColumnDef<TOperatore>[] = [
-    {
-      accessorKey: "nome",
-      header: "Nome",
-    },
-    {
-      accessorKey: "cognome",
-      header: "Cognome",
-    },
-    {
-      accessorKey: "colorAgenda",
-      header: "Colore",
-    },
-    {
-      accessorKey: "sede",
-      header: "Sede",
-    },
-    {
-      id: "actions",
-      header: "actions",
-      cell: ({ row, getValue }) => {
-        return (
-          <div className="w-full flex gap-x-3">
-            <Button
-              type="button"
-              className="bg-red-500"
-              onClick={() => {
-                setIdOperatore(row.original.id);
-                handleClick(EModalType.ELIMINA_OPERATORE);
-              }}
-            >
-              Elimina
-            </Button>
-            <Button
-              type="button"
-              onClick={async () => {
-                setIdOperatore(row.original.id);
-                handleClick(EModalType.MODIFICA_OPERATORE);
-              }}
-            >
-              Modifica
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
-
-  useEffect(() => {
-    if (data.length === 0) getOperatore().then((data) => setData(data));
-  }, [data]);
-
-  useEffect(() => {
-    if (fetchLabel === EFetchLabel.LISTA_OPERATORI) {
-      getOperatore().then((data) => setData(data));
-      setFetchLabel(EFetchLabel.NULL);
-    }
-  }, [fetchLabel, setFetchLabel]);
+  const data = await getOperatore();
 
   return (
     <div className="container py-6">
@@ -103,9 +21,7 @@ export default function Page() {
           value="Crea operatore"
         />
       </div>
-      <div className="py-10">
-        <DataTable columns={columns} data={data} />
-      </div>
+      <TabellaOperatoriLista data={data} />
     </div>
   );
 }

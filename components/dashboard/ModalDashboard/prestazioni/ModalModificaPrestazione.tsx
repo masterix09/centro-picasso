@@ -36,6 +36,7 @@ import {
 import { useStore } from "@/store/store";
 import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -63,7 +64,9 @@ const ModalModificaPrestazione = ({
     nome: "",
   });
 
-  const { idPrestazione, setFetchLabel } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idPrestazione = searchParams.get("idPrestazione") ?? "";
+  const { setFetchLabel } = useStore((state) => state);
 
   useEffect(() => {
     getPrestzioneListaById(idPrestazione).then((data) => setPrestazione(data));

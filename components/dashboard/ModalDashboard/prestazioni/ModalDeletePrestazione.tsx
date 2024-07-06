@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/store";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 const ModalDeletePrestazione = ({
@@ -16,7 +17,8 @@ const ModalDeletePrestazione = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idPrestazione } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idPrestazione = searchParams.get("idPrestazione") ?? "";
 
   return (
     <AlertDialogContent>

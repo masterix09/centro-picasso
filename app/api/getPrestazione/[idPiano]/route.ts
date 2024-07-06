@@ -13,12 +13,6 @@ export async function GET(
       pianoCuraId: params.idPiano
     }
   })
-
-  console.log(data);
-  
-
-    // const data = getPazienti();
-
   
   return NextResponse.json(data);
 }

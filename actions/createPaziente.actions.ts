@@ -37,7 +37,7 @@ const formSchemaCreatePaziente = z.object({
     formData: FormData
   ) {
 
-    console.log("ueue")
+    
     const validatedFields: any = formSchemaCreatePaziente.safeParse({
         nome: formData.get("nome"),
         cognome: formData.get("cognome"),
@@ -86,7 +86,7 @@ const formSchemaCreatePaziente = z.object({
                 Telefono: formData.get("telefono")?.toString(),
             }
         })
-    revalidatePath("/clinica/pianoCura", "layout")
+    revalidatePath("/clinica/pianoCura", "page")
         return {
           ...res,
           statusAction: "PASSED",

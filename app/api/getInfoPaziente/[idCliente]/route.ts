@@ -19,9 +19,6 @@ id: true,
       codice_fiscale: true
     }
   })
-
-  console.log(operatori);
-
   
   return NextResponse.json(operatori);
 }

@@ -30,6 +30,7 @@ import { z } from "zod";
 import { MultiSelect } from "../../MultiSelect";
 import { EFetchLabel } from "@/enum/types";
 import { toast } from "@/components/ui/use-toast";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   nome: z.string().min(2).max(50),
@@ -57,7 +58,9 @@ const ModalModificaOperatore = ({
   });
   const [colore, setColore] = useState(operatore.colore);
 
-  const { idOperatore, setFetchLabel } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idOperatore = searchParams.get("idOperatore") ?? "";
+  const { setFetchLabel } = useStore((state) => state);
 
   useEffect(() => {
     // Quando il componente si monta, richiama la funzione per ottenere i dati

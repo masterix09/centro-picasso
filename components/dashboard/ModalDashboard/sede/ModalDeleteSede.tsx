@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { EFetchLabel } from "@/enum/types";
 import { useStore } from "@/store/store";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 const ModalDeleteSede = ({
@@ -19,7 +20,9 @@ const ModalDeleteSede = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idSede, setFetchLabel } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idSede = searchParams.get("idSede") ?? "";
+  const { setFetchLabel } = useStore((state) => state);
 
   return (
     <AlertDialogContent>

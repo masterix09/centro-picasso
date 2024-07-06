@@ -1,14 +1,10 @@
 "use client";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckIcon } from "lucide-react";
-import { EStatusStepper, TUseFormReturnCreatePaziente } from "@/enum/types";
-import { UseFormReturn } from "react-hook-form";
+import { EStatusStepper } from "@/enum/types";
 import { z } from "zod";
-import { Form, useFormField } from "@/components/ui/form";
-import { format } from "date-fns";
-import { createPaziente } from "@/actions/actions.clinica";
-import { onSubmitCreatePaziente, onSubmitCreatePrestazione } from "@/lib/utils";
+import { Form } from "@/components/ui/form";
 import { AlertDialogAction } from "@/components/ui/alert-dialog";
 
 export type TStepper = {
@@ -192,15 +188,13 @@ const StepperForm = ({
                 {stepper.at(stepper.length - 1)?.status ===
                   EStatusStepper.CURRENT &&
                   isLoading === false && (
-                    <AlertDialogAction type="submit" disabled={isLoading}>
-                      <Button
-                        onClick={handleSubmit}
-                        type="submit"
-                        disabled={isLoading}
-                      >
-                        Invia
-                      </Button>
-                    </AlertDialogAction>
+                    <Button
+                      onClick={handleSubmit}
+                      type="submit"
+                      disabled={isLoading}
+                    >
+                      Invia
+                    </Button>
                   )}
 
                 <Button

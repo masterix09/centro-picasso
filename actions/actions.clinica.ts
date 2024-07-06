@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function getPazienti () {
     const res =  await db.cliente.findMany()
-    revalidatePath("/clinica/pianoCura", "layout")
+    revalidatePath("/clinica/pianoCura")
     return res
 }
 
@@ -43,10 +43,9 @@ export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
 }
 
 export async function getPrestazioniAgenda(idSede: string) {
-    console.log(idSede)
-    return await db.prestazione.findMany({
+    const res = await db.prestazione.findMany({
         where: {
-          sedeId: idSede,
+          sedeId: idSede.toLowerCase().replace(/'/g, ''),
         },
         select: {
           id: true,
@@ -75,6 +74,10 @@ export async function getPrestazioniAgenda(idSede: string) {
           }
         }
       })
+
+      revalidatePath("/agenda/[sede]", "page")
+
+      return res
 }
 
 export async function createPianoCura (titolo: string, clienteId: string) {
@@ -89,7 +92,7 @@ export async function createPianoCura (titolo: string, clienteId: string) {
             }
         })
     
-        revalidatePath("/clinica/pianoCura")
+        revalidatePath("/clinica/pianoCura", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()
@@ -101,15 +104,17 @@ export async function createPianoCura (titolo: string, clienteId: string) {
 }
 
 export async function getPrestazioniList () {
-    revalidatePath("/clinina/pianoCura")
-    return await db.prestazioniLista.findMany();
+    const res =  await db.prestazioniLista.findMany();
+    revalidatePath("/clinina/pianoCura", "page")
+    return res
 
 }
 
 
 export async function getPrestazioniListInPage () {
-    revalidatePath("/prestazioniLista")
-    return await db.prestazioniLista.findMany();
+    const res =  await db.prestazioniLista.findMany();
+    revalidatePath("/prestazioniLista", "page")
+    return res
 
 }
 
@@ -156,7 +161,7 @@ export async function addPrestazionePianoCura (array: string[], idPiano: string,
             })
         })
     
-        revalidatePath("/clinica/pianoCura")
+        revalidatePath("/clinica/pianoCura", "page")
         
         return "ok"
         
@@ -181,7 +186,7 @@ export async function createPrestazioneList (titolo: string, categoria: string, 
             }
         })
     
-        revalidatePath("/prestazioniLista")
+        revalidatePath("/prestazioniLista", "page")
 
         return "ok"
     } catch (error: any) {
@@ -224,7 +229,7 @@ export async function createOperatore (nome: string, cognome: string, colore: st
             })
         })
     
-        revalidatePath("/operatoriLista")
+        revalidatePath("/operatoriLista", "page")
 
         return "ok"
     } catch (error: any) {
@@ -242,7 +247,7 @@ export async function getSede () {
         }
     })
 
-    revalidatePath("/sediLista")
+    revalidatePath("/sediLista", "page")
     return res
 
 }
@@ -255,7 +260,7 @@ export async function getSedeInModalCreate () {
         }
     })
 
-    revalidatePath("/clinica/pianoCura")
+    revalidatePath("/clinica/pianoCura", "page")
     return res
 
 }
@@ -263,12 +268,12 @@ export async function getSedeInModalCreate () {
 export async function createSede (nome: string) {
     await db.sede.create({
         data: {
-            id: nome,
+            id: nome.toLowerCase().replace(/'/g, ''),
             nome
         }
     })
 
-    revalidatePath("/sediLista")
+    revalidatePath("/sediLista", "page")
 }
 
 export async function createPagamento (data: string, importo: number, note: string, idPiano: string) {
@@ -284,7 +289,7 @@ export async function createPagamento (data: string, importo: number, note: stri
             }
         })
     
-        revalidatePath("/clinica/preventivo")
+        revalidatePath("/clinica/preventivo", "page")
         return "ok"
         
     } catch (error: any) {
@@ -323,7 +328,7 @@ export async function createPaziente (nome: string, cognome: string, dataNascita
                 Telefono: telefono,
             }
         })
-    revalidatePath("/clinica/pianoCura", "layout")
+    revalidatePath("/clinica/pianoCura", "page")
     return "ok"
         
     } catch (error: any) {
@@ -355,7 +360,7 @@ export async function createImage (array: string[], idPiano: string) {
             })
         })
     
-        revalidatePath("/clinica/pianoCura")
+        revalidatePath("/clinica/pianoCura", "page")
         return "ok"
         
     } catch (error: any) {
@@ -378,7 +383,7 @@ export async function createDocumento (idPiano: string, nome: string) {
                 pianoCuraId: idPiano
             }
         })
-        revalidatePath("/clinica/documenti")
+        revalidatePath("/clinica/documenti", "page")
 
         return "ok"    
     } catch (error: any) {
@@ -402,16 +407,19 @@ export async function getOperatore () {
 
 
 export async function updateNote (formData: FormData) {
-    console.log(formData)
+
 }
 
 export async function getDocument (idPiano: string) {
-    return await db.documenti.findMany({
+    const res = await db.documenti.findMany({
         where: {
           pianoCuraId: idPiano,
         },
       });
 
+      revalidatePath("/clinica/documenti", "page")
+
+      return res
      
 }
 
@@ -476,6 +484,7 @@ export async function getPrestazioneAgendaById (idPrestazione: string) {
             ora_saluta: true
         }
     })
+    revalidatePath("/agenda/[slug]", "page")
     return res
 }
 
@@ -493,7 +502,7 @@ export async function setOrarioArrivo (orario: string, idPrestazione: string) {
             }
         })
 
-        revalidatePath("/agenda")
+        revalidatePath("/agenda/[slug]", "page")
         return "ok"
         
     } catch (error: any) {
@@ -516,7 +525,7 @@ export async function setOrarioUscita (orario: string, idPrestazione: string) {
             }
         })
 
-        revalidatePath("/agenda")
+        revalidatePath("/agenda/[slug]", "page")
 
         return "ok"
     } catch (error: any) {
@@ -536,7 +545,7 @@ export async function deletePrestazionePianoCuraById (idPrestazione: string) {
             },
             
         })
-        revalidatePath("/clinica/pianoCura")
+        revalidatePath("/clinica/pianoCura", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()
@@ -557,7 +566,7 @@ export async function addDataAppuntamento (idPerstazione: string, date: string) 
             }
         })
 
-        revalidatePath("clinica/pianoCura")
+        revalidatePath("clinica/pianoCura", "page")
 
         return "ok"
     } catch (error: any) {
@@ -615,11 +624,13 @@ export async function deleteOperatoreById (idOperatore: string) {
                 operatoreId: idOperatore
             },
         })
+        
+        revalidatePath("/operatoriLista", "page")
 
         return "ok"
         
     } catch (error: any) {
-        console.log(error.toString())
+        
         return error.toString()
     }
     
@@ -628,8 +639,7 @@ export async function deleteOperatoreById (idOperatore: string) {
 
 
 export async function getOperatoreByIdSede (idSede: string) {
-    revalidatePath("/clinica/pianoCura")
-    return await db.operatoreOnSede.findMany({
+    const res = await db.operatoreOnSede.findMany({
         where: {
           sede : {
             nome: idSede
@@ -645,11 +655,15 @@ export async function getOperatoreByIdSede (idSede: string) {
           },
         },
       });
+
+    revalidatePath("/clinica/pianoCura", "page")
+
+    return res
 }
 
 export async function getInfoPazienteById (idPaziente: string) {
-    revalidatePath("/clinica/pianoCura")
-    return await db.cliente.findFirst({
+    
+    const res = await db.cliente.findFirst({
         where: {
           id: idPaziente
         },
@@ -660,6 +674,9 @@ export async function getInfoPazienteById (idPaziente: string) {
           codice_fiscale: true
         }
       })
+
+      revalidatePath("/clinica/pianoCura", "page")
+      return res
 }
 
 export async function getOperatoreById (idOperatore: string) {
@@ -691,7 +708,7 @@ export async function getOperatoreById (idOperatore: string) {
         return item.sede.nome
     })
 
-    console.log("arraySede => ", arraySede)
+    
 
     return {
         nome: data.at(0)?.operatore.nome ?? "",
@@ -709,6 +726,8 @@ export async function deletePrestazioneById (idPrestazione: string) {
             id: idPrestazione
         }
     })
+
+    revalidatePath("/clinica/pianoCura", "page")
 }
 
 export async function deleteSedeById (idSede: string) {
@@ -720,6 +739,7 @@ export async function deleteSedeById (idSede: string) {
             }
         })
 
+        revalidatePath("/sediLista", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()
@@ -737,7 +757,7 @@ export async function deleteDocumentoById (idDocumento: string) {
             }
         })
         
-        revalidatePath("/clinica/documenti")
+        revalidatePath("/clinica/documenti", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()
@@ -769,8 +789,8 @@ export async function updateSede (idSedeVecchio: string, idSedeNuovo: string) {
                 
             }
         })
-
         
+        revalidatePath("/sediLista", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()
@@ -793,7 +813,7 @@ export async function updateOperatoreById (idOperatore: string, nome: string, co
         }
        })
     
-       revalidatePath("/operatoriLista")
+       revalidatePath("/operatoriLista", "page")
 
        return "ok"
    } catch (error: any) {
@@ -847,6 +867,8 @@ export async function updatePrestazioneLista (idPrestazione: string, categoria: 
             }
         })
 
+        revalidatePath("/prestazioniLista", "page")
+
         return "ok"
         
     } catch (error: any) {
@@ -877,16 +899,19 @@ export async function getPianoCuraCreatedDate (idPianoCura: string) {
 
 
 export async function getPianoCuraByIdCliente (idCliente: string) {
-    revalidatePath("/clinica")
-    return await db.pianoCura.findMany({
+    const res = await db.pianoCura.findMany({
         where: {
           clienteId: idCliente
         },
       })
+
+    revalidatePath("/clinica", "page")
+
+    return res
 }
 
 export async function getImageByIdPiano (idPiano: string) {
-    const res =  await await db.image.findMany({
+    const res = await db.image.findMany({
         where: {
          pianoCuraId: idPiano
         },
@@ -895,7 +920,7 @@ export async function getImageByIdPiano (idPiano: string) {
         }
        });
 
-       revalidatePath("/clinica/pianoCura")
+       revalidatePath("/clinica/pianoCura", "page")
        return res
 }
 
@@ -911,7 +936,7 @@ export async function updateStatusPrestazione (idPrestazione: string, status: st
             }
         })
 
-    revalidatePath("/clinica/pianoCura")
+    revalidatePath("/clinica/pianoCura", "page")
         return "ok"
     } catch (error: any) {
         return error.toString()

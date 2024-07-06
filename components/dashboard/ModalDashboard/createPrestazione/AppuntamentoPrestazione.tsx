@@ -1,7 +1,3 @@
-import { TOperatore } from "@/app/(dashboard)/operatoriLista/columns";
-import { TSede } from "@/app/(dashboard)/sediLista/columns";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   FormControl,
   FormField,
@@ -10,26 +6,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { db } from "@/lib/db";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { watch } from "fs";
-import { CalendarIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { TimePickerDemo } from "./time-picker-demo";
-import { Input } from "@/components/ui/input";
 import {
   getOperatoreByIdSede,
   getSedeInModalCreate,

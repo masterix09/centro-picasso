@@ -34,12 +34,9 @@ const AggiungiPrestazione = ({
     getPrestazioniList().then((data) => setData(data));
   }, []);
 
-  console.log(data);
-
   type TPrestazione = {
     id: string;
     nome: string | null;
-    // altre proprietà della prestazione
   };
 
   interface Categoria {
@@ -77,7 +74,6 @@ const AggiungiPrestazione = ({
   }
 
   const categorieSingole = raggruppaPrestazioniPerCategoria(data);
-  console.log(categorieSingole);
 
   const addPrestazione = (value: CheckedState, item: TPrestazioneLista) => {
     if (value === true) {

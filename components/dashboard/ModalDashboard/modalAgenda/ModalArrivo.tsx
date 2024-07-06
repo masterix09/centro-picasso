@@ -89,12 +89,6 @@ const ModalArrivo = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
-    // console.log(`${new Date().getHours()}:${new Date().getMinutes()}`);
-
-    // console.log(values);
     await setOrarioArrivo(
       `${new Date().getHours()}:${new Date().getMinutes()}`,
       idPrestazioneAgenda

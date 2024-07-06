@@ -24,9 +24,7 @@ const formSchema: z.ZodObject<any, z.UnknownKeysParam, z.ZodTypeAny, {
 
 // 2. Define a submit handler.
 export async function onSubmitCreatePaziente(values: z.infer<typeof formSchema >) {
-  // Do something with the form values.
-  // ✅ This will be type-safe and validated.
-  // console.log(values);
+  
   const {
     cap,
     cellulare,

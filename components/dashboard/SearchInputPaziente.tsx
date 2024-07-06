@@ -19,10 +19,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useCallback, useState } from "react";
-import { IPaziente, IPianoCura } from "@/types";
+import { IPaziente } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const SearchInputPianoCura = ({
+const SearchInputPaziente = ({
   label,
   placeholder,
   items,
@@ -32,13 +32,7 @@ const SearchInputPianoCura = ({
 }: {
   label: string;
   placeholder: string;
-  items?: {
-    id: string;
-    titolo: string | null;
-    createdAt: Date | null;
-    preventivoId: string | null;
-    clienteId: string;
-  }[];
+  items?: IPaziente[];
   value: string;
   displayValue: string;
   emptyMessage: string;
@@ -84,14 +78,16 @@ const SearchInputPianoCura = ({
                 {items?.map((item) => (
                   <CommandItem
                     key={item.id}
-                    value={item.titolo ?? ""}
+                    value={`${item.nome} ${item.cognome}`}
                     onSelect={(currentValue) => {
                       // setValue(currentValue === value ? "" : currentValue);
 
                       setOpen(false);
 
                       router.push(
-                        pathname + "?" + createQueryString("idPiano", item.id)
+                        pathname +
+                          "?" +
+                          createQueryString("idCliente", item.id ?? "")
                       );
                     }}
                   >
@@ -101,7 +97,7 @@ const SearchInputPianoCura = ({
                         value === item.id ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    {item.titolo}
+                    {item.cognome} {item.nome}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -113,4 +109,4 @@ const SearchInputPianoCura = ({
   );
 };
 
-export default SearchInputPianoCura;
+export default SearchInputPaziente;

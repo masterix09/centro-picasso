@@ -40,11 +40,7 @@ const ModalCreateSede = ({
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values);
     await createSede(values.nome);
     setFetchLabel(EFetchLabel.LISTA_SEDI);
     handleCloseModal();

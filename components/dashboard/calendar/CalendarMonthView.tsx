@@ -111,7 +111,6 @@ const CalendarMonthView = () => {
     },
   ];
 
-  console.log(events);
   return (
     <div className="lg:flex lg:h-full lg:flex-col h-full ">
       <header className="relative z-20 flex items-center justify-between border-b border-gray-200 py-4 px-6 lg:flex-none">

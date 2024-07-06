@@ -30,7 +30,6 @@ const CalendarBody = ({
     cognomeOperatore: string;
   }[];
 }) => {
-  console.log(events);
   const renderEventContent = (eventContent: EventContentArg) => {
     const item = events.filter((item) => item.id === eventContent.event.id);
     return (

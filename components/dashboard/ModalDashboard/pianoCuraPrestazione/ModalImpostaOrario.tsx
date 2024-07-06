@@ -81,7 +81,6 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
         });
       } else throw new Error();
     } catch (error) {
-      console.log(error);
       toast({
         variant: "destructive",
         title: "Uh oh! Qualcosa e' andato storto.",

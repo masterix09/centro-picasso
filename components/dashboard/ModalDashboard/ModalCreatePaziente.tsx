@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -45,6 +45,7 @@ export const formSchemaCreatePaziente = z.object({
 const ModalCreatePaziente = () => {
   const { setFetchLabel } = useStore((state) => state);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchemaCreatePaziente>>({
     resolver: zodResolver(formSchemaCreatePaziente),
     defaultValues: {
@@ -73,10 +74,10 @@ const ModalCreatePaziente = () => {
   ]);
 
   const handleSubmit = (values: z.infer<typeof formSchemaCreatePaziente>) => {
-    setLoading(true);
-    onSubmitCreatePaziente(values);
-    setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
-    setLoading(false);
+    startTransition(async () => {
+      onSubmitCreatePaziente(values);
+      setFetchLabel(EFetchLabel.LISTA_PAZIENTI);
+    });
   };
 
   if (loading) {
@@ -101,13 +102,21 @@ const ModalCreatePaziente = () => {
         formSchema={formSchemaCreatePaziente}
         submitMethod={handleSubmit}
       >
-        {stepper.at(0)?.status === EStatusStepper.CURRENT && (
+        {isPending && (
+          <Image
+            src={loaderImg}
+            alt="loader"
+            priority
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+        )}
+        {stepper.at(0)?.status === EStatusStepper.CURRENT && !isPending && (
           <AnagraficaPaziente form={form} />
         )}
-        {stepper.at(1)?.status === EStatusStepper.CURRENT && (
+        {stepper.at(1)?.status === EStatusStepper.CURRENT && !isPending && (
           <DettagliContattoPaziente form={form} />
         )}
-        {stepper.at(2)?.status === EStatusStepper.CURRENT && (
+        {stepper.at(2)?.status === EStatusStepper.CURRENT && !isPending && (
           <AltreInfoPaziente form={form} />
         )}
       </StepperForm>

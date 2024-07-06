@@ -1,7 +1,7 @@
 import { getPrestazioniAgenda } from "@/actions/actions.clinica";
 import CalendarBody from "@/components/dashboard/calendar/CalendarBody";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function Page({ params }: { params: { sede: string } }) {
   const getColor = (
@@ -76,22 +76,10 @@ export default async function Page({ params }: { params: { sede: string } }) {
       nome: item.nome ?? "",
       nomeOperatore: item.operatore.nome ?? "",
       cognomeOperatore: item.operatore.cognome ?? "",
-      // className: getColor(
-      //   item.ora_arrivo ?? "",
-      //   item.ora_saluta ?? "",
-      //   item.operatore.colorAgenda ?? ""
-      // ),
     };
   });
 
-  console.log(events);
-
   return (
-    // <div>
-    //   {view === ECalendarView.MONTH_VIEW && <CalendarMonthView />}
-    //   {view === ECalendarView.WEEK_VIEW && <CalendarWeekView />}
-    // </div>
-
     <div className="lg:container px-3 lg:px-0 py-5 ">
       <CalendarBody events={events} />
     </div>

@@ -1,7 +1,9 @@
 "use client";
+import { Building, Gauge, HeartPulse, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React, { ReactNode, useState } from "react";
+import { FaBriefcaseMedical } from "react-icons/fa6";
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
@@ -70,16 +72,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                   href="/dashboard"
                   className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                 >
-                  <svg
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 21"
-                  >
-                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                  </svg>
+                  <Gauge className="text-white group-hover:text-black" />
                   <span className="ms-3 text-white group-hover:text-black">
                     Dashboard
                   </span>
@@ -90,20 +83,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                   href="/clinica/pianoCura"
                   className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  >
-                    <path d="M11.625 16.5a1.875 1.875 0 1 0 0-3.75 1.875 1.875 0 0 0 0 3.75Z" />
-                    <path
-                      fillRule="evenodd"
-                      d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm6 16.5c.66 0 1.277-.19 1.797-.518l1.048 1.048a.75.75 0 0 0 1.06-1.06l-1.047-1.048A3.375 3.375 0 1 0 11.625 18Z"
-                      clipRule="evenodd"
-                    />
-                    <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
-                  </svg>
+                  <HeartPulse className="text-white group-hover:text-black" />
 
                   <span className="ms-3 text-white group-hover:text-black">
                     Clinica
@@ -270,18 +250,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                   href="/sediLista"
                   className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Building className="text-white group-hover:text-black" />
 
                   <span className="ms-3 text-white group-hover:text-black">
                     Lista Sedi
@@ -293,18 +262,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                   href="/listaPazienti"
                   className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <FaBriefcaseMedical className="text-white group-hover:text-black" />
 
                   <span className="ms-3 text-white group-hover:text-black">
                     Lista Pazienti
@@ -313,37 +271,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
               </li>
               <li>
                 <div className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#E6E6EA] group">
-                  <svg
-                    fill="#000000"
-                    height="800px"
-                    width="800px"
-                    version="1.1"
-                    id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 384.971 384.971"
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  >
-                    <g>
-                      <g id="Sign_Out">
-                        <path
-                          d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03
-			C5.39,0.001,0,5.39,0,12.031V372.94c0,6.641,5.39,12.03,12.03,12.03h168.424c6.641,0,12.03-5.39,12.03-12.03
-			C192.485,366.299,187.095,360.91,180.455,360.91z"
-                        />
-                        <path
-                          d="M381.481,184.088l-83.009-84.2c-4.704-4.752-12.319-4.74-17.011,0c-4.704,4.74-4.704,12.439,0,17.179l62.558,63.46H96.279
-			c-6.641,0-12.03,5.438-12.03,12.151c0,6.713,5.39,12.151,12.03,12.151h247.74l-62.558,63.46c-4.704,4.752-4.704,12.439,0,17.179
-			c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z"
-                        />
-                      </g>
-                      <g></g>
-                      <g></g>
-                      <g></g>
-                      <g></g>
-                      <g></g>
-                      <g></g>
-                    </g>
-                  </svg>
+                  <LogOut className="text-white group-hover:text-black" />
                   <p
                     onClick={() => signOut({ callbackUrl: "/login" })}
                     className="ms-3 text-white group-hover:text-black"

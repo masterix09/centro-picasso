@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { EFetchLabel } from "@/enum/types";
-import { useStore } from "@/store/store";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 const ModalEliminaOperatore = ({
@@ -17,7 +16,8 @@ const ModalEliminaOperatore = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const { idOperatore, setFetchLabel } = useStore((state) => state);
+  const searchParams = useSearchParams();
+  const idOperatore = searchParams.get("idOperatore") ?? "";
 
   return (
     <AlertDialogContent>
@@ -44,7 +44,6 @@ const ModalEliminaOperatore = ({
                   "Errore nella eliminazione dell operatore. Riprova",
               });
             }
-            setFetchLabel(EFetchLabel.LISTA_OPERATORI);
             handleCloseModal();
           }}
         >
