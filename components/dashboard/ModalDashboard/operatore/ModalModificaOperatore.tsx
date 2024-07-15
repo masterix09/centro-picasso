@@ -90,12 +90,17 @@ const ModalModificaOperatore = ({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
+    const sedeLower = values.sede.map((item) => {
+      return item.toLowerCase();
+    });
+
     startTransition(async () => {
       const res = await updateOperatoreById(
         idOperatore,
         values.nome,
         values.cognome,
-        colore
+        colore,
+        sedeLower
       );
       if (res === "ok") {
         toast({

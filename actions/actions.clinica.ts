@@ -43,6 +43,7 @@ export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
 }
 
 export async function getPrestazioniAgenda(idSede: string) {
+    console.log(idSede)
     const res = await db.prestazione.findMany({
         where: {
           sedeId: idSede.toLowerCase().replace(/'/g, ''),
@@ -74,6 +75,8 @@ export async function getPrestazioniAgenda(idSede: string) {
           }
         }
       })
+
+      console.log(res)
 
       revalidatePath("/agenda/[sede]", "page")
 
@@ -798,9 +801,17 @@ export async function updateSede (idSedeVecchio: string, idSedeNuovo: string) {
     
 }
 
-export async function updateOperatoreById (idOperatore: string, nome: string, cognome: string, colore: string) {
+function findMissingIds(sedi: {sedeId: string}[], idSedeList: string[]): string[] {
+    // Estrae gli idSede dall'array di oggetti
+    const existingIds = sedi.map(sede => sede.sedeId);
+  
+    // Filtra e restituisce gli idSede che non sono presenti nell'array di oggetti
+    return idSedeList.filter(id => !existingIds.includes(id));
+  }
 
-   
+export async function updateOperatoreById (idOperatore: string, nome: string, cognome: string, colore: string, sede: string[]) {
+
+
    try {
     await db.operatore.update({
         where: {
@@ -812,6 +823,37 @@ export async function updateOperatoreById (idOperatore: string, nome: string, co
             colorAgenda: colore
         }
        })
+
+       await db.operatoreOnSede.deleteMany({
+        where: {
+            operatoreId: idOperatore,
+            sedeId: {
+                notIn: sede
+            }
+        }
+       })
+
+       const arrSede = await db.operatoreOnSede.findMany({
+        where: {
+            operatoreId: idOperatore,
+            
+        }
+       })
+       
+       const missingIds = findMissingIds(arrSede, sede);
+
+
+
+       missingIds.forEach(async element => {
+        await db.operatoreOnSede.create({
+            data: {
+                operatoreId: idOperatore,
+                sedeId: element.toLowerCase()
+            }
+        })
+        
+       });
+       
     
        revalidatePath("/operatoriLista", "page")
 
