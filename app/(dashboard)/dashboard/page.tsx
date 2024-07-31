@@ -4,6 +4,11 @@ import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import { authOptions } from "@/utils/authOptions";
 import { redirect } from "next/navigation";
+import {
+  getAppuntamenti,
+  getClienti,
+  getCompleanni,
+} from "@/actions/actions.dashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -11,38 +16,13 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (!session) redirect("/login");
-  const appuntamenti = await db.prestazione.findMany({
-    where: {
-      data_appuntamento: format(new Date(), "dd-MM-yyyy"),
-    },
-    include: {
-      pianoCura: {
-        include: {
-          cliente: true,
-        },
-      },
-    },
-  });
+  const appuntamenti = await getAppuntamenti();
 
   const currentDate = format(new Date(), "dd-MM-yyyy");
 
-  const compleanni = await db.cliente.findMany({
-    where: {
-      data_nascita: {
-        equals: currentDate,
-      },
-    },
-  });
+  const compleanni = await getCompleanni(currentDate);
 
-  const cliente = await db.cliente.findMany({
-    where: {
-      Richiamo: {
-        not: {
-          equals: "Non Richiamare",
-        },
-      },
-    },
-  });
+  const cliente = await getClienti();
 
   return (
     <div className="w-full flex flex-col md:flex-row gap-y-6 md:gap-x-6 p-4">
