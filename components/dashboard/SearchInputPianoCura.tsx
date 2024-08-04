@@ -21,6 +21,7 @@ import {
 import { useCallback, useState } from "react";
 import { IPaziente, IPianoCura } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useStore } from "@/store/store";
 
 const SearchInputPianoCura = ({
   label,
@@ -58,6 +59,8 @@ const SearchInputPianoCura = ({
     [searchParams]
   );
 
+  const { setIdPiano } = useStore();
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -93,6 +96,8 @@ const SearchInputPianoCura = ({
                       router.push(
                         pathname + "?" + createQueryString("idPiano", item.id)
                       );
+
+                      setIdPiano(item.id);
                     }}
                   >
                     <Check

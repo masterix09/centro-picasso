@@ -38,9 +38,7 @@ export default async function Page({
     >
       <div className="w-full">
         <div className="my-4">
-          {searchParams.idPiano?.toString() && (
-            <UploadWidget idPiano={searchParams.idPiano?.toString() ?? ""} />
-          )}
+          {searchParams.idPiano?.toString() && <UploadWidget />}
         </div>
         <Carousel
           opts={{

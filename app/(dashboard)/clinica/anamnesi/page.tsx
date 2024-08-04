@@ -86,7 +86,7 @@ export default function Page() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} max-lg:!hidden`}>
           <Image
             alt="anamnesi image"
             width={80}
@@ -229,7 +229,7 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} max-lg:!hidden`}>
           <BsInfoSquareFill
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
@@ -321,7 +321,7 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} max-lg:!hidden`}>
           <FaUserDoctor
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
@@ -346,7 +346,7 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} max-lg:!hidden`}>
           <LiaTeethSolid
             color="b8b8b8"
             style={{ width: "70px", height: "70px" }}
@@ -371,7 +371,7 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} max-lg:!hidden`}>
           <SlNote color="b8b8b8" style={{ width: "70px", height: "70px" }} />
           <p className={styles.sectionTitle}>Ulteriori Note</p>
         </div>

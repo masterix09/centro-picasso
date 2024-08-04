@@ -1,5 +1,7 @@
 import { EFetchLabel, EListino, EModalType } from '@/enum/types'
 import { create } from 'zustand'
+import { persist } from "zustand/middleware";
+
 
 interface StateSchema {
   idPiano: string,
@@ -32,35 +34,36 @@ interface StateSchema {
   setFetchLabel: (value: EFetchLabel) => void
 }
 
-export const useStore = create<StateSchema>()((set) => ({
-  idCliente: "",
-  idPiano: "",
-  idPrestazioneAgenda: "",
-  idPrestazione: "",
-  idOperatore: "",
-  idSede: "",
-  idDocumento: "",
-  modalOpen: false,
-  modalType: "",
-  idDente: "",
-  defaultValues: {},
-  listino: EListino.DEFAULT,
-  setIdPiano: (id) => set((state) => ({ idPiano: id, })),
-  setIdCliente: (id) => set((state) => ({ idCliente: id, idPiano: "" })),
-  setIdPrestazioneAgenda: (id) => set((state) => ({idPrestazioneAgenda: id})),
-  setIdPrestazione: (id) => set((state) => ({idPrestazione: id})),
-  setIdOperatore: (id) => set((state) => ({idOperatore: id})),
-  setIdSede: (id) => set((state) => ({idSede: id})),
-  setIdDocumento: (id) => set((state) => ({idDocumento: id})),
-  setModalOpen: (id) => set((state) => ({modalOpen: id})),
-  setModalType: (id) => set((state) => ({modalType: id})),
-  setIdDente: (id) => set((state) => ({idDente: id})),
-  setDefaultValues: (value) => set((state) => ({defaultValues: value})),
-  setListino: (value) => set((state) => ({listino: value})),
-  successPrenotazione: false,
-  setSuccessPrenotazione: (value) => set((state) => ({successPrenotazione: value})),
-  fetchLabel: EFetchLabel.NULL,
-  setFetchLabel: (value) => set((state) => ({fetchLabel: value})),
-
-}))
-
+export const useStore = create<StateSchema>()( persist(
+  (set) => ({
+    idCliente: "",
+    idPiano: "",
+    idPrestazioneAgenda: "",
+    idPrestazione: "",
+    idOperatore: "",
+    idSede: "",
+    idDocumento: "",
+    modalOpen: false,
+    modalType: "",
+    idDente: "",
+    defaultValues: {},
+    listino: EListino.DEFAULT,
+    setIdPiano: (id) => set((state) => ({ ...state, idPiano: id, })),
+    setIdCliente: (id) => set((state) => ({ ...state, idCliente: id, idPiano: "" })),
+    setIdPrestazioneAgenda: (id) => set((state) => ({...state, idPrestazioneAgenda: id})),
+    setIdPrestazione: (id) => set((state) => ({...state, idPrestazione: id})),
+    setIdOperatore: (id) => set((state) => ({...state, idOperatore: id})),
+    setIdSede: (id) => set((state) => ({...state, idSede: id})),
+    setIdDocumento: (id) => set((state) => ({...state, idDocumento: id})),
+    setModalOpen: (id) => set((state) => ({...state, modalOpen: id})),
+    setModalType: (id) => set((state) => ({...state, modalType: id})),
+    setIdDente: (id) => set((state) => ({...state, idDente: id})),
+    setDefaultValues: (value) => set((state) => ({...state, defaultValues: value})),
+    setListino: (value) => set((state) => ({...state, listino: value})),
+    successPrenotazione: false,
+    setSuccessPrenotazione: (value) => set((state) => ({successPrenotazione: value})),
+    fetchLabel: EFetchLabel.NULL,
+    setFetchLabel: (value) => set((state) => ({fetchLabel: value})),
+  
+  }), {name: "store"})
+) 
