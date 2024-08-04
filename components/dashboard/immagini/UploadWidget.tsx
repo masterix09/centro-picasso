@@ -7,7 +7,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import React from "react";
 
 const UploadWidget = () => {
-  let url: string = "";
+  let url: string[] = [];
 
   const { toast } = useToast();
 
@@ -51,8 +51,8 @@ const UploadWidget = () => {
         console.log(results);
         //@ts-ignore
         // setUrl([...url, results.info.url]);
-        // url = [...url, results.info.url];
-        url = results.info.url;
+        url = [...url, results.info.url];
+        // url = results.info.url;
         // url = results.info.url;
         console.log(url);
 

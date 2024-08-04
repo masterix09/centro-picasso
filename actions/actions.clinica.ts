@@ -347,31 +347,31 @@ export async function createPaziente(
   }
 }
 
-export async function createImage(item: string, idPiano: string) {
+export async function createImage(array: string[], idPiano: string) {
   try {
-    // const obj = array.map( (item) => {
-    //     return {
-    //       id: uuidv4(),
-    //       url: item,
-    //       pianoCuraId: idPiano,
-    //       note: ""
-    //     }
-    //   })
+    const obj = array.map( (item) => {
+        return {
+          id: uuidv4(),
+          url: item,
+          pianoCuraId: idPiano,
+          note: ""
+        }
+      })
 
-    // obj.forEach(async (item) => {
-    //     await db.image.create({
-    //         data: item,
-    //     })
-    // })
+    obj.forEach(async (item) => {
+        await db.image.create({
+            data: item,
+        })
+    })
 
-    await db.image.create({
-      data: {
-        id: uuidv4(),
-        url: item,
-        pianoCuraId: idPiano,
-        note: "",
-      },
-    });
+    // await db.image.create({
+    //   data: {
+    //     id: uuidv4(),
+    //     url: item,
+    //     pianoCuraId: idPiano,
+    //     note: "",
+    //   },
+    // });
 
     revalidatePath("/clinica/pianoCura", "page");
     return "ok";
