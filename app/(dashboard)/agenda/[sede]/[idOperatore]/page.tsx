@@ -57,7 +57,7 @@ export default async function Page({
     data_appuntamento: string | null;
     ora_arrivo: string | null;
     ora_saluta: string | null;
-  }[] = await getPrestazioniAgenda(params.sede, "");
+  }[] = await getPrestazioniAgenda(params.sede, params.idOperatore ?? "");
 
   const events: {
     id: string;
@@ -94,15 +94,13 @@ export default async function Page({
     };
   });
 
-  console.log(events);
-  console.log(data);
-
   const operatori = await getOperatore();
 
   async function selectOperatore(formData: FormData) {
     "use server";
 
     const operatore = formData.get("operatore");
+    console.log(operatore);
 
     redirect(`/agenda/${params.sede}/${operatore}`);
   }
