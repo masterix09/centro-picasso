@@ -116,7 +116,7 @@ export async function getPrestazioniAgenda(
       },
     });
 
-    revalidatePath("/agenda/[sede]", "page");
+    revalidatePath("/agenda/[sede]/[idOperatore]", "page");
 
     return res;
   }
