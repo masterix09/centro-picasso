@@ -104,8 +104,6 @@ export default async function Page({
     redirect(`/agenda/${params.sede}/${operatore}`);
   }
 
-  console.log(data);
-
   return (
     <div className="lg:container px-3 lg:px-0 py-5 ">
       <form

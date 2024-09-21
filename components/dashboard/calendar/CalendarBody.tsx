@@ -32,16 +32,18 @@ const CalendarBody = ({
 }) => {
   const renderEventContent = (eventContent: EventContentArg) => {
     const item = events.filter((item) => item.id === eventContent.event.id);
+
     return (
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className={`rounded text-white shadow w-full h-full flex overflow-hidden gap-5 px-2`}
+            className={`rounded text-white shadow w-full h-full flex overflow-hidden gap-1 px-2`}
             style={{
               backgroundColor: eventContent.backgroundColor,
             }}
           >
             <i className="text-xs">{eventContent.event.title}</i>
+            <br />
             <b className="text-xs">{eventContent.timeText}</b>
           </div>
         </DialogTrigger>
