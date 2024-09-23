@@ -1,5 +1,7 @@
 "use client";
 
+import { deletePagamento } from "@/actions/actions.clinica";
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
@@ -71,5 +73,20 @@ export const columnsPagamenti: ColumnDef<TPagamentiPreventivo>[] = [
   {
     accessorKey: "importo",
     header: "Importo",
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      return (
+        <Button
+          type="button"
+          className="bg-red-500 text-white font-bold"
+          onClick={() => deletePagamento(row.original.id)}
+        >
+          X
+        </Button>
+      );
+    },
   },
 ];

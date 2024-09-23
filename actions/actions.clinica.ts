@@ -1145,3 +1145,39 @@ export async function updateAnamnesi(
     },
   });
 }
+
+export async function deleteImage(formData: FormData) {
+  const idPiano = formData.get("idPiano")?.toString();
+  const url = formData.get("url")?.toString();
+
+  try {
+    const item = await db.image.findFirst({
+      where: {
+        pianoCuraId: idPiano ?? "",
+        url: url ?? "",
+      },
+    });
+
+    await db.image.delete({
+      where: {
+        id: item?.id,
+      },
+    });
+    revalidatePath("/clinica/immagini", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePagamento(idPagamento: string) {
+  try {
+    await db.pagamenti.delete({
+      where: {
+        id: idPagamento,
+      },
+    });
+    revalidatePath("/clinica/preventivo", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}

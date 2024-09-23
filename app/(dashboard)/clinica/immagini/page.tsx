@@ -1,4 +1,4 @@
-import { getImageByIdPiano } from "@/actions/actions.clinica";
+import { deleteImage, getImageByIdPiano } from "@/actions/actions.clinica";
 import { redirect } from "next/navigation";
 import {
   Carousel,
@@ -11,6 +11,7 @@ import UploadWidget from "@/components/dashboard/immagini/UploadWidget";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/utils/authOptions";
 import LayoutClinica from "@/components/dashboard/common/LayoutClinica";
+import { Button } from "@/components/ui/button";
 
 // export const dynamic = "force-dynamic";
 
@@ -53,7 +54,22 @@ export default async function Page({
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card>
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
+                    <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+                      <form action={deleteImage}>
+                        <input
+                          type="hidden"
+                          value={searchParams.idPiano}
+                          name="idPiano"
+                        />
+                        <input type="hidden" value={item.url} name="url" />
+
+                        <Button
+                          type="submit"
+                          className="absolute top-3 right-3"
+                        >
+                          X
+                        </Button>
+                      </form>
                       <span className="text-3xl font-semibold">
                         {index + 1}
                       </span>
