@@ -83,6 +83,14 @@ const TabellaListaPAzienti = ({ data }: Props) => {
             >
               Modifica
             </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                router.push(`/clinica/pianoCura?idCliente=${row.original.id}`);
+              }}
+            >
+              Piano
+            </Button>
           </div>
         );
       },
