@@ -13,6 +13,35 @@ export async function getPazienti() {
   return res;
 }
 
+export async function getPazienteById(idCliente: string) {
+  const res = await db.cliente.findMany({
+    where: {
+      id: idCliente,
+    },
+    select: {
+      CAP: true,
+      codice_fiscale: true,
+      citta: true,
+      cognome: true,
+      indirizzo: true,
+      luogo_nascita: true,
+      nome: true,
+      straniero: true,
+      sesso: true,
+      email: true,
+      data_richiamo: true,
+      Listino: true,
+      data_nascita: true,
+      Telefono: true,
+      cellulare: true,
+      Motivo: true,
+      Professione: true,
+    },
+  });
+  revalidatePath("/clinica/pianoCura");
+  return res;
+}
+
 export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
   const res = await db.cliente.findFirst({
     where: {
@@ -382,6 +411,61 @@ export async function createPaziente(
     revalidatePath("/clinica/pianoCura", "page");
     return "ok";
   } catch (error: any) {
+    return error.toString();
+  }
+}
+
+export async function updatePaziente(
+  nome: string,
+  cognome: string,
+  dataNascita: string,
+  sesso: string,
+  cf: string,
+  straniero: boolean,
+  luogoNascita: string,
+  indirizzo: string,
+  cap: string,
+  citta: string,
+  telefono: string,
+  email: string,
+  cellulare: string,
+  motivo: string,
+  listino: string,
+  richiamo: string,
+  dataRichiamo: string,
+  professione: string,
+  idCliente: string
+) {
+  try {
+    await db.cliente.update({
+      where: {
+        id: idCliente,
+      },
+      data: {
+        CAP: cap,
+        cellulare,
+        citta,
+        codice_fiscale: cf,
+        cognome,
+        // data_nascita: dataNascita,
+        data_richiamo: dataRichiamo,
+        email,
+        indirizzo,
+        Listino: listino,
+        luogo_nascita: luogoNascita,
+        Motivo: motivo,
+        nome,
+        Professione: professione,
+        Richiamo: richiamo,
+        sesso,
+        straniero: straniero,
+        Telefono: telefono,
+      },
+    });
+    revalidatePath("/listaPazienti", "page");
+    return "ok";
+  } catch (error: any) {
+    console.log(error);
     return error.toString();
   }
 }

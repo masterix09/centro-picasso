@@ -11,5 +11,7 @@ export default async function Page() {
 
   const data = await getListaPazienti();
 
+  console.log(data);
+
   return <TabellaListaPAzienti data={data} />;
 }

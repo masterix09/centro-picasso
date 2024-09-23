@@ -27,7 +27,9 @@ const TabellaListaPAzienti = ({ data }: Props) => {
     [searchParams]
   );
 
-  const { setModalOpen, setModalType } = useStore((state) => state);
+  const { setModalOpen, setModalType, setIdCliente } = useStore(
+    (state) => state
+  );
 
   const handleClick = (type: EModalType) => {
     setModalOpen(true);
@@ -55,7 +57,7 @@ const TabellaListaPAzienti = ({ data }: Props) => {
       header: "actions",
       cell: ({ row, getValue }) => {
         return (
-          <div className="w-full flex gap-x-3">
+          <div className="w-full flex justify-center items-center gap-2">
             <Button
               type="button"
               className="bg-red-500"
@@ -69,6 +71,17 @@ const TabellaListaPAzienti = ({ data }: Props) => {
               }}
             >
               Elimina
+            </Button>
+
+            <Button
+              type="button"
+              className="bg-green-800"
+              onClick={() => {
+                setIdCliente(row.original.id);
+                handleClick(EModalType.MODIFICA_PAZIENTE);
+              }}
+            >
+              Modifica
             </Button>
           </div>
         );
