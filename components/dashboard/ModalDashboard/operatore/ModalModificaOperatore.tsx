@@ -99,8 +99,8 @@ const ModalModificaOperatore = ({
         idOperatore,
         values.nome,
         values.cognome,
-        colore,
-        sedeLower
+        colore
+        // sedeLower
       );
       if (res === "ok") {
         toast({
