@@ -13,6 +13,35 @@ export async function getPazienti() {
   return res;
 }
 
+export async function getPazienteById(idCliente: string) {
+  const res = await db.cliente.findMany({
+    where: {
+      id: idCliente,
+    },
+    select: {
+      CAP: true,
+      codice_fiscale: true,
+      citta: true,
+      cognome: true,
+      indirizzo: true,
+      luogo_nascita: true,
+      nome: true,
+      straniero: true,
+      sesso: true,
+      email: true,
+      data_richiamo: true,
+      Listino: true,
+      data_nascita: true,
+      Telefono: true,
+      cellulare: true,
+      Motivo: true,
+      Professione: true,
+    },
+  });
+  revalidatePath("/clinica/pianoCura");
+  return res;
+}
+
 export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
   const res = await db.cliente.findFirst({
     where: {
@@ -41,46 +70,85 @@ export async function getInfoPazienteByIdAnagrafica(idCliente: string) {
   return res;
 }
 
-export async function getPrestazioniAgenda(idSede: string) {
-  console.log(idSede);
-  const res = await db.prestazione.findMany({
-    where: {
-      sedeId: idSede.toLowerCase().replace(/'/g, ""),
-    },
-    select: {
-      id: true,
-      nome: true,
-      start: true,
-      end: true,
-      ora_arrivo: true,
-      ora_saluta: true,
-      data_appuntamento: true,
-      operatore: {
-        select: {
-          id: true,
-          colorAgenda: true,
-          cognome: true,
-          nome: true,
-        },
+export async function getPrestazioniAgenda(
+  idSede: string,
+  idOperatore: string
+) {
+  if (idOperatore === "") {
+    const res = await db.prestazione.findMany({
+      where: {
+        sedeId: idSede.toLowerCase().replace(/'/g, ""),
       },
-      pianoCura: {
-        select: {
-          cliente: {
-            select: {
-              nome: true,
-              cognome: true,
+      select: {
+        id: true,
+        nome: true,
+        start: true,
+        end: true,
+        ora_arrivo: true,
+        ora_saluta: true,
+        data_appuntamento: true,
+        operatore: {
+          select: {
+            id: true,
+            colorAgenda: true,
+            cognome: true,
+            nome: true,
+          },
+        },
+        pianoCura: {
+          select: {
+            cliente: {
+              select: {
+                nome: true,
+                cognome: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  console.log(res);
+    revalidatePath("/agenda/[sede]", "page");
+    return res;
+  } else {
+    const res = await db.prestazione.findMany({
+      where: {
+        sedeId: idSede.toLowerCase().replace(/'/g, ""),
+        operatoreId: idOperatore.toString(),
+      },
+      select: {
+        id: true,
+        nome: true,
+        start: true,
+        end: true,
+        ora_arrivo: true,
+        ora_saluta: true,
+        data_appuntamento: true,
+        operatore: {
+          select: {
+            id: true,
+            colorAgenda: true,
+            cognome: true,
+            nome: true,
+          },
+        },
+        pianoCura: {
+          select: {
+            cliente: {
+              select: {
+                nome: true,
+                cognome: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
-  revalidatePath("/agenda/[sede]", "page");
+    revalidatePath("/agenda/[sede]/[idOperatore]", "page");
 
-  return res;
+    return res;
+  }
 }
 
 export async function createPianoCura(titolo: string, clienteId: string) {
@@ -347,31 +415,77 @@ export async function createPaziente(
   }
 }
 
+export async function updatePaziente(
+  nome: string,
+  cognome: string,
+  dataNascita: string,
+  sesso: string,
+  cf: string,
+  straniero: boolean,
+  luogoNascita: string,
+  indirizzo: string,
+  cap: string,
+  citta: string,
+  telefono: string,
+  email: string,
+  cellulare: string,
+  motivo: string,
+  listino: string,
+  richiamo: string,
+  dataRichiamo: string,
+  professione: string,
+  idCliente: string
+) {
+  try {
+    await db.cliente.update({
+      where: {
+        id: idCliente,
+      },
+      data: {
+        CAP: cap,
+        cellulare,
+        citta,
+        codice_fiscale: cf,
+        cognome,
+        // data_nascita: dataNascita,
+        data_richiamo: dataRichiamo,
+        email,
+        indirizzo,
+        Listino: listino,
+        luogo_nascita: luogoNascita,
+        Motivo: motivo,
+        nome,
+        Professione: professione,
+        Richiamo: richiamo,
+        sesso,
+        straniero: straniero,
+        Telefono: telefono,
+      },
+    });
+    revalidatePath("/listaPazienti", "page");
+    return "ok";
+  } catch (error: any) {
+    console.log(error);
+    return error.toString();
+  }
+}
+
 export async function createImage(array: string[], idPiano: string) {
   try {
-    const obj = array.map( (item) => {
-        return {
-          id: uuidv4(),
-          url: item,
-          pianoCuraId: idPiano,
-          note: ""
-        }
-      })
+    const obj = array.map((item) => {
+      return {
+        id: uuidv4(),
+        url: item,
+        pianoCuraId: idPiano,
+        note: "",
+      };
+    });
 
     obj.forEach(async (item) => {
-        await db.image.create({
-            data: item,
-        })
-    })
-
-    // await db.image.create({
-    //   data: {
-    //     id: uuidv4(),
-    //     url: item,
-    //     pianoCuraId: idPiano,
-    //     note: "",
-    //   },
-    // });
+      await db.image.create({
+        data: item,
+      });
+    });
 
     revalidatePath("/clinica/pianoCura", "page");
     return "ok";
@@ -761,23 +875,11 @@ export async function updateSede(idSedeVecchio: string, idSedeNuovo: string) {
   }
 }
 
-function findMissingIds(
-  sedi: { sedeId: string }[],
-  idSedeList: string[]
-): string[] {
-  // Estrae gli idSede dall'array di oggetti
-  const existingIds = sedi.map((sede) => sede.sedeId);
-
-  // Filtra e restituisce gli idSede che non sono presenti nell'array di oggetti
-  return idSedeList.filter((id) => !existingIds.includes(id));
-}
-
 export async function updateOperatoreById(
   idOperatore: string,
   nome: string,
   cognome: string,
-  colore: string,
-  sede: string[]
+  colore: string
 ) {
   try {
     await db.operatore.update({
@@ -789,32 +891,6 @@ export async function updateOperatoreById(
         nome,
         colorAgenda: colore,
       },
-    });
-
-    await db.operatoreOnSede.deleteMany({
-      where: {
-        operatoreId: idOperatore,
-        sedeId: {
-          notIn: sede,
-        },
-      },
-    });
-
-    const arrSede = await db.operatoreOnSede.findMany({
-      where: {
-        operatoreId: idOperatore,
-      },
-    });
-
-    const missingIds = findMissingIds(arrSede, sede);
-
-    missingIds.forEach(async (element) => {
-      await db.operatoreOnSede.create({
-        data: {
-          operatoreId: idOperatore,
-          sedeId: element.toLowerCase(),
-        },
-      });
     });
 
     revalidatePath("/operatoriLista", "page");
@@ -1068,4 +1144,40 @@ export async function updateAnamnesi(
       note: Note ?? "",
     },
   });
+}
+
+export async function deleteImage(formData: FormData) {
+  const idPiano = formData.get("idPiano")?.toString();
+  const url = formData.get("url")?.toString();
+
+  try {
+    const item = await db.image.findFirst({
+      where: {
+        pianoCuraId: idPiano ?? "",
+        url: url ?? "",
+      },
+    });
+
+    await db.image.delete({
+      where: {
+        id: item?.id,
+      },
+    });
+    revalidatePath("/clinica/immagini", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePagamento(idPagamento: string) {
+  try {
+    await db.pagamenti.delete({
+      where: {
+        id: idPagamento,
+      },
+    });
+    revalidatePath("/clinica/preventivo", "page");
+  } catch (error) {
+    console.log(error);
+  }
 }

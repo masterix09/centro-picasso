@@ -61,14 +61,14 @@ const ModalCreatePagamento = ({ idPiano }: { idPiano: string | null }) => {
     );
     if (res === "ok") {
       toast({
-        title: "Paziente creato.",
-        description: "Paziente creato correttamente.",
+        title: "Pagamento creato.",
+        description: "Pagamento creato correttamente.",
       });
     } else {
       toast({
         variant: "destructive",
         title: "Uh Oh! Errore nella creazione.",
-        description: "Errore nella creazione del paziente. Riprova",
+        description: "Errore nella creazione del pagamento. Riprova",
       });
     }
   }

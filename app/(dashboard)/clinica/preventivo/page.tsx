@@ -2,8 +2,8 @@ import {
   TPrestazionePreventivo,
   columnsGentile,
   columnsDefault,
-  columnsPagamenti,
   TPagamentiPreventivo,
+  columnsPagamenti,
 } from "./columns";
 import { DataTable } from "./data-table";
 import { EListino } from "@/enum/types";

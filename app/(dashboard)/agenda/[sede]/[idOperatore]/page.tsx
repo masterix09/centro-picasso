@@ -41,8 +41,8 @@ export default async function Page({
     operatore: {
       id: string;
       colorAgenda: string | null;
-      cognome: string | null;
       nome: string | null;
+      cognome: string | null;
     };
     pianoCura: {
       cliente: {
@@ -50,15 +50,14 @@ export default async function Page({
         cognome: string | null;
       };
     };
-
     id: string;
     nome: string | null;
     start: string | null;
     end: string | null;
+    data_appuntamento: string | null;
     ora_arrivo: string | null;
     ora_saluta: string | null;
-    data_appuntamento: string | null;
-  }[] = await getPrestazioniAgenda(params.sede, "");
+  }[] = await getPrestazioniAgenda(params.sede, params.idOperatore ?? "");
 
   const events: {
     id: string;
@@ -101,6 +100,7 @@ export default async function Page({
     "use server";
 
     const operatore = formData.get("operatore");
+    console.log(operatore);
 
     redirect(`/agenda/${params.sede}/${operatore}`);
   }

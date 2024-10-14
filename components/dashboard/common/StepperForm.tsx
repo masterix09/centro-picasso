@@ -180,7 +180,7 @@ const StepperForm = ({
                     // disabled={
                     //   stepper.at(stepper.length - 1)?.status === EStatusStepper.CURRENT
                     // }
-                    //type="submit"
+                    type="button"
                   >
                     Avanti
                   </Button>
