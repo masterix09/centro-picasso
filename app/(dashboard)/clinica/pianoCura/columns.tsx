@@ -120,16 +120,16 @@ export const columns: ColumnDef<{
             <ModalDeletePrestazionePianoCura idPrestazione={row.original.id} />
           </AlertDialog>
 
-          <AlertDialog>
+          {/* <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button type="button">Data</Button>
+              <Button type="button">Crea</Button>
             </AlertDialogTrigger>
             <ModalDataAppuntamento idPrestazione={row.original.id} />
-          </AlertDialog>
+          </AlertDialog> */}
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button type="button">Ora</Button>
+              <Button type="button">Crea appuntamento</Button>
             </AlertDialogTrigger>
             <ModalImpostaOrario idPrestazione={row.original.id} />
           </AlertDialog>

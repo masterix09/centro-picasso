@@ -1,5 +1,6 @@
 "use client";
 import {
+  addDataAppuntamento,
   addOrarioAppuntamento,
   getDataAppuntamentoPrestazioneById,
 } from "@/actions/actions.clinica";
@@ -34,24 +35,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { DayPicker } from "react-day-picker";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   start: z.string().min(2).max(50),
   end: z.string().min(2).max(50),
+  date: z.date(),
 });
 
 const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
-  // const { idPrestazione } = useStore((state) => state);
   const [data, setData] = useState<string>("");
   const { toast } = useToast();
 
   const [isPending, startTransition] = useTransition();
-
-  // useEffect(() => {
-  //   getDataAppuntamentoPrestazioneById(idPrestazione).then((item) =>
-  //     setData(item?.data_appuntamento ?? "")
-  //   );
-  // }, [idPrestazione]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,16 +64,13 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
     startTransition(async () => {
-      const date: { data_appuntamento: string | null } | null =
-        await getDataAppuntamentoPrestazioneById(idPrestazione);
+      // const date: { data_appuntamento: string | null } | null =
+      //   await getDataAppuntamentoPrestazioneById(idPrestazione);
+
       await processSubmit(
-        date?.data_appuntamento ?? "05-05-2023",
+        format(values.date ?? "", "dd-MM-yyyy"),
         values.start,
         values.end
       );
@@ -83,21 +83,28 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     endTime: string
   ) => {
     try {
-      const formattedDate = data_appuntamento.split("-").reverse().join("-");
-      const start = `${formattedDate}T${startTime}`;
-      const end = `${formattedDate}T${endTime}`;
-      const result = await addOrarioAppuntamento(idPrestazione, start, end);
-      if (result === "ok") {
-        toast({
-          title: "Orario impostato correttamente",
-        });
+      const resultDate = await addDataAppuntamento(
+        idPrestazione,
+        data_appuntamento
+      );
+
+      if (resultDate === "ok") {
+        const formattedDate = data_appuntamento.split("-").reverse().join("-");
+        const start = `${formattedDate}T${startTime}`;
+        const end = `${formattedDate}T${endTime}`;
+        const result = await addOrarioAppuntamento(idPrestazione, start, end);
+        if (result === "ok") {
+          toast({
+            title: "Evento creato correttamente",
+          });
+        } else throw new Error();
       } else throw new Error();
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Uh oh! Qualcosa e' andato storto.",
         description:
-          "Orario non impostato correttamente. Prova a chiudere la modale e riprova",
+          "Evento non impostato correttamente. Prova a chiudere la modale e riprova",
       });
     }
   };
@@ -140,6 +147,8 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
     "23:00",
     "23:30",
   ];
+
+  const [date, setDate] = useState<Date>();
 
   return (
     <AlertDialogContent>
@@ -205,6 +214,52 @@ const ModalImpostaOrario = ({ idPrestazione }: { idPrestazione: string }) => {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem>
+                {/* <FormLabel>Orario fine prestazione</FormLabel> */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {field.value ? (
+                        <span className="text-black">
+                          {format(field.value, "PPP")}
+                        </span>
+                      ) : (
+                        <span>Seleziona data</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <div className="w-full relative p-0 m-0">
+                      <DayPicker
+                        captionLayout="dropdown-buttons"
+                        fromYear={1926}
+                        toYear={2060}
+                        className="w-fit"
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button type="submit" disabled={isPending}>
