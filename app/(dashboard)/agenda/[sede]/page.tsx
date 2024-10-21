@@ -26,13 +26,11 @@ export default async function Page({
   ): string => {
     if (ora_arrivo !== "" && ora_arrivo!.length > 0) {
       if (ora_saluta !== "" && ora_saluta!.length > 0) {
-        const color = colorOperatore;
-        return colorOperatore;
+        return "black";
       } else {
-        return "green";
+        return colorOperatore;
       }
     } else {
-      const color = colorOperatore;
       return colorOperatore;
     }
   };
