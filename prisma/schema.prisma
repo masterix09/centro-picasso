@@ -366,6 +366,7 @@ model PianoCura {
   pagamenti    Pagamenti[]
   cliente      Cliente       @relation(fields: [clienteId], references: [id], onDelete: Cascade)
   clienteId    String
+  note         String?       @default("")
 
   @@index([clienteId])
 }

@@ -556,6 +556,17 @@ export async function getPrestazioniByIdPiano(idPiano: string) {
   });
 }
 
+export async function getNoteByIdPiano(idPiano: string) {
+  return await db.pianoCura.findFirst({
+    where: {
+      id: idPiano,
+    },
+    select: {
+      note: true,
+    },
+  });
+}
+
 export async function getPagamentiByIdPiano(idPiano: string) {
   return await db.pagamenti.findMany({
     where: {
@@ -1164,6 +1175,25 @@ export async function deleteImage(formData: FormData) {
       },
     });
     revalidatePath("/clinica/immagini", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateNoteByIdPiano(formData: FormData) {
+  const idPiano = formData.get("idPiano")?.toString();
+  const note = formData.get("note")?.toString();
+
+  try {
+    await db.pianoCura.update({
+      where: {
+        id: idPiano,
+      },
+      data: {
+        note: note,
+      },
+    });
+    revalidatePath("/clinica/pianoCura", "page");
   } catch (error) {
     console.log(error);
   }

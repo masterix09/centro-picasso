@@ -22,6 +22,7 @@ import { useCallback, useState } from "react";
 import { IPaziente, IPianoCura } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useStore } from "@/store/store";
+import { getNoteByIdPiano } from "@/actions/actions.clinica";
 
 const SearchInputPianoCura = ({
   label,
