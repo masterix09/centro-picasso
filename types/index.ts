@@ -128,6 +128,7 @@ export interface IPrestazione {
   data_appuntamento?: string | null;
   costoDefault: number | null;
   costoGentile: number | null;
+  costoFacoltativo: number | null;
   // PianoCura: IPianoCura;
   pianoCuraId?: string | null;
   denteId?: string | null;
@@ -195,40 +196,40 @@ interface IPreventivo {
 }
 
 export interface IAnamnesi {
-  AffezioniCardiache: boolean | null,
-            AffezioniRenali: boolean | null,
-            Affezionireumatiche: boolean | null,
-            AlterazionePressioneSanguigna: boolean | null,
-            Altro: boolean | null,
-            AsmaOAltro: boolean | null,
-            AssumeFarmaci: boolean | null,
-            Bruxista: boolean | null,
-            Copnseguenze: boolean | null,
-            Diabete: boolean | null;
-            Ematomi: boolean | null,
-            Emorragie: boolean | null,
-            EsamiOTerapia: boolean | null,
-            FacilmenteInfezioni: boolean | null,
-            Fumatore: boolean | null,
-            GiaSubitoAnestesia: boolean | null,
-            Gravidanza: boolean | null,
-            HaSoffertoSoffreMalattieInfettive: boolean | null,
-            IpersensibilitaVersoFarmaci: boolean | null,
-            MalattiePsichiche: boolean | null,
-            nomeMedico: string | null,
-            nomeDentista: string | null;
-            numeroDentista: string | null,
-            note: string | null,
-            numeroMedico: string | null,
-            PatologieApparatoDigerente: boolean | null,
-            PatologieGenitoUrinarie: boolean | null,
-            PatologieOculari: boolean | null,
-            PatologieSangue: boolean | null,
-            PatologieSistemaNervoso: boolean | null,
-            Profilassi: boolean | null,
-            RicoveriOMalattie: boolean | null,
-            TerapiaAnticoagulanti: boolean | null,
-            Ulcere: boolean | null,
+  AffezioniCardiache: boolean | null;
+  AffezioniRenali: boolean | null;
+  Affezionireumatiche: boolean | null;
+  AlterazionePressioneSanguigna: boolean | null;
+  Altro: boolean | null;
+  AsmaOAltro: boolean | null;
+  AssumeFarmaci: boolean | null;
+  Bruxista: boolean | null;
+  Copnseguenze: boolean | null;
+  Diabete: boolean | null;
+  Ematomi: boolean | null;
+  Emorragie: boolean | null;
+  EsamiOTerapia: boolean | null;
+  FacilmenteInfezioni: boolean | null;
+  Fumatore: boolean | null;
+  GiaSubitoAnestesia: boolean | null;
+  Gravidanza: boolean | null;
+  HaSoffertoSoffreMalattieInfettive: boolean | null;
+  IpersensibilitaVersoFarmaci: boolean | null;
+  MalattiePsichiche: boolean | null;
+  nomeMedico: string | null;
+  nomeDentista: string | null;
+  numeroDentista: string | null;
+  note: string | null;
+  numeroMedico: string | null;
+  PatologieApparatoDigerente: boolean | null;
+  PatologieGenitoUrinarie: boolean | null;
+  PatologieOculari: boolean | null;
+  PatologieSangue: boolean | null;
+  PatologieSistemaNervoso: boolean | null;
+  Profilassi: boolean | null;
+  RicoveriOMalattie: boolean | null;
+  TerapiaAnticoagulanti: boolean | null;
+  Ulcere: boolean | null;
 }
 
 export type SmartTAGPropsDocument = {
@@ -246,13 +247,12 @@ export type TCreatePrestazione = {
   costoGentile?: number | null;
 };
 
-
 export type NoteDashboard = {
   id: string;
   noteFrancesco?: string | null;
   noteAntonio?: string | null;
-  noteFrancesca?: string | null
-}
+  noteFrancesca?: string | null;
+};
 
 export type eventProp = {
   id: string;

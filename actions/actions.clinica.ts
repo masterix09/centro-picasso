@@ -551,6 +551,7 @@ export async function getPrestazioniByIdPiano(idPiano: string) {
       denteId: true,
       costoDefault: true,
       costoGentile: true,
+      costoFacoltativo: true,
       status: true,
     },
   });
@@ -1206,6 +1207,26 @@ export async function deletePagamento(idPagamento: string) {
         id: idPagamento,
       },
     });
+    revalidatePath("/clinica/preventivo", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePriceFacoltativo(formData: FormData) {
+  const idPrestazione = formData.get("idPrestazione")?.toString();
+  const newPrice = formData.get("newPrice")?.toString();
+
+  try {
+    await db.prestazione.update({
+      where: {
+        id: idPrestazione,
+      },
+      data: {
+        costoFacoltativo: Number(newPrice) ?? 0,
+      },
+    });
+
     revalidatePath("/clinica/preventivo", "page");
   } catch (error) {
     console.log(error);

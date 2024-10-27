@@ -61,12 +61,30 @@ export default async function Page({
     pianoCreatedAtData,
   ]);
 
+  const getCostoType = (price: number | null, newPrice: number | null) => {
+    if (newPrice && newPrice > 0) {
+      return newPrice;
+    } else if (price && price > 0) {
+      return price;
+    } else return 0;
+  };
+
   const calculateTotale = () => {
     let costo: number = 0;
     if (listino === EListino.GENTILE) {
-      data.map((item) => (costo = costo + (item.costoGentile ?? 0)));
+      // data.map((item) => (costo = costo + (item.costoGentile ?? 0)));
+      data.map(
+        (item) =>
+          (costo =
+            costo + getCostoType(item.costoGentile, item.costoFacoltativo))
+      );
     } else {
-      data.map((item) => (costo = costo + (item.costoDefault ?? 0)));
+      // data.map((item) => (costo = costo + (item.costoDefault ?? 0)));
+      data.map(
+        (item) =>
+          (costo =
+            costo + getCostoType(item.costoDefault, item.costoFacoltativo))
+      );
     }
     return costo;
   };
@@ -84,10 +102,14 @@ export default async function Page({
     data.map((item) => {
       if (item.status === "Completato") {
         if (listino === EListino.DEFAULT) {
-          totalEseguito = totalEseguito + item.costoDefault!;
+          totalEseguito =
+            totalEseguito +
+            getCostoType(item.costoDefault, item.costoFacoltativo);
         }
         if (listino === EListino.GENTILE) {
-          totalEseguito = totalEseguito + item.costoGentile!;
+          totalEseguito =
+            totalEseguito +
+            getCostoType(item.costoGentile, item.costoFacoltativo);
         }
       }
     });

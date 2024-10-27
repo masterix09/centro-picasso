@@ -389,6 +389,7 @@ model Prestazione {
   data_appuntamento String?
   costoDefault      Int?
   costoGentile      Int?
+  costoFacoltativo  Int?      @default(0)
   pianoCura         PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
   pianoCuraId       String
   denteId           String?

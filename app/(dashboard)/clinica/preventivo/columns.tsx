@@ -1,7 +1,11 @@
 "use client";
 
-import { deletePagamento } from "@/actions/actions.clinica";
+import {
+  deletePagamento,
+  updatePriceFacoltativo,
+} from "@/actions/actions.clinica";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
@@ -13,6 +17,7 @@ export type TPrestazionePreventivo = {
   denteId: string | null;
   costoGentile: number | null;
   costoDefault: number | null;
+  costoFacoltativo: number | null;
   status: string | null;
 };
 
@@ -40,6 +45,23 @@ export const columnsGentile: ColumnDef<TPrestazionePreventivo>[] = [
     accessorKey: "costoGentile",
     header: "CostoGentile",
   },
+  {
+    id: "costoFacoltativo",
+    header: "CostoFacoltativo",
+    cell: ({ row, getValue }) => {
+      return (
+        <form action={updatePriceFacoltativo} className="flex gap-x-3">
+          <input type="hidden" name="idPrestazione" value={row.original.id} />
+          <Input
+            name="newPrice"
+            type="string"
+            defaultValue={row.original.costoFacoltativo ?? 0}
+          />
+          <Button>Imposta prezzo</Button>
+        </form>
+      );
+    },
+  },
 ];
 
 export const columnsDefault: ColumnDef<TPrestazionePreventivo>[] = [
@@ -58,6 +80,23 @@ export const columnsDefault: ColumnDef<TPrestazionePreventivo>[] = [
   {
     accessorKey: "costoDefault",
     header: "CostoDefault",
+  },
+  {
+    id: "costoFacoltativo",
+    header: "CostoFacoltativo",
+    cell: ({ row, getValue }) => {
+      return (
+        <form action={updatePriceFacoltativo} className="flex gap-x-3">
+          <input type="hidden" name="idPrestazione" value={row.original.id} />
+          <Input
+            name="newPrice"
+            type="string"
+            defaultValue={row.original.costoFacoltativo ?? 0}
+          />
+          <Button>Imposta prezzo</Button>
+        </form>
+      );
+    },
   },
 ];
 

@@ -130,7 +130,15 @@ const ResocontoPagamento: FC<{
                   <View style={styles.tableCol}>
                     <Text style={styles.tableCell}>
                       {listino === EListino.DEFAULT
-                        ? item.costoDefault
+                        ? item.costoFacoltativo
+                          ? item.costoFacoltativo > 0
+                            ? item.costoFacoltativo
+                            : item.costoDefault
+                          : item.costoDefault
+                        : item.costoFacoltativo
+                        ? item.costoFacoltativo > 0
+                          ? item.costoFacoltativo
+                          : item.costoGentile
                         : item.costoGentile}{" "}
                       €
                     </Text>
