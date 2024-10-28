@@ -1232,3 +1232,19 @@ export async function updatePriceFacoltativo(formData: FormData) {
     console.log(error);
   }
 }
+
+export async function deletePianoCuraById(formData: FormData) {
+  const idPiano = formData.get("idPiano")?.toString();
+
+  try {
+    await db.pianoCura.delete({
+      where: {
+        id: idPiano,
+      },
+    });
+
+    revalidatePath("/clinica/pianoCura", "page");
+  } catch (error) {
+    console.log(error);
+  }
+}

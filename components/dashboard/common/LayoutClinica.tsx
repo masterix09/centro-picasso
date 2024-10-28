@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import NavbarClinica from "../NavbarClinica";
 import { IPaziente } from "@/types";
 import {
+  deletePianoCuraById,
   getPazienti,
   getPianoCuraByIdCliente,
 } from "@/actions/actions.clinica";
@@ -108,18 +109,32 @@ const LayoutClinica = async ({ children, searchParams }: Props) => {
                   items={pianoCura}
                   displayValue={getNomePianoCura()}
                 />
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
-                    >
-                      <FilePlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <ModalCreatePianoCura idCliente={searchParams.idCliente} />
-                </AlertDialog>
+                <div className="flex gap-x-3">
+                  {searchParams.idPianoCura && (
+                    <form action={deletePianoCuraById}>
+                      <input
+                        type="hidden"
+                        name="idPiano"
+                        value={searchParams.idPianoCura}
+                      />
+                      <Button type="submit" className="bg-red-500">
+                        X
+                      </Button>
+                    </form>
+                  )}
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        className="border border-gray-300 hover:bg-[#2a4b9a] hover:border-none group"
+                      >
+                        <FilePlus className="h-4 w-4 text-[#545454] group-hover:text-white" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <ModalCreatePianoCura idCliente={searchParams.idCliente} />
+                  </AlertDialog>
+                </div>
               </div>
             </>
           )}
