@@ -53,7 +53,7 @@ const ModalUscita = ({
         cognome: string | null;
         nome: string | null;
       };
-    };
+    } | null;
   } | null>({
     categoria: "",
     nome: "",

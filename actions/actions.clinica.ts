@@ -79,24 +79,9 @@ export async function getPrestazioniAgenda(
       where: {
         sedeId: idSede.toLowerCase().replace(/'/g, ""),
       },
-      select: {
-        id: true,
-        nome: true,
-        start: true,
-        end: true,
-        ora_arrivo: true,
-        ora_saluta: true,
-        data_appuntamento: true,
-        operatore: {
-          select: {
-            id: true,
-            colorAgenda: true,
-            cognome: true,
-            nome: true,
-          },
-        },
+      include: {
         pianoCura: {
-          select: {
+          include: {
             cliente: {
               select: {
                 nome: true,
@@ -105,7 +90,32 @@ export async function getPrestazioniAgenda(
             },
           },
         },
+        operatore: {
+          select: {
+            id: true,
+            colorAgenda: true,
+            cognome: true,
+            nome: true,
+          },
+        },
       },
+      // select: {
+      //   id: true,
+      //   nome: true,
+      //   start: true,
+      //   end: true,
+      //   ora_arrivo: true,
+      //   ora_saluta: true,
+      //   data_appuntamento: true,
+      //   operatore: {
+      //     select: {
+      //       id: true,
+      //       colorAgenda: true,
+      //       cognome: true,
+      //       nome: true,
+      //     },
+      //   },
+      // },
     });
 
     revalidatePath("/agenda/[sede]", "page");

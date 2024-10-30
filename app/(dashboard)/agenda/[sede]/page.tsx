@@ -47,7 +47,7 @@ export default async function Page({
         nome: string | null;
         cognome: string | null;
       };
-    };
+    } | null;
 
     id: string;
     nome: string | null;
@@ -75,7 +75,9 @@ export default async function Page({
   }[] = data.map((item) => {
     return {
       id: item.id,
-      title: `${item.pianoCura.cliente.cognome} ${item.pianoCura.cliente.nome}`,
+      title: `${item.pianoCura?.cliente.cognome ?? ""} ${
+        item.pianoCura?.cliente.nome ?? ""
+      }`,
       start: item.start ?? "",
       end: item.end ?? "",
       backgroundColor: getColor(

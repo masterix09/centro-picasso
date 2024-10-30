@@ -378,7 +378,7 @@ model Poltrona {
 }
 
 model Prestazione {
-  id                String    @id @unique
+  id                String     @id @unique
   nome              String?
   start             String?
   end               String?
@@ -389,18 +389,18 @@ model Prestazione {
   data_appuntamento String?
   costoDefault      Int?
   costoGentile      Int?
-  costoFacoltativo  Int?      @default(0)
-  pianoCura         PianoCura @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
-  pianoCuraId       String
+  costoFacoltativo  Int?       @default(0)
+  pianoCura         PianoCura? @relation(fields: [pianoCuraId], references: [id], onDelete: Cascade)
+  pianoCuraId       String?
   denteId           String?
   poltronaId        String?
-  operatore         Operatore @relation(fields: [operatoreId], references: [id])
+  operatore         Operatore  @relation(fields: [operatoreId], references: [id])
   operatoreId       String
   preventivoId      String?
   pagamentiId       String?
   ora_arrivo        String?
   ora_saluta        String?
-  sede              Sede      @relation(fields: [sedeId], references: [id])
+  sede              Sede       @relation(fields: [sedeId], references: [id])
   sedeId            String
 
   @@index([denteId])

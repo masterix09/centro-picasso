@@ -41,7 +41,8 @@ export default async function Page() {
               </span>
               <div className="w-full">
                 <p className="text-xl font-semibold">
-                  {item.pianoCura.cliente.cognome} {item.pianoCura.cliente.nome}
+                  {item.pianoCura?.cliente.cognome ?? ""}{" "}
+                  {item.pianoCura?.cliente.nome ?? ""}
                 </p>
                 <p className="text-md font-normal">
                   {item.nome} {item.start?.substring(item.start.length, 11)} -{" "}

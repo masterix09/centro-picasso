@@ -52,7 +52,7 @@ const ModalArrivo = ({
         cognome: string | null;
         nome: string | null;
       };
-    };
+    } | null;
   } | null>({
     categoria: "",
     nome: "",
