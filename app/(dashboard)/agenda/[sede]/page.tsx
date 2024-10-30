@@ -56,6 +56,7 @@ export default async function Page({
     ora_arrivo: string | null;
     ora_saluta: string | null;
     data_appuntamento: string | null;
+    nota: string | null;
   }[] = await getPrestazioniAgenda(params.sede, "");
 
   const events: {
@@ -71,6 +72,7 @@ export default async function Page({
     nome: string;
     nomeOperatore: string;
     cognomeOperatore: string;
+    nota: string;
     // className: string[];
   }[] = data.map((item) => {
     return {
@@ -92,6 +94,7 @@ export default async function Page({
       nome: item.nome ?? "",
       nomeOperatore: item.operatore.nome ?? "",
       cognomeOperatore: item.operatore.cognome ?? "",
+      nota: item.nota ?? "",
     };
   });
 

@@ -1,16 +1,26 @@
 "use client";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import itLocale from "@fullcalendar/core/locales/it";
-import React from "react";
 import { EventContentArg } from "@fullcalendar/core/index.js";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import ModalDettaglio from "../ModalDashboard/modalAgenda/ModalDettaglio";
-import { setOrarioArrivo, setOrarioUscita } from "@/actions/actions.clinica";
+import {
+  setOrarioArrivo,
+  setOrarioUscita,
+  updateNotePrestazioneByID,
+} from "@/actions/actions.clinica";
 import { toast } from "@/components/ui/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
+
+const initialState = {
+  message: "",
+};
 
 const CalendarBody = ({
   events,
@@ -28,8 +38,29 @@ const CalendarBody = ({
     nome: string;
     nomeOperatore: string;
     cognomeOperatore: string;
+    nota: string;
   }[];
 }) => {
+  const [state, formAction] = useFormState(
+    updateNotePrestazioneByID,
+    initialState
+  );
+
+  useEffect(() => {
+    if (state.message === "OK") {
+      toast({
+        title: "Nota impostata.",
+        description: "Nota impostata correttamente.",
+      });
+    } else if (state.message === "ERROR") {
+      toast({
+        variant: "destructive",
+        title: "Uh Oh! Errore nell impostazione della nota.",
+        description: "Nota non impostato correttamente. Riprova",
+      });
+    }
+  }, [state.message]);
+
   const renderEventContent = (eventContent: EventContentArg) => {
     const item = events.filter((item) => item.id === eventContent.event.id);
 
@@ -70,6 +101,22 @@ const CalendarBody = ({
                 ) ?? ""
             }
           />
+          <form action={formAction} className="mt-2" key={""}>
+            <Textarea
+              rows={4}
+              name="nota"
+              placeholder="Note.."
+              defaultValue={item.at(0)?.nota ?? ""}
+            />
+            <input
+              type="hidden"
+              name="prestazioneId"
+              value={item.at(0)?.id ?? ""}
+            />
+            <Button type="submit" className="mt-3">
+              Salva Nota
+            </Button>
+          </form>
           <Button
             onClick={async () => {
               // setIdPrestazioneAgenda(eventContent.event.id);

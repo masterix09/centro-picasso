@@ -134,6 +134,7 @@ export async function getPrestazioniAgenda(
         ora_arrivo: true,
         ora_saluta: true,
         data_appuntamento: true,
+        nota: true,
         operatore: {
           select: {
             id: true,
@@ -1256,5 +1257,31 @@ export async function deletePianoCuraById(formData: FormData) {
     revalidatePath("/clinica/pianoCura", "page");
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function updateNotePrestazioneByID(
+  prevState: any,
+  formData: FormData
+) {
+  const idPrestazione = formData.get("prestazioneId")?.toString();
+  const nota = formData.get("nota")?.toString();
+
+  try {
+    await db.prestazione.update({
+      where: {
+        id: idPrestazione,
+      },
+      data: {
+        nota,
+      },
+    });
+
+    revalidatePath("/clinica/immagini", "page");
+
+    return { message: "OK" };
+  } catch (error) {
+    console.log(error);
+    return { message: "ERROR" };
   }
 }
