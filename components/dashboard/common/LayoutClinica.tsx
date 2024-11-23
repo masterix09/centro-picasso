@@ -3,6 +3,7 @@ import NavbarClinica from "../NavbarClinica";
 import { IPaziente } from "@/types";
 import {
   deletePianoCuraById,
+  getLastVisit,
   getPazienti,
   getPianoCuraByIdCliente,
 } from "@/actions/actions.clinica";
@@ -15,6 +16,7 @@ import Link from "next/link";
 import ModalCreatePianoCura from "../ModalDashboard/ModalCreatePianoCura";
 import SearchInputPaziente from "../SearchInputPaziente";
 import SearchInputPianoCura from "../SearchInputPianoCura";
+import UltimaVisita from "../UltimaVisita";
 
 type Props = {
   children: ReactNode;
@@ -136,6 +138,9 @@ const LayoutClinica = async ({ children, searchParams }: Props) => {
                   </AlertDialog>
                 </div>
               </div>
+              {searchParams.idPianoCura && (
+                <UltimaVisita pianoCura={searchParams.idPianoCura} />
+              )}
             </>
           )}
         </div>

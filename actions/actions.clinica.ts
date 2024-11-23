@@ -6,6 +6,7 @@ import { EStatusPrestazione } from "@/types";
 import { format } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 
 export async function getPazienti() {
   const res = await db.cliente.findMany();
@@ -1008,6 +1009,29 @@ export async function getPianoCuraByIdCliente(idCliente: string) {
   revalidatePath("/clinica", "page");
 
   return res;
+}
+
+export async function getLastVisit(idPianoCura: string) {
+  const array = await db.prestazione.findMany({
+    where: {
+      pianoCuraId: idPianoCura,
+    },
+  });
+
+  const sortedDates = array
+    .filter((item) => item.data_appuntamento !== null)
+    .sort((a, b) => {
+      return (
+        new Date(b.data_appuntamento!).getTime() -
+        new Date(a.data_appuntamento!).getTime()
+      );
+    });
+
+  if (sortedDates.at(0) && sortedDates.at(0)?.data_appuntamento) {
+    return `Ultima visita: ${sortedDates.at(0)?.data_appuntamento}`;
+  } else {
+    return "";
+  }
 }
 
 export async function getImageByIdPiano(idPiano: string) {
