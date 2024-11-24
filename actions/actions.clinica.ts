@@ -1010,6 +1010,11 @@ export async function getPianoCuraByIdCliente(idCliente: string) {
 
   return res;
 }
+// Funzione per convertire il formato italiano in formato ISO (YYYY-MM-DD)
+function convertToISODate(dateString: string): string {
+  const [day, month, year] = dateString.split("-");
+  return `${year}-${month}-${day}`; // Ritorna il formato ISO
+}
 
 export async function getLastVisit(idPianoCura: string) {
   const array = await db.prestazione.findMany({
@@ -1018,19 +1023,40 @@ export async function getLastVisit(idPianoCura: string) {
     },
   });
 
-  const sortedDates = array
-    .filter((item) => item.data_appuntamento !== null)
-    .sort((a, b) => {
-      return (
-        new Date(b.data_appuntamento!).getTime() -
-        new Date(a.data_appuntamento!).getTime()
-      );
-    });
+  const now = new Date();
+  const todayTimestamp = now.getTime();
 
-  if (sortedDates.at(0) && sortedDates.at(0)?.data_appuntamento) {
-    return `Ultima visita: ${sortedDates.at(0)?.data_appuntamento}`;
+  // Filtra appuntamenti validi (escludi null e appuntamenti futuri)
+  const validAppointments = array.filter((app) => {
+    if (!app.data_appuntamento || !app.ora_arrivo) {
+      return false; // Escludi appuntamenti con data o ora null
+    }
+
+    const isoDate = convertToISODate(app.data_appuntamento);
+
+    const appointmentDate = new Date(`${isoDate}T${app.ora_arrivo}`);
+    return appointmentDate.getTime() <= todayTimestamp; // Solo appuntamenti passati
+  });
+
+  if (validAppointments.length === 0) {
+    return "Non ci sono appuntamenti passati validi."; // Nessun appuntamento valido
+  }
+
+  // Ordina appuntamenti in ordine decrescente
+  validAppointments.sort((a, b) => {
+    const dateA = new Date(
+      `${convertToISODate(a.data_appuntamento!)}T${a.ora_arrivo!}`
+    );
+    const dateB = new Date(
+      `${convertToISODate(b.data_appuntamento!)}T${b.ora_arrivo!}`
+    );
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  if (validAppointments[0]) {
+    return `Ultima visita: ${validAppointments[0].data_appuntamento} alle ${validAppointments[0].ora_arrivo}`;
   } else {
-    return "";
+    return "Non ci sono appuntamenti passati validi.";
   }
 }
 

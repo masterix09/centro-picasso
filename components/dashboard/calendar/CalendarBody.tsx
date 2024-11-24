@@ -121,7 +121,11 @@ const CalendarBody = ({
             onClick={async () => {
               // setIdPrestazioneAgenda(eventContent.event.id);
               const res = await setOrarioArrivo(
-                `${new Date().getHours()}:${new Date().getMinutes()}`,
+                `${new Date().getHours()}:${
+                  new Date().getMinutes().toString().length > 1
+                    ? new Date().getMinutes()
+                    : `${new Date().getMinutes()}0`
+                }`,
                 eventContent.event.id
               );
               if (res === "ok") {
